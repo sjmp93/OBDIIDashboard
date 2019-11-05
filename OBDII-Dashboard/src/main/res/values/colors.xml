@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008cff</color>
+    <color name="colorPrimaryDark">#0077ff</color>
+    <color name="colorSecundary">#FFB13B</color>
+    <color name="colorSecundaryDark">#FF8F07</color>
+    <color name="colorAccent">#D81B60</color>
+
+
+        <!-- http://www.google.com/design/spec/style/color.html#color-color-palette -->
+        <color name="primary">#607d8b</color>
+        <!-- Blue Grey 500 -->
+        <color name="primary_dark">#455a64</color>
+        <!-- Blue Grey 700 -->
+        <color name="accent">#ff5252</color>
+        <!-- Red A200 -->
+        <color name="engine_coolant_progress">#63CEFF</color>
+        <color name="engine_coolant_iconbg">#00ACF0</color>
+        <color name="engine_oil_progress">#FFE563</color>
+        <color name="engine_oil_iconbg">#F0C800</color>
+        <color name="engine_load_progress">#FA8686</color>
+        <color name="engine_load_iconbg">#ED5137</color>
+        <color name="throttle_position_progress">#9AFF63</color>
+        <color name="throttle_position_iconbg">#5DD62B</color>
+        <color name="ait_intake_progress">#63FFE0</color>
+        <color name="air_intake_iconbg">#7CDDC4</color>
+        <color name="ambient_air_progress">#3C63CEFF</color>
+        <color name="ambient_air_iconbg">#68009DDB</color>
+        <color name="intake_manifold_presure_progress">#DD63FF</color>
+        <color name="intake_manifold_presure_iconbg">#B000F0</color>
+        <color name="fuel_rail_pressure_progress">#FFA763</color>
+        <color name="fuel_rail_pressure_iconbg">#F07000</color>
+        <color name="fuel_pressure_progress">#FF63D8</color>
+        <color name="fuel_pressure_iconbg">#E000F0</color>
+        <color name="barometric_pressure_progress">#6385FF</color>
+        <color name="barometric_pressure_iconbg">#006CF0</color>
+        <color name="fuel_level_progress">#DDFF63</color>
+        <color name="fuel_level_iconbg">#B0F000</color>
+        <color name="fuel_consumption_rate_progress">#FF6363</color>
+        <color name="fuel_consumption_rate_iconbg">#F00000</color>
+        <color name="mass_air_flow_progress">#63C8FF</color>
+        <color name="mass_air_flow_iconbg">#04A7BD</color>
+        <color name="progress_background">#D1D1D1</color>
+        <color name="night">#455a64</color>
+        <color name="obd_icon">#46ABFF</color>
+        <color name="obd_disabled">#949493</color>
+
+
+
+
+
+
+
+</resources>

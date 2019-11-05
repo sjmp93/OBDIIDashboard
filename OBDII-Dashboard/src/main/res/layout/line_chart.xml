@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vehicle_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:longClickable="true">
+
+    <TextView
+        android:id="@+id/chartLbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="5dp"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:text="Datos OBD"
+        android:textStyle="bold"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="5dp" />
+
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/chartLbl"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        app:rippleColor="#CD9C9B9B" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75"
+        app:rippleColor="#CD9C9B9B" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55"
+        app:rippleColor="#CD9C9B9B" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35"
+        app:rippleColor="#CD9C9B9B" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15"
+        app:rippleColor="#CD9C9B9B" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.800"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        app:rippleColor="#CD9C9B9B" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.800"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75"
+        app:rippleColor="#CD9C9B9B" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.800"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.55"
+        app:rippleColor="#CD9C9B9B" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.800"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35"
+        app:rippleColor="#CD9C9B9B" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/chartfb6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:backgroundTint="#C1C1C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.800"
+        app:layout_constraintStart_toStartOf="@+id/chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.15"
+        app:rippleColor="#CD9C9B9B" />
+
+    <TextView
+        android:id="@+id/fblabel8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb8"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb8"
+        app:layout_constraintStart_toStartOf="@+id/chartfb8"
+        app:layout_constraintTop_toTopOf="@+id/chartfb8" />
+
+    <TextView
+        android:id="@+id/fblabel6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb6"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb6"
+        app:layout_constraintStart_toStartOf="@+id/chartfb6"
+        app:layout_constraintTop_toTopOf="@+id/chartfb6" />
+
+    <TextView
+        android:id="@+id/fblabel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb1"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb1"
+        app:layout_constraintStart_toStartOf="@+id/chartfb1"
+        app:layout_constraintTop_toTopOf="@+id/chartfb1" />
+
+    <TextView
+        android:id="@+id/fblabel7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb7"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb7"
+        app:layout_constraintStart_toStartOf="@+id/chartfb7"
+        app:layout_constraintTop_toTopOf="@+id/chartfb7" />
+
+    <TextView
+        android:id="@+id/fblabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb2"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb2"
+        app:layout_constraintStart_toStartOf="@+id/chartfb2"
+        app:layout_constraintTop_toTopOf="@+id/chartfb2" />
+
+    <TextView
+        android:id="@+id/fblabel3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb3"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb3"
+        app:layout_constraintStart_toStartOf="@+id/chartfb3"
+        app:layout_constraintTop_toTopOf="@+id/chartfb3" />
+
+    <TextView
+        android:id="@+id/fblabel9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb9"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb9"
+        app:layout_constraintStart_toStartOf="@+id/chartfb9"
+        app:layout_constraintTop_toTopOf="@+id/chartfb9" />
+
+    <TextView
+        android:id="@+id/fblabel4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb4"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb4"
+        app:layout_constraintStart_toStartOf="@+id/chartfb4"
+        app:layout_constraintTop_toTopOf="@+id/chartfb4" />
+
+    <TextView
+        android:id="@+id/fblabel10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb10"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb10"
+        app:layout_constraintStart_toStartOf="@+id/chartfb10"
+        app:layout_constraintTop_toTopOf="@+id/chartfb10" />
+
+    <TextView
+        android:id="@+id/fblabel5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:text="TextView"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@+id/chartfb5"
+        app:layout_constraintEnd_toEndOf="@+id/chartfb5"
+        app:layout_constraintStart_toStartOf="@+id/chartfb5"
+        app:layout_constraintTop_toTopOf="@+id/chartfb5" />
+
+
+</android.support.constraint.ConstraintLayout>
