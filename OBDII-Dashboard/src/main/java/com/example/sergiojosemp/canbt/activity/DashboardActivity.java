@@ -225,6 +225,7 @@ public class DashboardActivity extends AppCompatActivity implements LocationList
         public void onServiceConnected(ComponentName className, IBinder binder) {
             obdService = ((ObdService.ObdServiceBinder) binder).getService();
             obdService.setContext(DashboardActivity.this);
+            obdService.setVerbose(false);
             try {
                 Log.d(TAG, getText(R.string.dashboard_linking_log_text).toString());
                 obdService.startService();
@@ -698,7 +699,8 @@ public class DashboardActivity extends AppCompatActivity implements LocationList
 
     protected void onPause() {
         super.onPause();
-        myCSVWriter.closeLogCSVWriter();
+        if(myCSVWriter != null)
+            myCSVWriter.closeLogCSVWriter();
         unbindService(serviceConn);
         if(preferences.getBoolean(ENABLE_GPS_KEY,false)) {
             gpsStop();
@@ -799,6 +801,5 @@ public class DashboardActivity extends AppCompatActivity implements LocationList
             gpsIsStarted = false;
         }
     }
-
 
 }

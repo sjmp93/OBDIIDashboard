@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -155,6 +156,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
         public void onServiceConnected(ComponentName className, IBinder binder) {
             obdService = ((ObdService.ObdServiceBinder) binder).getService();
             obdService.setContext(VerboseActivity.this);
+            obdService.setVerbose(true);
             try {
                 Log.d(TAG, getText(R.string.dashboard_linking_log_text).toString());
                 obdService.startService();
@@ -212,9 +214,11 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
         tr.setLayoutParams(params);
 
         TextView name = new TextView(this);
-        name.setGravity(Gravity.RIGHT);
+        name.setTextColor(Color.WHITE);
+        name.setGravity(Gravity.LEFT);
         name.setText(key + ": ");
         TextView value = new TextView(this);
+        value.setTextColor(Color.WHITE);
         value.setGravity(Gravity.LEFT);
         value.setText(val);
         value.setTag(id);
@@ -327,8 +331,8 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
         btStatusTextView = (TextView) findViewById(R.id.bt_status_text);
         obdStatusTextView = (TextView) findViewById(R.id.obd_status_text);
         vv = (LinearLayout) findViewById(R.id.vehicle_view);
-
-        voltageText = (TextView) findViewById(R.id.voltage);
+        tl = (TableLayout) findViewById(R.id.data_table);
+        voltageText = (TextView) findViewById(R.id.voltage_text);
 
         startFullScreen();
         //FrontEnd
@@ -444,7 +448,8 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
 
     protected void onPause() {
         super.onPause();
-        myCSVWriter.closeLogCSVWriter();
+        if(myCSVWriter != null)
+            myCSVWriter.closeLogCSVWriter();
         unbindService(serviceConn);
         if(preferences.getBoolean(ENABLE_GPS_KEY,false)) {
             gpsStop();

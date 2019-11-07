@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.sergiojosemp.canbt.activity.DashboardActivity;
 import com.example.sergiojosemp.canbt.activity.Inject;
 import com.example.sergiojosemp.canbt.activity.MenuActivity;
+import com.example.sergiojosemp.canbt.activity.VerboseActivity;
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
 import com.github.pires.obd.commands.protocol.ObdResetCommand;
@@ -38,6 +39,9 @@ import static com.example.sergiojosemp.canbt.activity.SettingsActivity.PROTOCOLS
 //Parte de la API OBD-Java
 
 public class ObdService extends IntentService {
+
+
+    private boolean verbose = false;
     private final IBinder binder = new ObdServiceBinder();
     // Vamos a definir una cola de trabajos como se hace en la aplicación sample de la API obd-java
     protected BlockingQueue<ObdCommandJob> jobsQueue = new LinkedBlockingQueue<>();
@@ -116,6 +120,14 @@ public class ObdService extends IntentService {
 
     public void setObdDeviceQueue(BlockingQueue<Boolean> obdDeviceQueue) {
         this.obdDeviceQueue = obdDeviceQueue;
+    }
+
+    public boolean isVerbose() {
+        return verbose;
+    }
+
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
     }
 
     public void putObdDeviceQueue(Boolean value) {
@@ -275,20 +287,29 @@ public class ObdService extends IntentService {
                 job = jobsQueue.take(); //Bloqueo hasta que empiecen a entrar comandos
                 Log.d(TAG, "Taking job[" + job.getId() + "] from queue..");
 
-                if (job.getState().equals(ObdCommandJobState.NEW) && ctx.getClass().equals(DashboardActivity.class)) {
-                    if (sock.isConnected() && ctx.getClass().equals(DashboardActivity.class)) {
+                if (job.getState().equals(ObdCommandJobState.NEW) && (ctx.getClass().equals(DashboardActivity.class) || ctx.getClass().equals(VerboseActivity.class))) {
+                    if (sock.isConnected() && (ctx.getClass().equals(DashboardActivity.class) || ctx.getClass().equals(VerboseActivity.class))) {
                         Log.d(TAG, "Job state is NEW. Run it..");
                         job.setState(ObdCommandJobState.RUNNING);
                         job.getCommand().run(sock.getInputStream(), sock.getOutputStream());
                         if (job != null) {
                             Log.d(TAG, "Updating graphic dashboard_activity.xml with command " + job.getCommand().getName() + " result = " + job.getCommand().getFormattedResult() + "...");
                             final ObdCommandJob job2 = job;
-                            ((DashboardActivity) ctx).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    ((DashboardActivity) ctx).stateUpdate(job2);
-                                }
-                            });
+                            if(verbose){
+                                ((VerboseActivity) ctx).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ((VerboseActivity) ctx).stateUpdate(job2);
+                                    }
+                                });
+                            }else {
+                                ((DashboardActivity) ctx).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ((DashboardActivity) ctx).stateUpdate(job2);
+                                    }
+                                });
+                            }
                         }
 
                     } else {
@@ -322,31 +343,7 @@ public class ObdService extends IntentService {
                 }
                 Log.e(TAG, "Failed to run command. -> " + e.getMessage());
             }
-        }/*else if(ctx.getClass().equals(MenuActivity.class)){ //Sacar un thread separado y habilitar una BlockingQueue para reducir el consumo
-                        Thread.sleep(800);
-
-                        if(obdDevice && !colored){
-                            ((MenuActivity) ctx).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((MenuActivity) ctx).setObdIndicatorOn();
-                                    }
-                                });
-                            colored = true;
-                        }else if (!obdDevice){
-                            ((MenuActivity) ctx).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((MenuActivity) ctx).setObdIndicatorOff();
-
-                                    }
-
-                                });
-                            colored = false;
-                            }
-                }*/
-        //}
-        //}
+        }
     }
 
     @Override
