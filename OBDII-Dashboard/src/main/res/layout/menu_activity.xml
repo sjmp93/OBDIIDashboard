@@ -8,8 +8,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/settingsButton"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:clickable="true"
         android:foreground="@drawable/settings"
         android:scaleType="centerInside"
@@ -26,8 +26,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/diagnosticTroubleCodesButton"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:clickable="true"
         android:foreground="@drawable/dtc_activity"
         app:backgroundTint="#FFFFFF"
@@ -36,13 +36,13 @@
         app:layout_constraintHorizontal_bias="0.806"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
+        app:layout_constraintVertical_bias="0.53"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/chartsButton"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:clickable="true"
         android:foreground="@drawable/charts"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,13 +50,13 @@
         app:layout_constraintHorizontal_bias="0.196"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
+        app:layout_constraintVertical_bias="0.53"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/dashboardButton"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:clickable="true"
         android:foreground="@drawable/dashboard"
         app:backgroundTint="#00FFFFFF"
@@ -71,8 +71,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/verboseButton"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:clickable="true"
         android:foreground="@drawable/terminal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,10 +101,10 @@
         android:layout_height="110dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/obd_connector_icon" />
 
 </android.support.constraint.ConstraintLayout>
