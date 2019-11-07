@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.sergiojosemp.canbt.activity.DashboardActivity;
 import com.example.sergiojosemp.canbt.activity.Inject;
-import com.example.sergiojosemp.canbt.activity.MainMenuActivity;
+import com.example.sergiojosemp.canbt.activity.MenuActivity;
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
 import com.github.pires.obd.commands.protocol.ObdResetCommand;
@@ -38,7 +38,7 @@ import static com.example.sergiojosemp.canbt.activity.SettingsActivity.PROTOCOLS
 //Parte de la API OBD-Java
 
 public class ObdService extends IntentService {
-    private final IBinder binder = new ObdThingsBinder();
+    private final IBinder binder = new ObdServiceBinder();
     // Vamos a definir una cola de trabajos como se hace en la aplicación sample de la API obd-java
     protected BlockingQueue<ObdCommandJob> jobsQueue = new LinkedBlockingQueue<>();
     protected Long queueCounter = 0L;
@@ -68,18 +68,18 @@ public class ObdService extends IntentService {
             try {
                 while (!deviceChecker.isInterrupted()) {
                     if (obdDeviceQueue.take()) {//Blocks until someone puts a boolean value in the queue
-                        ((MainMenuActivity) ctx).runOnUiThread(new Runnable() {
+                        ((MenuActivity) ctx).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ((MainMenuActivity) ctx).setObdIndicatorOn();
+                                ((MenuActivity) ctx).setObdIndicatorOn();
                             }
                         });
                         startObdConnection();
                     } else {
-                        ((MainMenuActivity) ctx).runOnUiThread(new Runnable() {
+                        ((MenuActivity) ctx).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ((MainMenuActivity) ctx).setObdIndicatorOff();
+                                ((MenuActivity) ctx).setObdIndicatorOff();
 
                             }
                         });
@@ -162,7 +162,7 @@ public class ObdService extends IntentService {
         Log.d(TAG, "Checking if BT device is an OBD adapter or not...");
 /*
         try {
-            Thread.sleep(500); //Espera para que de tiempo a cargar la MainMenuActivity
+            Thread.sleep(500); //Espera para que de tiempo a cargar la MenuActivity
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -281,7 +281,7 @@ public class ObdService extends IntentService {
                         job.setState(ObdCommandJobState.RUNNING);
                         job.getCommand().run(sock.getInputStream(), sock.getOutputStream());
                         if (job != null) {
-                            Log.d(TAG, "Updating graphic dashboard with command " + job.getCommand().getName() + " result = " + job.getCommand().getFormattedResult() + "...");
+                            Log.d(TAG, "Updating graphic dashboard_activity.xml with command " + job.getCommand().getName() + " result = " + job.getCommand().getFormattedResult() + "...");
                             final ObdCommandJob job2 = job;
                             ((DashboardActivity) ctx).runOnUiThread(new Runnable() {
                                 @Override
@@ -314,28 +314,30 @@ public class ObdService extends IntentService {
                         job.setState(ObdCommandJobState.EXECUTION_ERROR);
                 }
                 Log.e(TAG, "IO error. -> " + io.getMessage());
+            } catch(ClassCastException cce){
+                return;
             } catch (Exception e) {
                 if (job != null) {
                     job.setState(ObdCommandJobState.EXECUTION_ERROR);
                 }
                 Log.e(TAG, "Failed to run command. -> " + e.getMessage());
             }
-        }/*else if(ctx.getClass().equals(MainMenuActivity.class)){ //Sacar un thread separado y habilitar una BlockingQueue para reducir el consumo
+        }/*else if(ctx.getClass().equals(MenuActivity.class)){ //Sacar un thread separado y habilitar una BlockingQueue para reducir el consumo
                         Thread.sleep(800);
 
                         if(obdDevice && !colored){
-                            ((MainMenuActivity) ctx).runOnUiThread(new Runnable() {
+                            ((MenuActivity) ctx).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ((MainMenuActivity) ctx).setObdIndicatorOn();
+                                        ((MenuActivity) ctx).setObdIndicatorOn();
                                     }
                                 });
                             colored = true;
                         }else if (!obdDevice){
-                            ((MainMenuActivity) ctx).runOnUiThread(new Runnable() {
+                            ((MenuActivity) ctx).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        ((MainMenuActivity) ctx).setObdIndicatorOff();
+                                        ((MenuActivity) ctx).setObdIndicatorOff();
 
                                     }
 
@@ -386,7 +388,7 @@ public class ObdService extends IntentService {
         return jobsQueue.isEmpty();
     }
 
-    public BluetoothSocket getSock() {
+    public BluetoothSocket getbluetoothSocket() {
         return sock;
     }
 
@@ -407,7 +409,7 @@ public class ObdService extends IntentService {
 
     //Devuelve una instancia de esta misma clase, así quien se enlace con este servicio, puede acceder a los métodos públicos
     // de esta clase
-    public class ObdThingsBinder extends Binder {
+    public class ObdServiceBinder extends Binder {
         public ObdService getService() {
             return ObdService.this;
         }

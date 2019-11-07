@@ -3,39 +3,12 @@
     <PreferenceCategory
         android:key="@string/pref_upload_category"
         android:title="@string/pref_upload_category_title">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dialogTitle="@string/pref_upload_title"
-            android:key="upload_data_preference"
-            android:summaryOff="@string/pref_upload_summaryOff"
-            android:summaryOn="@string/pref_upload_summaryOn"
-            android:title="@string/pref_upload_title" />
         <EditTextPreference
-            android:defaultValue="http://www.example.com/obd/get_data.php"
-            android:dialogTitle="@string/pref_upload_url_title"
-            android:key="upload_url_preference"
-            android:summary="@string/pref_upload_url_summary"
-            android:title="@string/pref_upload_url_title" />
-        <EditTextPreference
-            android:defaultValue=""
+            android:defaultValue="00000000000000000000000"
             android:dialogTitle="@string/pref_vehicle_id_title"
             android:key="vehicle_id_preference"
             android:summary="@string/pref_vehicle_id_summary"
             android:title="@string/pref_vehicle_id_title" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/title_pref_bluetooth">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dialogTitle="@string/pref_bluetooth_title"
-            android:key="enable_bluetooth_preference"
-            android:summaryOff="@string/pref_bluetooth_summaryOff"
-            android:summaryOn="@string/pref_bluetooth_summaryOn"
-            android:title="@string/pref_bluetooth_title" />
-        <ListPreference
-            android:dialogTitle="@string/pref_bluetooth_list_devices_title"
-            android:key="bluetooth_list_preference"
-            android:summary="@string/pref_bluetooth_list_devices_summary"
-            android:title="@string/pref_bluetooth_list_devices_title" />
     </PreferenceCategory>
     <PreferenceCategory
         android:key="@string/pref_gps_category"
@@ -110,12 +83,6 @@
             android:key="reader_config_preference"
             android:summary="@string/pref_reader_config_summary"
             android:title="@string/pref_reader_config_title" />
-        <EditTextPreference
-            android:defaultValue=""
-            android:dialogTitle="@string/pref_dev_email_title"
-            android:key="dev_email"
-            android:summary="@string/pref_dev_email_summary"
-            android:title="@string/pref_dev_email_title"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/title_pref_commands">
         <PreferenceScreen

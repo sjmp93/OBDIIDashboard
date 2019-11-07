@@ -61,11 +61,11 @@
     <string name="text_save_trip_not_available">Sorry, trip will not be saved.</string>
     <string name="text_obd_command_failure">OBD command failure!</string>
     <string name="text_dtc_no_data">No DTC stored</string>
-    <string name="status_no_bluetooth_id">unavailable</string>
-    <string name="status_bluetooth_disabled">disabled</string>
-    <string name="status_bluetooth_ok">ready</string>
-    <string name="status_bluetooth_connecting">connecting&#8230;</string>
-    <string name="status_bluetooth_connected">connected</string>
+    <string name="status_no_bluetooth_id">Unavailable</string>
+    <string name="status_bluetooth_disabled">Disabled</string>
+    <string name="status_bluetooth_ok">Ready</string>
+    <string name="status_bluetooth_connecting">Connecting&#8230;</string>
+    <string name="status_bluetooth_connected">Connected</string>
     <string name="status_bluetooth_error_connecting">connection failed</string>
     <string name="status_gps_fix">fix acquired</string>
     <string name="status_gps_no_fix">fix not acquired</string>
@@ -76,7 +76,7 @@
     <string name="status_gps_not_used">not used</string>
     <string name="status_obd_ready">OK</string>
     <string name="status_obd_data">receiving data&#8230;</string>
-    <string name="status_obd_disconnected">disconnected</string>
+    <string name="status_obd_disconnected">Disconnected</string>
     <string name="status_obd_no_support">NA</string>
     <string name="pref_upload_title">Enable Data Upload</string>
     <string name="pref_upload_summaryOff">Enable http data upload</string>
@@ -130,5 +130,31 @@
     <string name="already">Parameter is already showing</string>
     <string name="pref_max_rpm">Max RPM value</string>
     <string name="pref_max_rpm_summary">Max RPM for RPM indicator </string>
+
+    <string name="bluetooth_disabled">Bluetooth disabled</string>
+    <string name="bluetooth_enabled">Bluetooth enabled</string>
+    <string name="discover_button">Discover devices</string>
+    <string name="offline_mode_button">Offline mode</string>
+    <string name="discovered_devices_text">Discovered devices</string>
+    <string name="unknown_device_text">Unknown device</string>
+    <string name="connect_activity_title">Connect to</string>
+    <string name="service_bounded_text">Service bounded from</string>
+    <string name="connect_activity">ConnectActivity</string>
+    <string name="connecting_text">Connecting</string>
+    <string name="device_name_title">Device name</string>
+    <string name="unknown_mac_address_text">Unknown MAC address</string>
+    <string name="mac_address_title">Device MAC address</string>
+    <string name="current_directory_text">Current directory:</string>
+    <string name="dashboard_linking_log_text">Linking dashboard with OBD service</string>
+    <string name="error_text">Error</string>
+    <string name="getting_trouble_codes_text">Getting Trouble Codes</string>
+    <string name="can_not_enable_logging_error">Can not enable logging to file</string>
+    <string name="grant_permissions_from_settings">Grant permissions from Android Applications Settings</string>
+    <string name="null_object_stack_trace_fragment_text">\'int java.util.List.size()\' on a null object reference</string>
+    <string name="empty_file">Empty file</string>
+
+
+
+
 
 </resources>

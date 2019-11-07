@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import lecho.lib.hellocharts.listener.LineChartOnValueSelectListener;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -67,8 +66,11 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
 
     private List<FloatingActionButton> fabButtons = new ArrayList<>(); //Se puede automatizar tanto la creación de fb como de textos
     private List<TextView> fblabels = new ArrayList<>();
-    private FloatingActionButton fab1 ,fab2, fab3, fab4, fab5, fab6, fab7, fab8, fab9, fab10;
-    private TextView fblabel1, fblabel2, fblabel3, fblabel4, fblabel5, fblabel6, fblabel7, fblabel8, fblabel9, fblabel10;
+    private FloatingActionButton fab1 ,fab2, fab3, fab4, fab5, fab6, fab7, fab8, fab9, fab10, fab11 ,fab12, fab13, fab14, fab15,
+            fab16, fab17, fab18, fab19, fab20, fab21 ,fab22, fab23, fab24, fab25, fab26;
+
+    private TextView fblabel1, fblabel2, fblabel3, fblabel4, fblabel5, fblabel6, fblabel7, fblabel8, fblabel9, fblabel10, fblabel11, fblabel12, fblabel13, fblabel14, fblabel15,
+            fblabel16, fblabel17, fblabel18, fblabel19, fblabel20,fblabel21, fblabel22, fblabel23, fblabel24, fblabel25, fblabel26;
 
     private GestureDetectorCompat mDetector;
 
@@ -92,7 +94,7 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
         path = getIntent().getExtras().getString("path");
 
         //FrontEnd
-        setContentView(R.layout.line_chart);
+        setContentView(R.layout.line_chart_activity);
 
         final TextView label = (TextView)findViewById(R.id.chartLbl);
 
@@ -107,6 +109,23 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
         fab8 = findViewById(R.id.chartfb8);
         fab9 = findViewById(R.id.chartfb9);
         fab10 = findViewById(R.id.chartfb10);
+        fab11 = findViewById(R.id.chartfb11);
+        fab12 = findViewById(R.id.chartfb12);
+        fab13 = findViewById(R.id.chartfb13);
+        fab14 = findViewById(R.id.chartfb14);
+        fab15 = findViewById(R.id.chartfb15);
+        fab16 = findViewById(R.id.chartfb16);
+        fab17 = findViewById(R.id.chartfb17);
+        fab18 = findViewById(R.id.chartfb18);
+        fab19 = findViewById(R.id.chartfb19);
+        fab20 = findViewById(R.id.chartfb20);
+        fab21 = findViewById(R.id.chartfb21);
+        fab22 = findViewById(R.id.chartfb22);
+        fab23 = findViewById(R.id.chartfb23);
+        fab24 = findViewById(R.id.chartfb24);
+        fab25 = findViewById(R.id.chartfb25);
+        fab26 = findViewById(R.id.chartfb26);
+
 
         fblabel1 = findViewById(R.id.fblabel1);
         fblabel2 = findViewById(R.id.fblabel2);
@@ -118,6 +137,22 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
         fblabel8 = findViewById(R.id.fblabel8);
         fblabel9 = findViewById(R.id.fblabel9);
         fblabel10 = findViewById(R.id.fblabel10);
+        fblabel11 = findViewById(R.id.fblabel11);
+        fblabel12 = findViewById(R.id.fblabel12);
+        fblabel13 = findViewById(R.id.fblabel13);
+        fblabel14 = findViewById(R.id.fblabel14);
+        fblabel15 = findViewById(R.id.fblabel15);
+        fblabel16 = findViewById(R.id.fblabel16);
+        fblabel17 = findViewById(R.id.fblabel17);
+        fblabel18 = findViewById(R.id.fblabel18);
+        fblabel19 = findViewById(R.id.fblabel19);
+        fblabel20 = findViewById(R.id.fblabel20);
+        fblabel21 = findViewById(R.id.fblabel21);
+        fblabel22 = findViewById(R.id.fblabel22);
+        fblabel23 = findViewById(R.id.fblabel23);
+        fblabel24 = findViewById(R.id.fblabel24);
+        fblabel25 = findViewById(R.id.fblabel25);
+        fblabel26 = findViewById(R.id.fblabel26);
 
 
         //Se añaden los botones y textos a una lista
@@ -133,6 +168,23 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
         fabButtons.add(fab8);
         fabButtons.add(fab9);
         fabButtons.add(fab10);
+        fabButtons.add(fab11);
+        fabButtons.add(fab12);
+        fabButtons.add(fab13);
+        fabButtons.add(fab14);
+        fabButtons.add(fab15);
+        fabButtons.add(fab16);
+        fabButtons.add(fab17);
+        fabButtons.add(fab18);
+        fabButtons.add(fab19);
+        fabButtons.add(fab20);
+        fabButtons.add(fab21);
+        fabButtons.add(fab22);
+        fabButtons.add(fab23);
+        fabButtons.add(fab24);
+        fabButtons.add(fab25);
+        fabButtons.add(fab26);
+
 
         fblabels.add(fblabel1);
         fblabels.add(fblabel2);
@@ -144,6 +196,22 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
         fblabels.add(fblabel8);
         fblabels.add(fblabel9);
         fblabels.add(fblabel10);
+        fblabels.add(fblabel11);
+        fblabels.add(fblabel12);
+        fblabels.add(fblabel13);
+        fblabels.add(fblabel14);
+        fblabels.add(fblabel15);
+        fblabels.add(fblabel16);
+        fblabels.add(fblabel17);
+        fblabels.add(fblabel18);
+        fblabels.add(fblabel19);
+        fblabels.add(fblabel20);
+        fblabels.add(fblabel21);
+        fblabels.add(fblabel22);
+        fblabels.add(fblabel23);
+        fblabels.add(fblabel24);
+        fblabels.add(fblabel25);
+        fblabels.add(fblabel26);
 
 
 
@@ -277,7 +345,27 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
             br.close();
             //Fin de la lectura del fichero csv
 
-            //Generar un arraylist de strings con los valores que no pueden mostrarse en linecharts (fueltype etc)
+            if(csv_values.size() == 0){
+                Toast.makeText(ChartActivity.this, R.string.empty_file, Toast.LENGTH_SHORT).show();
+                onBackPressed();
+
+                throw new NullPointerException(getText(R.string.empty_file).toString());
+            }
+
+            //Arraylist de strings con los valores que no pueden mostrarse en linecharts (fueltype etc)
+            List<String> noDisplayParameters = new ArrayList<String>();
+            noDisplayParameters.add("TIME");
+            noDisplayParameters.add("LATITUDE");
+            noDisplayParameters.add("LONGITUDE");
+            noDisplayParameters.add("ALTITUDE");
+            noDisplayParameters.add("VIN");
+            noDisplayParameters.add("VEHICLE_ID");
+            noDisplayParameters.add("FUEL_TYPE");
+            noDisplayParameters.add("ENGINE_RUNTIME");
+            noDisplayParameters.add("DISTANCE_TRAVELED_MIL_ON");
+            noDisplayParameters.add("DTC_NUMBER");
+            noDisplayParameters.add("TROUBLE_CODES");
+
             float time = 0.0f;
             float value = 0.0f;
             boolean divide = false;
@@ -285,7 +373,7 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
 
             for(String k : csv_values.keySet()){
                 values = new ArrayList<PointValue>();
-                if(!k.equals("TIME") && !k.equals("LATITUDE") && !k.equals("LONGITUDE") && !k.equals("ALTITUDE") && !k.equals("VEHICLE_ID") && !k.equals("FUELTYPE")){
+                if(!noDisplayParameters.contains(k)){//!k.equals("TIME") && !k.equals("LATITUDE") && !k.equals("LONGITUDE") && !k.equals("ALTITUDE") && !k.equals("VEHICLE_ID") && !k.equals("FUELTYPE")){
                     int tidx = 0; // Time index for generating points
                     for(String v : csv_values.get(k)) {
                         time = Float.parseFloat(csv_values.get("TIME").get(tidx));
@@ -357,6 +445,7 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
 
 
             }
+
             float max = Float.parseFloat(csv_values.get("TIME").get(csv_values.get("TIME").size()-1));
             for (float i = 0.0f; i <= max; i += 5.0f){
                 tempAxisValue = new AxisValue(i);
@@ -382,31 +471,22 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
             lineChartView = (LineChartView) findViewById(R.id.chart);
             lineChartView.setClickable(true);
 
-            lineChartView.setOnLongClickListener(new View.OnLongClickListener() {
+
+            lineChartView.setOnTouchListener(new View.OnTouchListener() {
+
                 @Override
-                public boolean onLongClick(View v) {
-                    return false;
+                public boolean onTouch(View v, MotionEvent event) { //Habilita el gesto de swipe en toda la lineChartView
+                    if (mDetector.onTouchEvent(event)) {
+                        return false;
+                    }
+                    return true;
                 }
             });
-
-            lineChartView.setOnValueTouchListener(new LineChartOnValueSelectListener() {
-
-                @Override
-                public void onValueSelected(int lineIndex, int pointIndex, PointValue value) {
-                    Toast.makeText(lineChartView.getContext(),""+value,Toast.LENGTH_SHORT).show();
-                    Log.d("",lineIndex + " " + pointIndex + " " + value);
-                }
-
-                @Override
-                public void onValueDeselected() {
-
-                }
-            });
-
-
 
         }catch (IOException e) {
             //You'll need to add proper error handling here
+        }catch(NullPointerException npe){
+
         }
     }
 

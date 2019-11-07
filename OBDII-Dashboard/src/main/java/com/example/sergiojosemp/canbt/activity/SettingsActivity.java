@@ -1,15 +1,17 @@
 package com.example.sergiojosemp.canbt.activity;
 
-import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
+
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
-import android.preference.PreferenceActivity;
 import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.widget.Toast;
 
@@ -19,13 +21,10 @@ import com.github.pires.obd.enums.ObdProtocols;
 import com.github.pires.obd.reader.ObdConfig;
 
 import java.util.ArrayList;
-import java.util.Set;
-
+//Based on pires OBDREADER  configActivity
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener {
     
 
-    public static final String BLUETOOTH_LIST_KEY = "bluetooth_list_preference";
-    public static final String UPLOAD_URL_KEY = "upload_url_preference";
     public static final String UPLOAD_DATA_KEY = "upload_data_preference";
     public static final String OBD_UPDATE_PERIOD_KEY = "obd_update_period_preference";
     public static final String RPM_MAX_KEY = "rpm_max_preference";
@@ -38,13 +37,12 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     public static final String ENABLE_GPS_KEY = "enable_gps_preference";
     public static final String GPS_UPDATE_PERIOD_KEY = "gps_update_period_preference";
     public static final String GPS_DISTANCE_PERIOD_KEY = "gps_distance_period_preference";
-    public static final String ENABLE_BT_KEY = "enable_bluetooth_preference";
     public static final String MAX_FUEL_ECON_KEY = "max_fuel_econ_preference";
     public static final String CONFIG_READER_KEY = "reader_config_preference";
     public static final String ENABLE_FULL_LOGGING_KEY = "enable_full_logging";
     public static final String DIRECTORY_FULL_LOGGING_KEY = "dirname_full_logging";
-    public static final String DEV_EMAIL_KEY = "dev_email";
 
+    private final static String PREFERENCES = "preferences";
 
     /**
      * @param prefs
@@ -52,7 +50,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
      */
     public static int getObdUpdatePeriod(SharedPreferences prefs) {
         String periodString = prefs.
-                getString(SettingsActivity.OBD_UPDATE_PERIOD_KEY, "260"); // 260 ms
+                getString(SettingsActivity.OBD_UPDATE_PERIOD_KEY, "150"); // 150 ms
         int period = 1000; // by default 1000ms
 
         try {
@@ -135,12 +133,12 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         return cmds;
     }
 
-/*    *//**
+    /*
      * Minimum time between location updates, in milliseconds
      *
      * @param prefs
      * @return
-     *//*
+     */
     public static int getGpsUpdatePeriod(SharedPreferences prefs) {
         String periodString = prefs
                 .getString(SettingsActivity.GPS_UPDATE_PERIOD_KEY, "1"); // 1 as in seconds
@@ -156,14 +154,14 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         }
 
         return period;
-    }*/
+    }
 
-/*    *//**
+    /*
      * Min Distance between location updates, in meters
      *
      * @param prefs
      * @return
-     *//*
+     */
     public static float getGpsDistanceUpdatePeriod(SharedPreferences prefs) {
         String periodString = prefs
                 .getString(SettingsActivity.GPS_DISTANCE_PERIOD_KEY, "5"); // 5 as in meters
@@ -179,27 +177,20 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         }
 
         return period;
-    }*/
+    }
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*
-         * Read preferences resources available at res/xml/preferences.xml
-         */
-        //addPreferencesFromResource(R.xml.preferences);
-        getPreferenceManager().setSharedPreferencesName("preferences");
-        addPreferencesFromResource(R.xml.preferences);
-//        if (savedInstanceState == null)
-  //          getFragmentManager().beginTransaction().add(android.R.id.content, new PrefFragment()).commit();
 
-        //checkGps();
+        getPreferenceManager().setSharedPreferencesName(PREFERENCES);
+        addPreferencesFromResource(R.xml.preferences);
+
+        checkGps();
 
         ArrayList<CharSequence> pairedDeviceStrings = new ArrayList<>();
         ArrayList<CharSequence> vals = new ArrayList<>();
-        ListPreference listBtDevices = (ListPreference) getPreferenceScreen()
-                .findPreference(BLUETOOTH_LIST_KEY);
         ArrayList<CharSequence> protocolStrings = new ArrayList<>();
         ListPreference listProtocols = (ListPreference) getPreferenceScreen()
                 .findPreference(PROTOCOLS_LIST_KEY);
@@ -220,6 +211,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         PreferenceScreen cmdScr = (PreferenceScreen) getPreferenceScreen()
                 .findPreference(COMMANDS_SCREEN_KEY);
         for (ObdCommand cmd : cmds) {
+            // TODO - si el envío de un comando específico no recibe respuesta, podemos concluir que el comando no está soportado por el dispositivo y no deberíamos añadirlo
             CheckBoxPreference cpref = new CheckBoxPreference(this);
             cpref.setTitle(cmd.getName());
             cpref.setKey(cmd.getName());
@@ -237,56 +229,6 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         listProtocols.setEntries(protocolStrings.toArray(new CharSequence[0]));
         listProtocols.setEntryValues(protocolStrings.toArray(new CharSequence[0]));
 
-        /*
-         * Let's use this device Bluetooth adapter to select which paired OBD-II
-         * compliant device we'll use.
-         */
-        final BluetoothAdapter mBtAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBtAdapter == null) {
-            listBtDevices
-                    .setEntries(pairedDeviceStrings.toArray(new CharSequence[0]));
-            listBtDevices.setEntryValues(vals.toArray(new CharSequence[0]));
-
-            // we shouldn't get here, still warn user
-            Toast.makeText(this, "This device does not support Bluetooth.",
-                    Toast.LENGTH_LONG).show();
-
-            return;
-        }
-
-        /*
-         * Listen for preferences click.
-         *
-         * TODO there are so many repeated validations :-/
-         */
-        final Activity thisActivity = this;
-        listBtDevices.setEntries(new CharSequence[1]);
-        listBtDevices.setEntryValues(new CharSequence[1]);
-        listBtDevices.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            public boolean onPreferenceClick(Preference preference) {
-                // see what I mean in the previous comment?
-                if (mBtAdapter == null || !mBtAdapter.isEnabled()) {
-                    Toast.makeText(thisActivity,
-                            "This device does not support Bluetooth or it is disabled.",
-                            Toast.LENGTH_LONG).show();
-                    return false;
-                }
-                return true;
-            }
-        });
-
-        /*
-         * Get paired devices and populate preference list.
-         */
-        Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
-        if (pairedDevices.size() > 0) {
-            for (BluetoothDevice device : pairedDevices) {
-                pairedDeviceStrings.add(device.getName() + "\n" + device.getAddress());
-                vals.add(device.getAddress());
-            }
-        }
-        listBtDevices.setEntries(pairedDeviceStrings.toArray(new CharSequence[0]));
-        listBtDevices.setEntryValues(vals.toArray(new CharSequence[0]));
     }
 
     /**
@@ -315,7 +257,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         }
         return false;
     }
-/*
+
     private void checkGps() {
         LocationManager mLocService = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (mLocService != null) {
@@ -324,7 +266,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
                 hideGPSCategory();
             }
         }
-    }*/
+    }
 
     protected static int getMaxRPM(SharedPreferences prefs){
         String rpmString = prefs.getString(SettingsActivity.RPM_MAX_KEY, "7500");
@@ -341,15 +283,12 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         return rpm;
     }
 
-/*    private void hideGPSCategory() {
+    private void hideGPSCategory() {
         PreferenceScreen preferenceScreen = getPreferenceScreen();
         PreferenceCategory preferenceCategory = (PreferenceCategory) findPreference(getResources().getString(R.string.pref_gps_category));
         if (preferenceCategory != null) {
             preferenceCategory.removeAll();
             preferenceScreen.removePreference((Preference) preferenceCategory);
         }
-    }*/
-
-
-
+    }
 }

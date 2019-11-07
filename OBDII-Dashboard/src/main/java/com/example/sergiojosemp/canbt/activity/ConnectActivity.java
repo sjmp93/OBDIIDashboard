@@ -2,7 +2,6 @@ package com.example.sergiojosemp.canbt.activity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -17,48 +16,36 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.sergiojosemp.canbt.R;
 import com.example.sergiojosemp.canbt.service.ObdService;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-//import com.example.sergiojosemp.canbt.ConnectThread;
 
 public class ConnectActivity extends AppCompatActivity {
 
-    //Constantes
-    private static final int REQUEST_COARSE_LOCATION = 5;
-    private final ArrayList<String> mArrayAdapter = new ArrayList<String>(); //Lista de dispositivos encontrados durante la búsqueda
-    private final BroadcastReceiver mReceiver = null; //Objeto que recibirá eventos del sistema
-    private int REQUEST_ENABLE_BT = 1;
-    //Interfaz gráfica
-    private TextView tv; //Texto indicador del estado del adaptador Bluetooth
-    private FloatingActionButton btButton; //Botón de encendido del adaptador Bluetooth
-    private Button btConnect; //Botón para iniciar la búsqueda de dispositivos
-    private String TAG = "";
-    //Bluetooth
-    private BluetoothAdapter mBluetoothAdapter; //Objeto adaptador Bluetooth
-    //Variables y objetos
-    private int result = 0; //
-    //private ConnectThread ct;
-    private ObdService service;
+    private final static String PREFERENCES = "preferences";
+    private final static String EXTRANAME = "name";
+    private final static String EXTRAMAC = "mac";
 
-    private SharedPreferences prefs; //Toda la configuración se almacena en este objeto
+    private FloatingActionButton bluetoothConnectButton; //Botón para establecer la conexión bluetooth
+    private String TAG = ""; // Para el log
+    private BluetoothAdapter bluetoothAdapter; //Objeto adaptador Bluetooth
+    private ObdService obdService; //Servicio que corre en fondo y se encarga de gestionar la conexión con el adaptador OBD
 
+    private SharedPreferences preferences; //Toda la configuración se almacena en este objeto
 
     private ServiceConnection serviceConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName className, IBinder binder) {
-            service = ((ObdService.ObdThingsBinder) binder).getService();
-            service.setPrefs(prefs);
-            //service.setContext(ConnectActivity.this);
+            obdService = ((ObdService.ObdServiceBinder) binder).getService();
+            obdService.setPrefs(preferences);
             try {
-                service.startService();
+                obdService.startService();
             } catch (IOException ioe) {
+                Log.e(TAG,ioe.getMessage());
             }
         }
 
@@ -67,9 +54,9 @@ public class ConnectActivity extends AppCompatActivity {
             return super.clone();
         }
 
-        // This method is *only* called when the connection to the service is lost unexpectedly
+        // This method is *only* called when the connection to the obdService is lost unexpectedly
         // and *not* when the client unbinds (http://developer.android.com/guide/components/bound-services.html)
-        // So the isServiceBound attribute should also be set to false when we unbind from the service.
+        // So the isServiceBound attribute should also be set to false when we unbind from the obdService.
         @Override
         public void onServiceDisconnected(ComponentName className) {
         }
@@ -78,80 +65,75 @@ public class ConnectActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         //Se carga y configura el nuevo layout
         super.onCreate(savedInstanceState);
-        prefs = getSharedPreferences("preferences",
-                Context.MODE_PRIVATE);
-        setContentView(R.layout.connect);
-        getSupportActionBar().setTitle("Conectar a");
+        preferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        setContentView(R.layout.connect_activity);
+        getSupportActionBar().setTitle(getText(R.string.connect_activity_title));
         //Definimos animaciones para los botones
-        final Animation rotar = AnimationUtils.loadAnimation(this, R.anim.rotacion);
-        final Animation aparicion = AnimationUtils.loadAnimation(this, R.anim.aparicion);
+        final Animation spin = AnimationUtils.loadAnimation(this, R.anim.spin);
+        final Animation appear = AnimationUtils.loadAnimation(this, R.anim.appear);
         //Configuramos el FAB
-        btButton = findViewById(R.id.floatButtonConnect);
-        btButton.setActivated(true);
-        btButton.setClickable(true);
-        btButton.setAlpha((float) 1.0);
-        btButton.startAnimation(aparicion);
+        bluetoothConnectButton = findViewById(R.id.bluetoothConnectButton);
+        bluetoothConnectButton.setActivated(true);
+        bluetoothConnectButton.setClickable(true);
+        bluetoothConnectButton.setAlpha((float) 1.0);
+        bluetoothConnectButton.startAnimation(appear);
 
         //Se toman los valores de la actividad anterior
-        final String nombre, mac;
+        final String name, mac;
 
-        nombre = getIntent().getExtras().getString("name");
-        mac = getIntent().getExtras().getString("mac");
+        name = getIntent().getExtras().getString(EXTRANAME);
+        mac = getIntent().getExtras().getString(EXTRAMAC);
 
 
         Intent serviceIntent = new Intent(ConnectActivity.this, ObdService.class);
-        //startService(serviceIntent);
         if (bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE)) {
-
+            Log.d(TAG,getText(R.string.service_bounded_text) + " " + getText(R.string.connect_activity));
         }
 
         //Se crea la llamada a la acción de conectar al dispositivo seleccionado
         OnClickListener onClickListenerConnect = new OnClickListener() {
             @Override
             public synchronized void onClick(View v) {
-                btButton.startAnimation(rotar);
+                bluetoothConnectButton.startAnimation(spin);
                 //mostrarDispositivos();
-                Log.d(TAG, "Connecting");
+                Log.d(TAG, getText(R.string.connecting_text).toString());
                 //Thread de conexión asíncorono
-                String macAux = mac.substring(1);
-                if (mBluetoothAdapter.checkBluetoothAddress(macAux)) {
-                    BluetoothDevice btd = mBluetoothAdapter.getRemoteDevice(macAux);
-                    service.setBluetoothDevice(btd);
-                    service.setContext(ConnectActivity.this);
-                    service.connect();
+                String auxMac = mac.substring(1); //Elimina el salto de línea
+                if (bluetoothAdapter.checkBluetoothAddress(auxMac)) {
+                    BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(auxMac);
+                    obdService.setBluetoothDevice(bluetoothDevice);
+                    obdService.setContext(ConnectActivity.this);
+                    obdService.connect();
 
-                    if (service.getSock().isConnected()) {
-                        Intent MainMenuActivity = new Intent(ConnectActivity.this, MainMenuActivity.class);
-                        startActivity(MainMenuActivity);
-                        //unbindService(serviceConn);
+                    if (obdService.getbluetoothSocket().isConnected()) {
+                        Intent MenuActivity = new Intent(ConnectActivity.this, MenuActivity.class);
+                        startActivity(MenuActivity);
                     }
                 }
-
             }
         };
 
         //Se asigna la acción al botón
-        btButton.setOnClickListener(onClickListenerConnect);
+        bluetoothConnectButton.setOnClickListener(onClickListenerConnect);
 
 
         //Se actualiza la información
-        TextView tName = findViewById(R.id.tName);
-        TextView tMac = findViewById(R.id.tMac);
-        tName.setText(nombre);
-        tMac.setText(mac);
+        TextView nameText = findViewById(R.id.deviceNameText);
+        TextView macText = findViewById(R.id.deviceMacText);
+        nameText.setText(name);
+        macText.setText(mac);
 
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        mBluetoothAdapter.startDiscovery();
+        //Se vuelve a la discoveryActivity, así se comienza con el discovery de dispositivos Bluetooth
+        bluetoothAdapter.startDiscovery();
     }
 
     protected void onResume() {
@@ -165,9 +147,9 @@ public class ConnectActivity extends AppCompatActivity {
 
     protected void onPause() {
         super.onPause();
-        if(serviceConn!=null && service != null && !service.getSock().isConnected()) {
+        /*if(serviceConn!=null && obdService != null && obdService.getbluetoothSocket() != null && !obdService.getbluetoothSocket().isConnected()) {
             //unbindService(serviceConn);
-        }
+        }*/
     }
 
     @Override

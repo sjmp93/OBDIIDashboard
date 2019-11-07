@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.StartActivity">
+
+    <android.support.design.widget.FloatingActionButton
+
+        android:id="@+id/bluetoothConnectButton"
+        android:layout_width="67dp"
+        android:layout_height="102dp"
+        android:clickable="true"
+        android:scaleType="centerInside"
+        android:visibility="visible"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabCustomSize="66dp"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.89"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.94"
+        app:maxImageSize="32dp"
+
+
+        app:srcCompat="@drawable/bluetooth_connect"
+        app:useCompatPadding="true" />
+
+    <TextView
+        android:id="@+id/deviceNameTitle"
+        android:layout_width="184dp"
+        android:layout_height="74dp"
+        android:text="@string/device_name_title"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.16" />
+
+    <TextView
+        android:id="@+id/deviceNameText"
+        android:layout_width="305dp"
+        android:layout_height="74dp"
+        android:text="@string/unknown_device_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.379"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.329" />
+
+    <TextView
+        android:id="@+id/deviceMacAddress"
+        android:layout_width="184dp"
+        android:layout_height="74dp"
+        android:text="@string/mac_address_title"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498" />
+
+    <TextView
+        android:id="@+id/deviceMacText"
+        android:layout_width="305dp"
+        android:layout_height="74dp"
+        android:text="@string/unknown_mac_address_text"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.379"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.668" />
+
+
+</android.support.constraint.ConstraintLayout>

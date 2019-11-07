@@ -42,8 +42,9 @@
         <color name="mass_air_flow_iconbg">#04A7BD</color>
         <color name="progress_background">#D1D1D1</color>
         <color name="night">#455a64</color>
-        <color name="obd_icon">#46ABFF</color>
+        <color name="obd_connector_icon">#46ABFF</color>
         <color name="obd_disabled">#949493</color>
+        <color name="device_list_item_text">#0090ff</color>
 
 
 

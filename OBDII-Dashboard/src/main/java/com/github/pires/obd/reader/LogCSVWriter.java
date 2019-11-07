@@ -39,7 +39,7 @@ public class LogCSVWriter {
     private BufferedWriter buf;
     private SharedPreferences prefs;
     private String csv_header = "";
-    private static List<String> readings = new ArrayList<String>();
+    private static List<String> readings;
     private String[] columns;
 
     private String getCmdID(String cmdName){
@@ -53,18 +53,8 @@ public class LogCSVWriter {
     public LogCSVWriter(String filename, String dirname, SharedPreferences prefs) throws FileNotFoundException, RuntimeException {
         try{
             this.prefs = prefs;
-             columns = readings.toArray(new String[0]);
-            for (ObdCommand Command : ObdConfig.getCommands()) {
-                if (prefs.getBoolean(Command.getName(), true)) {
-                    if (csv_header.isEmpty()) {
-                        csv_header = getCmdID(Command.getName());
-                    } else {
-                        csv_header = csv_header + ";" + getCmdID(Command.getName());;
-                    }
-                    readings.add(getCmdID(Command.getName()));
-                }
-            }
 
+            readings = new ArrayList<String>();
             File sdCard = Environment.getExternalStorageDirectory();
             File dir = new File(sdCard.getAbsolutePath() + File.separator + dirname);
             if (!dir.exists()) dir.mkdirs();
@@ -74,6 +64,19 @@ public class LogCSVWriter {
             OutputStreamWriter osw = new OutputStreamWriter(fos);
             this.buf = new BufferedWriter(osw);
             this.isFirstLine = true;
+            if(file.length() == 0){ //No sobreescribir otro fichero
+                for (ObdCommand Command : ObdConfig.getCommands()) {
+                    if (prefs.getBoolean(Command.getName(), true)) {
+                        if (csv_header.isEmpty()) {
+                            csv_header = getCmdID(Command.getName());
+                        } else {
+                            csv_header = csv_header + ";" + getCmdID(Command.getName());;
+                        }
+                        readings.add(getCmdID(Command.getName()));
+                    }
+                }
+                columns = readings.toArray(new String[0]);
+            }
             Log.d(TAG, "Constructed the LogCSVWriter");
         }
         catch (Exception e) {

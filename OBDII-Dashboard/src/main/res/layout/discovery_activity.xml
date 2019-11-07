@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.StartActivity">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
+        android:overScrollMode="always"
+        android:scrollIndicators="right|start|end"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
+
+        <TableLayout
+            android:id="@+id/deviceListTable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:showDividers="middle"
+            android:divider="@color/colorPrimary">
+
+        </TableLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
