@@ -337,7 +337,7 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
                     obdvalues = sline.split(";");
                     int hidx = 0;
                     for(String v : obdvalues){
-                        csv_values.get(header[hidx]).add(v);  // CONTROLAR FICHEROS NO PREPARADOS PARA LA APP Y COMPROBAR Bad value 22.69 ultimo csv guardado
+                        csv_values.get(header[hidx]).add(v);  // CONTROLAR FICHEROS NO PREPARADOS PARA LA APP
                         hidx++;
                     }
                 }
