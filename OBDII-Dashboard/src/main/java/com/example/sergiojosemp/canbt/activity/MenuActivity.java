@@ -156,8 +156,8 @@ public class MenuActivity extends AppCompatActivity {
         diagnosticTroubleCodesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent SettingsActivity = new Intent(MenuActivity.this, SettingsActivity.class);
-                //startActivity(SettingsActivity);
+                Intent DiagnosticTroubleCodeActivity = new Intent(MenuActivity.this, DiagnosticTroubleCodeActivity.class);
+                startActivity(DiagnosticTroubleCodeActivity);
             }
         });
 

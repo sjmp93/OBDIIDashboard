@@ -212,8 +212,8 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
         params.setMargins(TABLE_ROW_MARGIN, TABLE_ROW_MARGIN, TABLE_ROW_MARGIN,
                 TABLE_ROW_MARGIN);
         tr.setLayoutParams(params);
-
         TextView name = new TextView(this);
+        name.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         name.setTextColor(Color.WHITE);
         name.setGravity(Gravity.LEFT);
         name.setText(key + ": ");
@@ -255,18 +255,6 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
         // Inicio: Aquí se reciben los comandos, se busca el int equivalente en el array obddata y con ese int se determina qué dato va a qué barra haciendo uso de los diccionarios
         //job
         Log.d(TAG, cmdName + ": " + cmdResult); // Para debugging
-        if (cmdID.equals(AvailableCommandNames.SPEED.name())) {
-            /*if (!job.getCommand().getCalculatedResult().matches("[a-zA-Z]")) { //Si contiene caracteres no numéricos, entonces no interesa el resultado
-                speedPieWidget.setPieAngle(Integer.parseInt(job.getCommand().getCalculatedResult()));
-                speedPieWidget.setInnerText(job.getCommand().getCalculatedResult() + " KM/H");
-            } else {
-                speedPieWidget.setInnerText(job.getCommand().getCalculatedResult()); // Se muestra el valor recogido en caso de no ser numérico
-            }*/
-        }
-        if (cmdID.equals(AvailableCommandNames.ENGINE_RPM.name())) {
-
-        }
-
         if (cmdID.equals(AvailableCommandNames.CONTROL_MODULE_VOLTAGE.name())) {
             voltageText.setText(job.getCommand().getFormattedResult());
         }

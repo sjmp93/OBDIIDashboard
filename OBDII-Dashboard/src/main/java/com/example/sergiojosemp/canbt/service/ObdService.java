@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.sergiojosemp.canbt.activity.DashboardActivity;
+import com.example.sergiojosemp.canbt.activity.DiagnosticTroubleCodeActivity;
 import com.example.sergiojosemp.canbt.activity.Inject;
 import com.example.sergiojosemp.canbt.activity.MenuActivity;
 import com.example.sergiojosemp.canbt.activity.VerboseActivity;
@@ -52,13 +53,13 @@ public class ObdService extends IntentService {
     SharedPreferences prefs;
     private BluetoothDevice dev = null;
     private BluetoothDevice btd;
-    private BluetoothSocket sock;
+    private BluetoothSocket bluetoothSocket;
     private Boolean obdDevice = false;
     private Thread t = new Thread(new Runnable() {
         @Override
         public void run() {
             try {
-                Log.d(TAG, "Hilo de fondo - -------------------------");
+                Log.d(TAG, "OBD Service working");
                 executeQueue();
             } catch (InterruptedException e) {
                 t.interrupt();
@@ -157,10 +158,10 @@ public class ObdService extends IntentService {
             e.printStackTrace();
         }
 
-        sock = tmp;
+        bluetoothSocket = tmp;
 
         try {
-            sock.connect();
+            bluetoothSocket.connect();
             Log.d(TAG, "Connected to BT device. OBD Device?...");
             //isObdDevice();
         } catch (IOException e) {
@@ -180,7 +181,7 @@ public class ObdService extends IntentService {
         }
 */
 
-        if (sock.isConnected()) {
+        if (bluetoothSocket.isConnected()) {
             final Thread obdCheck = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -188,7 +189,7 @@ public class ObdService extends IntentService {
                     job = new ObdCommandJob(new EchoOffCommand());
                     try {
                         Log.d(TAG, "Dummy command to check whether device is an OBD adapter or not.");
-                        job.getCommand().run(sock.getInputStream(), sock.getOutputStream()); //Blocking call
+                        job.getCommand().run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream()); //Blocking call
                         setObdDevice(true);
                         putObdDeviceQueue(true);
                         //startObdConnection();
@@ -277,6 +278,7 @@ public class ObdService extends IntentService {
     protected void executeQueue() throws InterruptedException {
         prefs = getSharedPreferences("preferences",
                 Context.MODE_MULTI_PROCESS);
+
         while (!Thread.currentThread().isInterrupted()) {
             /*if(obdDevice) {
                 Log.d(TAG,"Context --> " + ctx.toString());
@@ -288,10 +290,10 @@ public class ObdService extends IntentService {
                 Log.d(TAG, "Taking job[" + job.getId() + "] from queue..");
 
                 if (job.getState().equals(ObdCommandJobState.NEW) && (ctx.getClass().equals(DashboardActivity.class) || ctx.getClass().equals(VerboseActivity.class))) {
-                    if (sock.isConnected() && (ctx.getClass().equals(DashboardActivity.class) || ctx.getClass().equals(VerboseActivity.class))) {
+                    if (bluetoothSocket.isConnected() && (ctx.getClass().equals(DashboardActivity.class) || ctx.getClass().equals(VerboseActivity.class))) {
                         Log.d(TAG, "Job state is NEW. Run it..");
                         job.setState(ObdCommandJobState.RUNNING);
-                        job.getCommand().run(sock.getInputStream(), sock.getOutputStream());
+                        job.getCommand().run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
                         if (job != null) {
                             Log.d(TAG, "Updating graphic dashboard_activity.xml with command " + job.getCommand().getName() + " result = " + job.getCommand().getFormattedResult() + "...");
                             final ObdCommandJob job2 = job;
@@ -386,7 +388,7 @@ public class ObdService extends IntentService {
     }
 
     public BluetoothSocket getbluetoothSocket() {
-        return sock;
+        return bluetoothSocket;
     }
 
     public void setContext(Context c) {
@@ -399,7 +401,27 @@ public class ObdService extends IntentService {
                     Context.MODE_MULTI_PROCESS);
         }
         Log.d(TAG, "Starting Service.");
+        if(ctx != null && ctx.getClass().equals(DiagnosticTroubleCodeActivity.class)) {
+            Log.d(TAG,"Executing queue will be paused during Diagnostic Trouble Code Activity");
+            if(bluetoothSocket != null && bluetoothSocket.isConnected()) {
+                Log.d(TAG,"DEBUG");
+                troubleCodes = requestTroubleCodes();
+            }else{
+                Toast.makeText(ctx,"Error getting Trouble Codes from OBD. Is OBD device connected?", Toast.LENGTH_LONG).show();
+            }
+        }
+
     }
+
+    public String getTroubleCodes() {
+        return troubleCodes;
+    }
+
+    public void setTroubleCodes(String troubleCodes) {
+        this.troubleCodes = troubleCodes;
+    }
+
+    private String troubleCodes = "";
 
     public void stopService() {
     }
@@ -411,4 +433,54 @@ public class ObdService extends IntentService {
             return ObdService.this;
         }
     }
+
+
+    private boolean dtc = false;
+
+    public boolean isDtc() {
+        return dtc;
+    }
+
+    public void setDtc(boolean dtc) {
+        this.dtc = dtc;
+    }
+
+
+    //TODO revisar gettroublecodes
+    public String requestTroubleCodes(String... params) {
+        String result = "";
+        synchronized (this) {
+            try {
+                // Let's configure the connection.
+                Log.d(TAG, "Queueing jobs for connection configuration..");
+                new ObdResetCommand().run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
+                new EchoOffCommand().run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
+                new LineFeedOffCommand().run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
+                new SelectProtocolCommand(ObdProtocols.AUTO).run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
+
+
+                DiagnosticTroubleCodeActivity.ModifiedTroubleCodesObdCommand tcoc = new DiagnosticTroubleCodeActivity.ModifiedTroubleCodesObdCommand();
+                tcoc.run(bluetoothSocket.getInputStream(), bluetoothSocket.getOutputStream());
+                result = tcoc.getFormattedResult();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("DTCERR", e.getMessage());
+                return null;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                Log.e("DTCERR", e.getMessage());
+                return null;
+            }
+
+
+        }
+
+        return result;
+    }
+
+
+
+
 }

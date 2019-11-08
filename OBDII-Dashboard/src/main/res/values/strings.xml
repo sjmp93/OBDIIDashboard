@@ -145,7 +145,7 @@
     <string name="unknown_mac_address_text">Unknown MAC address</string>
     <string name="mac_address_title">Device MAC address</string>
     <string name="current_directory_text">Current directory:</string>
-    <string name="dashboard_linking_log_text">Linking dashboard with OBD service</string>
+    <string name="dashboard_linking_log_text">Linking with OBD service</string>
     <string name="error_text">Error</string>
     <string name="getting_trouble_codes_text">Getting Trouble Codes</string>
     <string name="can_not_enable_logging_error">Can not enable logging to file</string>
