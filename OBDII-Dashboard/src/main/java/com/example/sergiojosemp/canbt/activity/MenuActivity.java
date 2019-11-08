@@ -50,6 +50,7 @@ public class MenuActivity extends AppCompatActivity {
                 try {
                     Log.d(TAG, getText(R.string.status_bluetooth_connected).toString());
                     obdService.isObdDevice();
+                    obdService.emptyQueue(); // Las actividades que se abran desde el menú empezarán con la cola de jobs vacía
                 } catch (IOException e) {
                     Log.e(TAG,e.getMessage().toString());
                 }

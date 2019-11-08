@@ -16,6 +16,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -216,19 +217,17 @@ public class DiagnosticTroubleCodeActivity extends Activity {
     @Inject
     private SharedPreferences preferences; //Toda la configuración se almacena en este objeto
 
-    private final Runnable queueCommandsThread = new Runnable() {
-        @Override
-        public void run() {
+    private void getDtc (){
             if (obdService != null && obdService.getbluetoothSocket() != null && obdService.getbluetoothSocket().isConnected() && obdService.queueEmpty()) {
                 troubleCodes = obdService.getTroubleCodes();
                 if(!troubleCodes.equals("")){
-                    Toast.makeText(getApplicationContext(),"There are DTC",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"There are DTC" + troubleCodes,Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(getApplicationContext(),"There are not DTC",Toast.LENGTH_LONG).show();
                 }
             }
         }
-    };
+
 
     private ServiceConnection serviceConn = new ServiceConnection() {
         @Override
@@ -298,7 +297,13 @@ public class DiagnosticTroubleCodeActivity extends Activity {
         preferences = getSharedPreferences(PREFERENCES,
                 Context.MODE_MULTI_PROCESS);
         setContentView(R.layout.diagnostic_trouble_code_activity);
-
+        Button jb = findViewById(R.id.button);
+        jb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDtc();
+            }
+        });
         //Inicialización de componentes de la vista
 
         startFullScreen();
@@ -307,7 +312,7 @@ public class DiagnosticTroubleCodeActivity extends Activity {
         Intent serviceIntent = new Intent(DiagnosticTroubleCodeActivity.this, ObdService.class);
         bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
 
-        new Handler().post(queueCommandsThread);
+        //new Handler().post(queueCommandsThread);
     }
 
 

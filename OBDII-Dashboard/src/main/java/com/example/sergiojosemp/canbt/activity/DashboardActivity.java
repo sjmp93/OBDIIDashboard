@@ -801,5 +801,4 @@ public class DashboardActivity extends AppCompatActivity implements LocationList
             gpsIsStarted = false;
         }
     }
-
 }

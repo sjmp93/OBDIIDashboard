@@ -26,6 +26,7 @@ import com.github.pires.obd.commands.protocol.TimeoutCommand;
 import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand;
 import com.github.pires.obd.enums.ObdProtocols;
 import com.github.pires.obd.exceptions.MisunderstoodCommandException;
+import com.github.pires.obd.exceptions.StoppedException;
 import com.github.pires.obd.exceptions.UnsupportedCommandException;
 import com.github.pires.obd.reader.ObdCommandJob;
 import com.github.pires.obd.reader.ObdCommandJob.ObdCommandJobState;
@@ -199,6 +200,8 @@ public class ObdService extends IntentService {
                     } catch(MisunderstoodCommandException me){
                         //Toast.makeText(ctx, "Error, please restart", Toast.LENGTH_SHORT).show();
                         t.interrupt();
+                    } catch (StoppedException se){
+                        t.interrupt();
                     }
                 }
             });
@@ -338,7 +341,7 @@ public class ObdService extends IntentService {
                 }
                 Log.e(TAG, "IO error. -> " + io.getMessage());
             } catch(ClassCastException cce){
-                return;
+                //return;
             } catch (Exception e) {
                 if (job != null) {
                     job.setState(ObdCommandJobState.EXECUTION_ERROR);
@@ -385,6 +388,10 @@ public class ObdService extends IntentService {
 
     public boolean queueEmpty() {
         return jobsQueue.isEmpty();
+    }
+
+    public void emptyQueue() {
+        jobsQueue.clear();
     }
 
     public BluetoothSocket getbluetoothSocket() {

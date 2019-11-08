@@ -86,8 +86,10 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
     private TextView compass; //Inicializa un objeto de clase TextView que se enlaza directamente con el texto del Layout main
     private TextView g_force;
 
-    private TextView btStatusTextView;
+    private TextView bluetoothStatusTextView;
     private TextView obdStatusTextView;
+    private TextView gpsStatusTextView;
+
 
     private Sensor orientSensor = null; // Se usa para recibir la orientación a través del sensor de orientación del dispositivo
     private Sensor accelerometerSensor = null; // Se usa para recibir la aceleración a través del sensor de aceleración del dispositivo
@@ -118,7 +120,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
                     lat = mLastLocation.getLatitude();
                     lon = mLastLocation.getLongitude();
                     alt = mLastLocation.getAltitude();
-
+                    gpsStatusTextView.setText("Latitude: " + mLastLocation.getLatitude() + "\nLongitude: " + mLastLocation.getLongitude() + "\nAltitude: " + mLastLocation.getAltitude());
                     StringBuilder sb = new StringBuilder();
                     sb.append("Lat: ");
                     sb.append(String.valueOf(mLastLocation.getLatitude()).substring(0, posLen));
@@ -316,8 +318,9 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
         //Inicialización de componentes de la vista
         compass = (TextView) findViewById(R.id.compass_text);
         g_force = (TextView) findViewById(R.id.g_force);
-        btStatusTextView = (TextView) findViewById(R.id.bt_status_text);
+        bluetoothStatusTextView = (TextView) findViewById(R.id.bt_status_text);
         obdStatusTextView = (TextView) findViewById(R.id.obd_status_text);
+        gpsStatusTextView = (TextView) findViewById(R.id.GPS_POS);
         vv = (LinearLayout) findViewById(R.id.vehicle_view);
         tl = (TableLayout) findViewById(R.id.data_table);
         voltageText = (TextView) findViewById(R.id.voltage_text);
@@ -477,7 +480,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ENABLE_BT) {
             if (resultCode == Activity.RESULT_OK) {
-                btStatusTextView.setText(getString(R.string.status_bluetooth_connected));
+                bluetoothStatusTextView.setText(getString(R.string.status_bluetooth_connected));
             } else {
                 Toast.makeText(this, R.string.text_bluetooth_disabled, Toast.LENGTH_LONG).show();
                 super.onBackPressed();
@@ -538,6 +541,4 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
             gpsIsStarted = false;
         }
     }
-
-
 }
