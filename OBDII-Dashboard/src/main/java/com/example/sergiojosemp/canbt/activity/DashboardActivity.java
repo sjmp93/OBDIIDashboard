@@ -45,7 +45,6 @@ import com.github.pires.obd.reader.ObdConfig;
 import com.github.pires.obd.reader.ObdReading;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -225,12 +224,9 @@ public class DashboardActivity extends AppCompatActivity implements LocationList
         public void onServiceConnected(ComponentName className, IBinder binder) {
             obdService = ((ObdService.ObdServiceBinder) binder).getService();
             obdService.setContext(DashboardActivity.this);
-            obdService.setVerbose(false);
-            try {
-                Log.d(TAG, getText(R.string.dashboard_linking_log_text).toString());
-                obdService.startService();
-            } catch (IOException ioe) {
-            }
+            obdService.setVerboseMode(false);
+            Log.d(TAG, getText(R.string.dashboard_linking_log_text).toString());
+            obdService.startService();
         }
 
         @Override

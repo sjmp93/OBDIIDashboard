@@ -19,15 +19,15 @@
     <string name="stop_live_data" translatable="true">Long press at any free point to stop live data session</string>
     <string name="swipe_down" translatable="true">Swipe from any edge to center to show Preferences\nLong press at any free point to start live data requests</string>
     <string name="only_five" translatable="true">Only first five parameters marked will show</string>
-    <string name="obd_parameters" translatable="true">OBD-II Parameters to show</string>
+    <string name="obd_parameters" translatable="true">OBDII Parameters to show</string>
     <string name="action_settings">Settings</string>
     <string name="action_clear_codes">Clear Codes</string>
-    <string name="notification_action">Tap to open OBD-Reader</string>
+    <string name="notification_action">Tap to open OBDII-Dashboard</string>
     <string name="command_list">Choose a command</string>
     <string name="service_starting">Starting OBD connection..</string>
     <string name="service_started">OBD connection has started.</string>
     <string name="service_stopped">OBD connection has stopped.</string>
-    <string name="notification_label">Tap to open OBD-Reader.</string>
+    <string name="notification_label">Tap to open OBDII-Dashboard</string>
     <string name="title_activity_trouble_codes">Trouble Codes</string>
     <string name="pref_upload_category_title">Data Upload</string>
     <string name="pref_upload_category" translatable="false">upload_category</string>
@@ -66,7 +66,7 @@
     <string name="status_bluetooth_ok">Ready</string>
     <string name="status_bluetooth_connecting">Connecting&#8230;</string>
     <string name="status_bluetooth_connected">Connected</string>
-    <string name="status_bluetooth_error_connecting">connection failed</string>
+    <string name="status_bluetooth_error_connecting">Connection failed</string>
     <string name="status_gps_fix">fix acquired</string>
     <string name="status_gps_no_fix">fix not acquired</string>
     <string name="status_gps_started">started</string>
@@ -124,8 +124,7 @@
     <string name="pref_dirname_summary">Name of the directory where to save the files</string>
     <string name="pref_dev_email_title">Developer Email</string>
     <string name="pref_dev_email_summary">Logs will be emailed to this address</string>
-    <string name="text_noerrors">There were no errors found.!</string>
-    <string name="BT_STATUS_TEXT">BT status</string>
+    <string name="text_noerrors">There were no errors found!</string>
     <string name="OBD_STATUS_TEXT">OBD status</string>
     <string name="already">Parameter is already showing</string>
     <string name="pref_max_rpm">Max RPM value</string>
@@ -152,9 +151,42 @@
     <string name="grant_permissions_from_settings">Grant permissions from Android Applications Settings</string>
     <string name="null_object_stack_trace_fragment_text">\'int java.util.List.size()\' on a null object reference</string>
     <string name="empty_file">Empty file</string>
+    <string name="error_cleaning_dtc">There was an error while cleaning DTCs.</string>
+    <string name="error_establishing_connection">There was an error while establishing connection.</string>
+    <string name="reset_result">Reset result: </string>
+    <string name="trying_reset">Trying reset</string>
+    <string name="obd_service_working">OBD Service working</string>
+    <string name="connected_to_device">Connected to BT device.</string>
+    <string name="connection_error_is_obd_adapter">Connection error. Is this an OBD adapter?</string>
+    <string name="checking_if_obdr">Checking if BT device is an OBD adapter or not...</string>
+    <string name="dummy_command">Dummy command to check whether device is an OBD adapter or not.</string>
+    <string name="is_obd">BT device is an OBD adapter</string>
+    <string name="queueing_for_config">Queueing jobs for connection configuration...</string>
+    <string name="initialization_jobs">Initialization jobs queued.</string>
+    <string name="creating_service">Creating service...</string>
+    <string name="service_created">Service created.</string>
+    <string name="adding_job">Adding job[</string>
+    <string name="to_queue">] to queue...</string>
+    <string name="taking_job">Taking job[</string>
+    <string name="from_queue">] from queue...</string>
+    <string name="job">Job </string>
+    <string name="queued_succesfully">queued successfully.</string>
+    <string name="failed_queueing_job">Failed to queue job </string>
+    <string name="executing_queue">Executing queue...</string>
+    <string name="job_is_new">Job state is NEW. Run it...</string>
+    <string name="updating_dash">Updating graphic dashboard with command </string>
+    <string name="result"> result = </string>
+    <string name="cant_run_closed_socket">Can\'t run command on a closed socket.</string>
+    <string name="bug_alert">Job state was not new, so it shouldn\'t be in queue. BUG ALERT!</string>
+    <string name="command_not_supported">Command not supported</string>
+    <string name="io_error">IO error.</string>
+    <string name="failed_to_run_command">Failed to run command.</string>
+    <string name="service_done">Service done</string>
+    <string name="starting_obd_service">Starting OBD service</string>
+    <string name="executing_queue_paused">Executing queue will be paused during Diagnostic Trouble Code Activity</string>
+    <string name="error_getting_dtc">Error getting Trouble Codes from OBD. Is device connected an OBD device?</string>
+    <string name="BT_STATUS_TEXT">BT Status</string>
 
-
-
-
-
+    "Error getting Trouble Codes from OBD. Is OBD device connected?"
+    Executing queue will be paused during Diagnostic Trouble Code Activity
 </resources>

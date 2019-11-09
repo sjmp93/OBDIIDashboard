@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OBDII-Dashboard (beta)</string>
+    <string name="BT_STATUS_TEXT">Estado del Bluetooth</string>
+    <string name="OBD_STATUS_TEXT">Estado del OBD</string>
+    <string name="action_clear_codes">Limpiar códigos</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="adding_job">Añadiendo job[</string>
+    <string name="air_intake_temperature" translatable="false">Temperatura del aire de admisión</string>
+    <string name="already">El parámetro ya se está mostrando</string>
+    <string name="ambient_air_temperature" translatable="false">Temperatura ambiente</string>
+    <string name="barometric_pressure" translatable="false">Presión barométrica</string>
+    <string name="bluetooth_disabled">Bluetooth desactivado</string>
+    <string name="bluetooth_enabled">Bluetooth activado</string>
+    <string name="bug_alert">El estado del job no es nuevo, con lo que no debería estar en la cola de trabajo. Podría tratarse de un error en el código.</string>
+    <string name="can_not_enable_logging_error">No se puede activar el log a fichero</string>
+    <string name="cant_run_closed_socket">No se puede ejecutar un comando en una conexión cerrada.</string>
+    <string name="checking_if_obdr">Comprobando si el dispositivo Bluetooth es un adaptador OBD o no...</string>
+    <string name="command_list">Elige un comando</string>
+    <string name="command_not_supported">Comando no soportado</string>
+    <string name="connect_activity">ConnectActivity</string>
+    <string name="connect_activity_title">Conectar a</string>
+    <string name="connected_to_device">Conectado al dispositivo Bluetooth.</string>
+    <string name="connecting_text">Conectando</string>
+    <string name="connection_error_is_obd_adapter">Error de conexión. ¿Se trata de un adaptador OBD?</string>
+    <string name="creating_service">Creando servicio...</string>
+    <string name="current_directory_text">Directorio actual:</string>
+    <string name="dashboard_linking_log_text">Enlazando con el servicio OBD</string>
+    <string name="device_name_title">Nombre del dispositivo</string>
+    <string name="dialog_loading_body">Cargando vista de aplicación, por favor espera...</string>
+    <string name="dialog_loading_title">Cargando...</string>
+    <string name="discover_button">Buscar dispositivos</string>
+    <string name="discovered_devices_text">Dispositivos encontrados</string>
+    <string name="dummy_command">Comando de prueba para comprobar si el dispositivo es o no un adaptador OBD.</string>
+    <string name="empty_file">Fichero vacío</string>
+    <string name="engine_coolant_temperature" translatable="false">Temperatura del refrigerante del motor</string>
+    <string name="engine_load" translatable="false">Carga del motor</string>
+    <string name="engine_oil_temperature" translatable="false">Temperatura del lubricante del motor</string>
+    <string name="error_cleaning_dtc">Ha habido un error mientras se intentaban limpiar los DTC (códigos de error).</string>
+    <string name="error_establishing_connection">Ha habido un error mientras se establecía la conexión.</string>
+    <string name="error_getting_dtc">Error obteniendo los códigos de error desde el OBD. ¿El dispositivo conectado es un adaptador OBD?</string>
+    <string name="error_text">Error</string>
+    <string name="executing_queue">Ejecutando cola de trabajo...</string>
+    <string name="executing_queue_paused">El proceso de ejecución de jobs se pausará durante la fucnión de obtención de códigos de error</string>
+    <string name="failed_queueing_job">Error al encolar job</string>
+    <string name="failed_to_run_command">Error al ejecutar comando</string>
+    <string name="from_queue">] de la cola de trabajo</string>
+    <string name="fuel_consumption_rate" translatable="false">Tasa de consumo de combustible</string>
+    <string name="fuel_level" translatable="false">Nivel de combustible</string>
+    <string name="fuel_pressure" translatable="false">Presión de combustible</string>
+    <string name="fuel_rail_pressure" translatable="false">Presión del raíl de combustible</string>
+    <string name="getting_trouble_codes_text">Obteniendo códigos de error</string>
+    <string name="grant_permissions_from_settings">Conceder permisos desde los ajustes de aplicaciones del sistema Android</string>
+    <string name="initialization_jobs">Encolados los jobs de inicialización.</string>
+    <string name="intake_manifold_temperature" translatable="false">Presión del colector de admisión</string>
+    <string name="io_error">Error E/S.</string>
+    <string name="is_obd">El dispositivo Bluetoot es un adaptador OBD</string>
+    <string name="job">"Job "</string>
+    <string name="job_is_new">El estado del job es nuevo. Ejecutar...</string>
+    <string name="mac_address_title">Dirección MAC del dispositivo</string>
+    <string name="mass_air_flow" translatable="false">Flujo de aire</string>
+    <string name="menu_get_dtc">Obtener DTC</string>
+    <string name="menu_item_trip_delete">Eliminar</string>
+    <string name="menu_settings">Ajustes</string>
+    <string name="menu_start_live_data">Iniciar recogida de datos en vivo</string>
+    <string name="menu_stop_live_data">Parar recogida de datos en vivo</string>
+    <string name="menu_trip_list">Viajes</string>
+    <string name="notification_action">Toca para abrir OBDII-Dashboard</string>
+    <string name="notification_label">Toca para abrir OBDII-Dashboard</string>
+    <string name="obd_parameters">"Parámetros OBDII para mostrar "</string>
+    <string name="obd_service_working">Servicio OBD funcionando</string>
+    <string name="offline_mode_button">Modo desconectado</string>
+    <string name="only_five">Solo se mostrarán los cinco primeros parámetros marcados</string>
+    <string name="pref_bluetooth_list_devices_summary">Lista de dispositivos Bluetooth emparejados.</string>
+    <string name="pref_bluetooth_list_devices_title">Dispositivos Bluetooth.</string>
+    <string name="pref_bluetooth_summaryOff">Encender Bluetooth</string>
+    <string name="pref_bluetooth_summaryOn">Apagar Bluetooth</string>
+    <string name="pref_bluetooth_title">Activar Bluetooth</string>
+    <string name="pref_dev_email_summary">Los logs se enviarán por correo electrónico a las siguientes direcicones</string>
+    <string name="pref_dev_email_title">Email de desarrollador</string>
+    <string name="pref_dirname_dialogTitle">Elige un nombre para el directorio donde se guardarán los logs de cada sesión</string>
+    <string name="pref_dirname_summary">Nombre del directorio donde se guardarán los logs</string>
+    <string name="pref_dirname_title">Nombre del directorio</string>
+    <string name="pref_enable_full_logging_summary">Permite log completo con subida</string>
+    <string name="pref_enable_full_logging_title">Permitir log completo</string>
+    <string name="pref_engine_displacement_summary">Utilizado para calcular consumo en vehículos sin sensor de flujo de aire (MAF)</string>
+    <string name="pref_engine_displacement_title">Cilindrada del motor (en litros)</string>
+    <string name="pref_gps_category_summaryOff">Encender GPS</string>
+    <string name="pref_gps_category_summaryOn">Apagar GPS</string>
+    <string name="pref_gps_category_title">Activar GPS</string>
+    <string name="pref_gps_distance_period_summary">Distancia mínima entre actualizaciones de ubicación (en metros)</string>
+    <string name="pref_gps_distance_period_title">Periodo de actualización (en metros)</string>
+    <string name="pref_gps_update_period_summary">Tiempo entre peticiones (en segundos)</string>
+    <string name="pref_gps_update_period_title">Período de actualización (en segundos)</string>
+    <string name="pref_imperial_units_summaryOff">Activar sistema imperial de unidades</string>
+    <string name="pref_imperial_units_summaryOn">Volver al sistema métrico de unidades</string>
+    <string name="pref_imperial_units_title">Sistema imperial de unidades</string>
+    <string name="pref_max_fuel_econ_summary">Cualquier valor de consumo mayor que este será ignorado</string>
+    <string name="pref_max_fuel_econ_title">Valor máximo de consumo de combustible</string>
+    <string name="pref_max_rpm">Valor de RPM máximo</string>
+    <string name="pref_max_rpm_summary">Valor de RPM máximo para el cuentarevoluciones</string>
+    <string name="pref_obd_protocols_summary">Selecciona el protocolo OBD a usar</string>
+    <string name="pref_obd_protocols_title">Protocolo OBD</string>
+    <string name="pref_obd_update_period_summary">Tiempo entre peticiones (en milisegundos)</string>
+    <string name="pref_obd_update_period_title">Período de actualización (en milisegundos)</string>
+    <string name="pref_reader_config_summary">Comandos para configurar el dispositivo Bluetooth, separados por línea (comandos AT)</string>
+    <string name="pref_reader_config_title">Comandos de configuración</string>
+    <string name="pref_upload_category" translatable="false">Categoría de subida</string>
+    <string name="pref_upload_category_title">Subida de datos</string>
+    <string name="pref_upload_summaryOff">Activar subida de datos por http</string>
+    <string name="pref_upload_summaryOn">Desactivar subida de datos por http</string>
+    <string name="pref_upload_title">Activar subida de datos</string>
+    <string name="pref_upload_url_summary">URL POST que acepta datos en tiempo real</string>
+    <string name="pref_upload_url_title">URL de subida</string>
+    <string name="pref_vehicle_id_summary">Identificador único opcional para este vehículo, usado para la subida de datos</string>
+    <string name="pref_vehicle_id_title">ID del vehículo</string>
+    <string name="pref_volumetric_efficiency_dialog_title">Eficiencia volumétrica (mezcla estequimétrica)</string>
+    <string name="pref_volumetric_efficiency_summary">Utilizado para calcular consumo en vehículos sin sensor de flujo de aire (MAF)</string>
+    <string name="pref_volumetric_efficiency_title">Eficiencia volumétrica</string>
+    <string name="queued_succesfully">enconlado correctamente.</string>
+    <string name="queueing_for_config">Encolando jobs para configurar la conexión...</string>
+    <string name="reset_result">"Resultado de la limpieza: "</string>
+    <string name="result">" resultado = "</string>
+    <string name="service_bounded_text">Servicio enlazado desde</string>
+    <string name="service_created">Servicio creado.</string>
+    <string name="service_done">Servicio concluido.</string>
+    <string name="service_started">La conexión OBD ha comenzado.</string>
+    <string name="service_starting">Iniciando conexión OBD...</string>
+    <string name="service_stopped">La conexión OBD se ha parado.</string>
+    <string name="starting_obd_service">Iniciando servicio OBD</string>
+    <string name="status_bluetooth_connected">Conectado</string>
+    <string name="status_bluetooth_connecting">Conectando</string>
+    <string name="status_bluetooth_disabled">Desactivado</string>
+    <string name="status_bluetooth_error_connecting">La conexión ha fallado</string>
+    <string name="status_bluetooth_ok">Preparado</string>
+    <string name="status_gps_fix">Posición recibida</string>
+    <string name="status_gps_no_fix">Posición no recibida</string>
+    <string name="status_gps_no_support">no disponible</string>
+    <string name="status_gps_not_used">no usado</string>
+    <string name="status_gps_ready">preparado</string>
+    <string name="status_gps_started">iniciado</string>
+    <string name="status_gps_stopped">parado</string>
+    <string name="status_no_bluetooth_id">No disponible</string>
+    <string name="status_obd_data">recibiendo datos</string>
+    <string name="status_obd_disconnected">Desconectado</string>
+    <string name="status_obd_no_support">NA</string>
+    <string name="status_obd_ready">OK</string>
+    <string name="stop_before">Por favor, detener sesión en vivo antes de obtener los DTC</string>
+    <string name="stop_live_data">Presión larga en cualquier punto para detener la sesión de datos en vivo</string>
+    <string name="swipe_down">Desliza desde cualquier borde para mostrar los ajustes</string>
+    <string name="taking_job">Tomando job[</string>
+    <string name="text_bluetooth" translatable="false">Bluetooth</string>
+    <string name="text_bluetooth_disabled">El Bluetooth está desactivado. Por favor, actívalo</string>
+    <string name="text_bluetooth_error_connecting">No se peude conectar al dispositivo Bluetooth</string>
+    <string name="text_bluetooth_nodevice">Dispositivo Bluetooth no seleccionado</string>
+    <string name="text_consumption_default" translatable="false">0L/100KM</string>
+    <string name="text_dtc_no_data">Sin DTC guardados</string>
+    <string name="text_gps" translatable="false">GPS</string>
+    <string name="text_no_bluetooth_id">Tu dispositivo no soporta Bluetooth</string>
+    <string name="text_no_gps_support">Tu dispositivo no soporta o tiene desactivado el GPS</string>
+    <string name="text_no_orientation_sensor">Sensor de orientación no econtrado</string>
+    <string name="text_noerrors">No se encontraron errores.</string>
+    <string name="text_obd" translatable="false">OBD</string>
+    <string name="text_obd_command_failure">Comando OBD fallido</string>
+    <string name="text_save_trip_not_available">El viaje no será grabado</string>
+    <string name="throttle_position" translatable="false">Posición del acelerador</string>
+    <string name="title_activity_trouble_codes">Códigos de error</string>
+    <string name="title_pref_bluetooth" translatable="false">Bluetooth</string>
+    <string name="title_pref_commands">Comandos OBD</string>
+    <string name="title_pref_commands_summary">Selecciona los comandos que vas a querer ver en tiempo real</string>
+    <string name="title_pref_commands_title">Comandos OBD</string>
+    <string name="title_pref_full_logging">Configuración del log</string>
+    <string name="title_pref_gps" translatable="false">GPS</string>
+    <string name="title_pref_obd">OBD</string>
+    <string name="to_queue">] a la cola...</string>
+    <string name="trying_reset">Intentado limpiar</string>
+    <string name="unknown_device_text">Dispositivo desconocido</string>
+    <string name="unknown_mac_address_text">Dirección MAC desconocida</string>
+    <string name="updating_dash">"Actualizando dashboard gráfico con el comando "</string>
+    <string name="title_activity_trips_list">TripsList</string>
+    <string name="text_zero" translatable="false">0</string>
+    <string name="text_runtime_default" translatable="false">00:00:00</string>
+    <string name="text_orientation_default" translatable="false">N</string>
+    <string name="null_object_stack_trace_fragment_text">\'int java.util.List.size()\' on a null object reference</string>
+    <string name="default_dirname_full_logging">OBDDashboardLogs</string>
+</resources>

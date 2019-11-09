@@ -46,7 +46,6 @@ import com.github.pires.obd.reader.ObdConfig;
 import com.github.pires.obd.reader.ObdReading;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -158,12 +157,9 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
         public void onServiceConnected(ComponentName className, IBinder binder) {
             obdService = ((ObdService.ObdServiceBinder) binder).getService();
             obdService.setContext(VerboseActivity.this);
-            obdService.setVerbose(true);
-            try {
-                Log.d(TAG, getText(R.string.dashboard_linking_log_text).toString());
-                obdService.startService();
-            } catch (IOException ioe) {
-            }
+            obdService.setVerboseMode(true);
+            Log.d(TAG, getText(R.string.dashboard_linking_log_text).toString());
+            obdService.startService();
         }
 
         @Override

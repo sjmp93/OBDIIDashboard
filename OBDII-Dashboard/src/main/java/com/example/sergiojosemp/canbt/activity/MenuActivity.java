@@ -92,6 +92,10 @@ public class MenuActivity extends AppCompatActivity {
     public void setObdIndicatorOn() {
         dashboardButton.setActivated(true);
         dashboardButton.setClickable(true);
+        verboseButton.setActivated(true);
+        verboseButton.setClickable(true);
+        diagnosticTroubleCodesButton.setActivated(true);
+        diagnosticTroubleCodesButton.setClickable(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Drawable icon = getDrawable(R.drawable.obd_connector_icon);
             icon.setTint(getResources().getColor(R.color.obd_connector_icon));
@@ -105,6 +109,10 @@ public class MenuActivity extends AppCompatActivity {
     public void setObdIndicatorNotAvailable() {
         dashboardButton.setActivated(false);
         dashboardButton.setClickable(false);
+        verboseButton.setActivated(false);
+        verboseButton.setClickable(false);
+        diagnosticTroubleCodesButton.setActivated(false);
+        diagnosticTroubleCodesButton.setClickable(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Drawable icon = getDrawable(R.drawable.obd_connector_icon);
             icon.setTint(getResources().getColor(R.color.obd_disabled));
@@ -117,6 +125,10 @@ public class MenuActivity extends AppCompatActivity {
     public void setObdIndicatorOff() {
         dashboardButton.setActivated(false);
         dashboardButton.setClickable(false);
+        verboseButton.setActivated(false);
+        verboseButton.setClickable(false);
+        diagnosticTroubleCodesButton.setActivated(false);
+        diagnosticTroubleCodesButton.setClickable(false);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Drawable icon = getDrawable(R.drawable.obd_connector_icon);
             icon.setTint(getResources().getColor(R.color.night));

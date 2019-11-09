@@ -21,8 +21,6 @@ import android.widget.TextView;
 import com.example.sergiojosemp.canbt.R;
 import com.example.sergiojosemp.canbt.service.ObdService;
 
-import java.io.IOException;
-
 
 public class ConnectActivity extends AppCompatActivity {
 
@@ -41,12 +39,8 @@ public class ConnectActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName className, IBinder binder) {
             obdService = ((ObdService.ObdServiceBinder) binder).getService();
-            obdService.setPrefs(preferences);
-            try {
-                obdService.startService();
-            } catch (IOException ioe) {
-                Log.e(TAG,ioe.getMessage());
-            }
+            obdService.setPreferences(preferences);
+            obdService.startService();
         }
 
         @Override
@@ -105,7 +99,7 @@ public class ConnectActivity extends AppCompatActivity {
                     BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(auxMac);
                     obdService.setBluetoothDevice(bluetoothDevice);
                     obdService.setContext(ConnectActivity.this);
-                    obdService.connect();
+                    obdService.connectToDevice();
 
                     if (obdService.getbluetoothSocket().isConnected()) {
                         Intent MenuActivity = new Intent(ConnectActivity.this, MenuActivity.class);
