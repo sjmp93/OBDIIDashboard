@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">OBDII-Dashboard (beta)</string>
-    <string name="engine_coolant_temperature">Engine Coolant Temperature</string>
-    <string name="engine_oil_temperature">Engine oil temperature</string>
-    <string name="engine_load">Engine Load</string>
+    <string name="engine_coolant_temperature" translatable="false">Engine Coolant Temperature</string>
+    <string name="engine_oil_temperature" translatable="false">Engine oil temperature</string>
+    <string name="engine_load" translatable="false">Engine Load</string>
     <string name="throttle_position">Throttle Position</string>
-    <string name="air_intake_temperature">Air Intake Temperature</string>
-    <string name="ambient_air_temperature">Ambient Air Temperature</string>
-    <string name="intake_manifold_temperature">Intake Manifold Pressure</string>
-    <string name="fuel_rail_pressure">Fuel Rail Pressure</string>
-    <string name="fuel_pressure">Fuel Pressure</string>
-    <string name="barometric_pressure">Barometric Pressure</string>
-    <string name="fuel_level">Fuel Level</string>
-    <string name="fuel_consumption_rate">Fuel Consumption Rate</string>
-    <string name="mass_air_flow">Mass Air Flow</string>
+    <string name="air_intake_temperature" translatable="false">Air Intake Temperature</string>
+    <string name="ambient_air_temperature" translatable="false">Ambient Air Temperature</string>
+    <string name="intake_manifold_temperature" translatable="false">Intake Manifold Pressure</string>
+    <string name="fuel_rail_pressure" translatable="false">Fuel Rail Pressure</string>
+    <string name="fuel_pressure" translatable="false">Fuel Pressure</string>
+    <string name="barometric_pressure" translatable="false">Barometric Pressure</string>
+    <string name="fuel_level" translatable="false">Fuel Level</string>
+    <string name="fuel_consumption_rate" translatable="false">Fuel Consumption Rate</string>
+    <string name="mass_air_flow" translatable="false">Mass Air Flow</string>
 
     <string name="stop_before" translatable="true">Please, stop live data before getting DTC</string>
     <string name="stop_live_data" translatable="true">Long press at any free point to stop live data session</string>
@@ -83,7 +83,7 @@
     <string name="pref_upload_summaryOn">Disable http data upload</string>
     <string name="pref_upload_url_title">Upload URL</string>
     <string name="pref_upload_url_summary">POST URL that will accept real-time data</string>
-    <string name="pref_vehicle_id_title" translatable="false">Vehicle ID</string>
+    <string name="pref_vehicle_id_title">Vehicle ID</string>
     <string name="pref_vehicle_id_summary">Optional unique id of this vehicle, used with uploaded data</string>
     <string name="pref_bluetooth_title">Enable Bluetooth</string>
     <string name="pref_bluetooth_summaryOff">Turn on Bluetooth</string>

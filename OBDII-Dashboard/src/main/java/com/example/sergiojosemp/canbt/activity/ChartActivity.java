@@ -471,7 +471,6 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
             lineChartView = (LineChartView) findViewById(R.id.chart);
             lineChartView.setClickable(true);
 
-
             lineChartView.setOnTouchListener(new View.OnTouchListener() {
 
                 @Override
@@ -508,6 +507,7 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE); // Make to run your application only in LANDSCAPE mode
     }
+
     @Override
     public boolean onTouchEvent(MotionEvent event){
         return this.mDetector.onTouchEvent(event);

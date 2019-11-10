@@ -48,9 +48,27 @@ public class MenuActivity extends AppCompatActivity {
                 obdService = ((ObdService.ObdServiceBinder) binder).getService();
                 obdService.setContext(MenuActivity.this);
                 try {
-                    Log.d(TAG, getText(R.string.status_bluetooth_connected).toString());
-                    obdService.isObdDevice();
-                    obdService.emptyQueue(); // Las actividades que se abran desde el menú empezarán con la cola de jobs vacía
+                    if(obdService.getbluetoothSocket()!= null) {
+                        Log.d(TAG, getText(R.string.status_bluetooth_connected).toString());
+                        obdService.isObdDevice();
+                        obdService.emptyQueue(); // Las actividades que se abran desde el menú empezarán con la cola de jobs vacía
+                    }else{
+                        try{
+                            obdService.connectToDevice();
+                            for(int i = 0; i < 2; i++){ // 1 segundo de espera máximo para la reconexión
+                                Thread.sleep(500);
+                            }
+                            if(obdService.getbluetoothSocket().isConnected()) {
+                                Log.d(TAG, getText(R.string.status_bluetooth_connected).toString());
+                                obdService.isObdDevice();
+                                obdService.emptyQueue(); // Las actividades que se abran desde el menú empezarán con la cola de jobs vacía
+                            }else{
+                                throw new IOException(getText(R.string.error_establishing_connection).toString());
+                            }
+                        }catch(InterruptedException ie){
+
+                        }
+                    }
                 } catch (IOException e) {
                     Log.e(TAG,e.getMessage().toString());
                 }
@@ -85,8 +103,8 @@ public class MenuActivity extends AppCompatActivity {
 
     protected void onPause() {
         super.onPause();
-        if(serviceConn!=null)
-            unbindService(serviceConn);
+        //if(serviceConn!=null)
+            //unbindService(serviceConn);
     }
 
     public void setObdIndicatorOn() {

@@ -6,10 +6,7 @@
     <string name="action_clear_codes">Limpiar códigos</string>
     <string name="action_settings">Ajustes</string>
     <string name="adding_job">Añadiendo job[</string>
-    <string name="air_intake_temperature" translatable="false">Temperatura del aire de admisión</string>
     <string name="already">El parámetro ya se está mostrando</string>
-    <string name="ambient_air_temperature" translatable="false">Temperatura ambiente</string>
-    <string name="barometric_pressure" translatable="false">Presión barométrica</string>
     <string name="bluetooth_disabled">Bluetooth desactivado</string>
     <string name="bluetooth_enabled">Bluetooth activado</string>
     <string name="bug_alert">El estado del job no es nuevo, con lo que no debería estar en la cola de trabajo. Podría tratarse de un error en el código.</string>
@@ -33,9 +30,6 @@
     <string name="discovered_devices_text">Dispositivos encontrados</string>
     <string name="dummy_command">Comando de prueba para comprobar si el dispositivo es o no un adaptador OBD.</string>
     <string name="empty_file">Fichero vacío</string>
-    <string name="engine_coolant_temperature" translatable="false">Temperatura del refrigerante del motor</string>
-    <string name="engine_load" translatable="false">Carga del motor</string>
-    <string name="engine_oil_temperature" translatable="false">Temperatura del lubricante del motor</string>
     <string name="error_cleaning_dtc">Ha habido un error mientras se intentaban limpiar los DTC (códigos de error).</string>
     <string name="error_establishing_connection">Ha habido un error mientras se establecía la conexión.</string>
     <string name="error_getting_dtc">Error obteniendo los códigos de error desde el OBD. ¿El dispositivo conectado es un adaptador OBD?</string>
@@ -45,20 +39,14 @@
     <string name="failed_queueing_job">Error al encolar job</string>
     <string name="failed_to_run_command">Error al ejecutar comando</string>
     <string name="from_queue">] de la cola de trabajo</string>
-    <string name="fuel_consumption_rate" translatable="false">Tasa de consumo de combustible</string>
-    <string name="fuel_level" translatable="false">Nivel de combustible</string>
-    <string name="fuel_pressure" translatable="false">Presión de combustible</string>
-    <string name="fuel_rail_pressure" translatable="false">Presión del raíl de combustible</string>
     <string name="getting_trouble_codes_text">Obteniendo códigos de error</string>
     <string name="grant_permissions_from_settings">Conceder permisos desde los ajustes de aplicaciones del sistema Android</string>
     <string name="initialization_jobs">Encolados los jobs de inicialización.</string>
-    <string name="intake_manifold_temperature" translatable="false">Presión del colector de admisión</string>
     <string name="io_error">Error E/S.</string>
     <string name="is_obd">El dispositivo Bluetoot es un adaptador OBD</string>
     <string name="job">"Job "</string>
     <string name="job_is_new">El estado del job es nuevo. Ejecutar...</string>
     <string name="mac_address_title">Dirección MAC del dispositivo</string>
-    <string name="mass_air_flow" translatable="false">Flujo de aire</string>
     <string name="menu_get_dtc">Obtener DTC</string>
     <string name="menu_item_trip_delete">Eliminar</string>
     <string name="menu_settings">Ajustes</string>
@@ -163,7 +151,6 @@
     <string name="text_obd" translatable="false">OBD</string>
     <string name="text_obd_command_failure">Comando OBD fallido</string>
     <string name="text_save_trip_not_available">El viaje no será grabado</string>
-    <string name="throttle_position" translatable="false">Posición del acelerador</string>
     <string name="title_activity_trouble_codes">Códigos de error</string>
     <string name="title_pref_bluetooth" translatable="false">Bluetooth</string>
     <string name="title_pref_commands">Comandos OBD</string>

@@ -694,13 +694,14 @@ public class DashboardActivity extends AppCompatActivity implements LocationList
     }
 
     protected void onPause() {
-        super.onPause();
         if(myCSVWriter != null)
             myCSVWriter.closeLogCSVWriter();
+        if(obdService != null) obdService.setContext(obdService.getDefaultContext());
         unbindService(serviceConn);
         if(preferences.getBoolean(ENABLE_GPS_KEY,false)) {
             gpsStop();
         }
+        super.onPause();
     }
 
     public void onGpsStatusChanged(int event) {

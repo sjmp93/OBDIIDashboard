@@ -271,23 +271,24 @@ public class ObdService extends IntentService {
                         if (job != null) {
                             Log.d(TAG, getText(R.string.updating_dash).toString() + job.getCommand().getName() + getText(R.string.updating_dash).toString() + job.getCommand().getFormattedResult() + "...");
                             final ObdCommandJob job2 = job;
-                            if(verboseMode){
-                                ((VerboseActivity) ctx).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((VerboseActivity) ctx).stateUpdate(job2);
-                                    }
-                                });
-                            }else {
-                                ((DashboardActivity) ctx).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ((DashboardActivity) ctx).stateUpdate(job2);
-                                    }
-                                });
+                            if(ctx != this) {
+                                if (verboseMode) {
+                                    ((VerboseActivity) ctx).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((VerboseActivity) ctx).stateUpdate(job2);
+                                        }
+                                    });
+                                } else {
+                                    ((DashboardActivity) ctx).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((DashboardActivity) ctx).stateUpdate(job2);
+                                        }
+                                    });
+                                }
                             }
                         }
-
                     } else {
                         job.setState(ObdCommandJobState.EXECUTION_ERROR);
                         Log.e(TAG, getText(R.string.cant_run_closed_socket).toString());
@@ -311,9 +312,7 @@ public class ObdService extends IntentService {
                         job.setState(ObdCommandJobState.EXECUTION_ERROR);
                 }
                 Log.e(TAG, getText(R.string.io_error).toString() + " -> " + io.getMessage());
-            } catch(ClassCastException cce){
-                //return;
-            } catch (Exception e) {
+            }catch (Exception e) {
                 if (job != null) {
                     job.setState(ObdCommandJobState.EXECUTION_ERROR);
                 }
@@ -442,5 +441,9 @@ public class ObdService extends IntentService {
             }
         }
         return result;
+    }
+
+    public Context getDefaultContext(){
+        return this;
     }
 }
