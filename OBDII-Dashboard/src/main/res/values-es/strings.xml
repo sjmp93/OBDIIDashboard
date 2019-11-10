@@ -105,7 +105,7 @@
     <string name="pref_obd_update_period_title">Período de actualización (en milisegundos)</string>
     <string name="pref_reader_config_summary">Comandos para configurar el dispositivo Bluetooth, separados por línea (comandos AT)</string>
     <string name="pref_reader_config_title">Comandos de configuración</string>
-    <string name="pref_upload_category" translatable="false">Categoría de subida</string>
+    <string name="pref_upload_category" translatable="false">Preferencias de subida</string>
     <string name="pref_upload_category_title">Subida de datos</string>
     <string name="pref_upload_summaryOff">Activar subida de datos por http</string>
     <string name="pref_upload_summaryOn">Desactivar subida de datos por http</string>
@@ -183,4 +183,5 @@
     <string name="text_orientation_default" translatable="false">N</string>
     <string name="null_object_stack_trace_fragment_text">\'int java.util.List.size()\' on a null object reference</string>
     <string name="default_dirname_full_logging">OBDDashboardLogs</string>
+    <string name="pref_gps_category">Preferencias de GPS</string>
 </resources>

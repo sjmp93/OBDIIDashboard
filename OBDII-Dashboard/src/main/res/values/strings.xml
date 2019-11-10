@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">OBDII-Dashboard (beta)</string>
-    <string name="engine_coolant_temperature" translatable="false">Engine Coolant Temperature</string>
-    <string name="engine_oil_temperature" translatable="false">Engine oil temperature</string>
-    <string name="engine_load" translatable="false">Engine Load</string>
-    <string name="throttle_position" translatable="false">Throttle Position</string>
-    <string name="air_intake_temperature" translatable="false">Air Intake Temperature</string>
-    <string name="ambient_air_temperature" translatable="false">Ambient Air Temperature</string>
-    <string name="intake_manifold_temperature" translatable="false">Intake Manifold Pressure</string>
-    <string name="fuel_rail_pressure" translatable="false">Fuel Rail Pressure</string>
-    <string name="fuel_pressure" translatable="false">Fuel Pressure</string>
-    <string name="barometric_pressure" translatable="false">Barometric Pressure</string>
-    <string name="fuel_level" translatable="false">Fuel Level</string>
-    <string name="fuel_consumption_rate" translatable="false">Fuel Consumption Rate</string>
-    <string name="mass_air_flow" translatable="false">Mass Air Flow</string>
+    <string name="engine_coolant_temperature">Engine Coolant Temperature</string>
+    <string name="engine_oil_temperature">Engine oil temperature</string>
+    <string name="engine_load">Engine Load</string>
+    <string name="throttle_position">Throttle Position</string>
+    <string name="air_intake_temperature">Air Intake Temperature</string>
+    <string name="ambient_air_temperature">Ambient Air Temperature</string>
+    <string name="intake_manifold_temperature">Intake Manifold Pressure</string>
+    <string name="fuel_rail_pressure">Fuel Rail Pressure</string>
+    <string name="fuel_pressure">Fuel Pressure</string>
+    <string name="barometric_pressure">Barometric Pressure</string>
+    <string name="fuel_level">Fuel Level</string>
+    <string name="fuel_consumption_rate">Fuel Consumption Rate</string>
+    <string name="mass_air_flow">Mass Air Flow</string>
 
     <string name="stop_before" translatable="true">Please, stop live data before getting DTC</string>
     <string name="stop_live_data" translatable="true">Long press at any free point to stop live data session</string>
@@ -30,28 +30,28 @@
     <string name="notification_label">Tap to open OBDII-Dashboard</string>
     <string name="title_activity_trouble_codes">Trouble Codes</string>
     <string name="pref_upload_category_title">Data Upload</string>
-    <string name="pref_upload_category" translatable="false">upload_category</string>
+    <string name="pref_upload_category">upload_category</string>
     <string name="title_activity_trips_list">TripsList</string>
     <string name="menu_trip_list">Trips</string>
     <string name="menu_item_trip_delete">Delete</string>
-    <string name="pref_gps_category" translatable="false">gps_category</string>
+    <string name="pref_gps_category">gps_category</string>
     <string name="dialog_loading_title">Loading…</string>
     <string name="dialog_loading_body">Loading application View, please wait…</string>
     <string name="menu_start_live_data">Start Live Data</string>
     <string name="menu_stop_live_data">Stop Live Data</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_get_dtc">Get DTC</string>
-    <string name="text_gps" translatable="false">GPS</string>
-    <string name="text_obd" translatable="false">OBD</string>
-    <string name="text_bluetooth" translatable="false">Bluetooth</string>
-    <string name="text_orientation_default" translatable="false">N</string>
-    <string name="text_zero" translatable="false">0</string>
-    <string name="text_consumption_default" translatable="false">0l/100km</string>
-    <string name="text_runtime_default" translatable="false">00:00:00</string>
+    <string name="text_gps">GPS</string>
+    <string name="text_obd">OBD</string>
+    <string name="text_bluetooth">Bluetooth</string>
+    <string name="text_orientation_default">N</string>
+    <string name="text_zero">0</string>
+    <string name="text_consumption_default">0l/100km</string>
+    <string name="text_runtime_default">00:00:00</string>
     <string name="title_pref_obd">OBD Preferences</string>
     <string name="title_pref_commands">OBD Commands</string>
-    <string name="title_pref_bluetooth" translatable="false">Bluetooth</string>
-    <string name="title_pref_gps" translatable="false">GPS</string>
+    <string name="title_pref_bluetooth">Bluetooth</string>
+    <string name="title_pref_gps">GPS</string>
     <string name="text_no_bluetooth_id">Sorry, your device doesn\'t support Bluetooth</string>
     <string name="text_bluetooth_disabled">You have Bluetooth disabled. Please enable it (using Mock service)</string>
     <string name="text_bluetooth_nodevice">No Bluetooth device selected</string>
@@ -83,7 +83,7 @@
     <string name="pref_upload_summaryOn">Disable http data upload</string>
     <string name="pref_upload_url_title">Upload URL</string>
     <string name="pref_upload_url_summary">POST URL that will accept real-time data</string>
-    <string name="pref_vehicle_id_title">Vehicle ID</string>
+    <string name="pref_vehicle_id_title" translatable="false">Vehicle ID</string>
     <string name="pref_vehicle_id_summary">Optional unique id of this vehicle, used with uploaded data</string>
     <string name="pref_bluetooth_title">Enable Bluetooth</string>
     <string name="pref_bluetooth_summaryOff">Turn on Bluetooth</string>
