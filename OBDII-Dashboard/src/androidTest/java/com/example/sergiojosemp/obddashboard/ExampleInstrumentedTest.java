@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt;
+package com.example.sergiojosemp.obddashboard;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.sergiojosemp.canbt", appContext.getPackageName());
+        assertEquals("com.example.sergiojosemp.obddashboard", appContext.getPackageName());
     }
 }

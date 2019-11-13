@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt.activity;
+package com.sergiojosemp.obddashboard.activity;
 
 import android.bluetooth.BluetoothSocket;
 import android.content.ComponentName;
@@ -17,9 +17,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.sergiojosemp.canbt.R;
-import com.example.sergiojosemp.canbt.github.vassiliev.androidfilebrowser.FileBrowserActivity;
-import com.example.sergiojosemp.canbt.service.ObdService;
+import com.sergiojosemp.obddashboard.R;
+import com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser.FileBrowserActivity;
+import com.sergiojosemp.obddashboard.service.ObdService;
 
 import java.io.File;
 import java.io.IOException;

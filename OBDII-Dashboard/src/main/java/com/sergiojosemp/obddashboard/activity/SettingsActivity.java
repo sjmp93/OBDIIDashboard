@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt.activity;
+package com.sergiojosemp.obddashboard.activity;
 
 
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.widget.Toast;
 
-import com.example.sergiojosemp.canbt.R;
+import com.sergiojosemp.obddashboard.R;
 import com.github.pires.obd.commands.ObdCommand;
 import com.github.pires.obd.enums.ObdProtocols;
 import com.github.pires.obd.reader.ObdConfig;

@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt.activity;
+package com.sergiojosemp.obddashboard.activity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -36,8 +36,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar;
-import com.example.sergiojosemp.canbt.R;
-import com.example.sergiojosemp.canbt.service.ObdService;
+import com.sergiojosemp.obddashboard.R;
+import com.sergiojosemp.obddashboard.service.ObdService;
 import com.github.pires.obd.commands.ObdCommand;
 import com.github.pires.obd.enums.AvailableCommandNames;
 import com.github.pires.obd.reader.LogCSVWriter;
@@ -52,14 +52,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.example.sergiojosemp.canbt.activity.SettingsActivity.DIRECTORY_FULL_LOGGING_KEY;
-import static com.example.sergiojosemp.canbt.activity.SettingsActivity.ENABLE_FULL_LOGGING_KEY;
-import static com.example.sergiojosemp.canbt.activity.SettingsActivity.ENABLE_GPS_KEY;
-import static com.example.sergiojosemp.canbt.activity.SettingsActivity.VEHICLE_ID_KEY;
-import static com.example.sergiojosemp.canbt.activity.SettingsActivity.getGpsDistanceUpdatePeriod;
-import static com.example.sergiojosemp.canbt.activity.SettingsActivity.getGpsUpdatePeriod;
-import static com.example.sergiojosemp.canbt.activity.SettingsActivity.getObdUpdatePeriod;
-import static com.example.sergiojosemp.canbt.activity.StartActivity.REQUEST_ENABLE_BT;
 import static java.lang.Math.sqrt;
 
 public class VerboseActivity extends AppCompatActivity implements LocationListener, GpsStatus.Listener  {
@@ -128,9 +120,9 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
                     sb.append(" Alt: ");
                     sb.append(String.valueOf(mLastLocation.getAltitude()));
                 }
-                if (preferences.getBoolean(ENABLE_FULL_LOGGING_KEY, false)) {
+                if (preferences.getBoolean(SettingsActivity.ENABLE_FULL_LOGGING_KEY, false)) {
                     // Write the current reading to CSV
-                    final String vin = preferences.getString(VEHICLE_ID_KEY, "UNDEFINED_VIN");
+                    final String vin = preferences.getString(SettingsActivity.VEHICLE_ID_KEY, "UNDEFINED_VIN");
                     Map<String, String> temp = new HashMap<String, String>();
                     temp.putAll(commandResult); //Se almacenan las respuestas del OBD en un objeto que guarda los datos temporales
                     if (commandResult.size() != 0) { //Solo se escribe en el CSV si hay comandos de vuelta
@@ -148,7 +140,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
                 commandResult.clear();
             }
             // run again in period defined in preferences
-            new Handler().postDelayed(queueCommandsThread, getObdUpdatePeriod(preferences));
+            new Handler().postDelayed(queueCommandsThread, SettingsActivity.getObdUpdatePeriod(preferences));
         }
     };
 
@@ -392,7 +384,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
 
 
         //wakeLock.acquire();
-        if (preferences.getBoolean(ENABLE_FULL_LOGGING_KEY, false)) {
+        if (preferences.getBoolean(SettingsActivity.ENABLE_FULL_LOGGING_KEY, false)) {
 
             // Create the CSV Logger
             long mils = System.currentTimeMillis();
@@ -400,7 +392,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
 
             try {
                 myCSVWriter = new LogCSVWriter("Log" + sdf.format(new Date(mils)).toString() + ".csv",
-                        preferences.getString(DIRECTORY_FULL_LOGGING_KEY,
+                        preferences.getString(SettingsActivity.DIRECTORY_FULL_LOGGING_KEY,
                                 getString(R.string.default_dirname_full_logging)), preferences
                 );
             } catch (FileNotFoundException | RuntimeException e) {
@@ -419,7 +411,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
         super.onResume();
         Intent serviceIntent = new Intent(VerboseActivity.this, ObdService.class);
         bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
-        if(preferences.getBoolean(ENABLE_GPS_KEY,false)) {
+        if(preferences.getBoolean(SettingsActivity.ENABLE_GPS_KEY,false)) {
             gpsInit();
             gpsStart();
         }
@@ -438,7 +430,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
             myCSVWriter.closeLogCSVWriter();
         if(obdService != null) obdService.setContext(obdService.getDefaultContext());
         unbindService(serviceConn);
-        if(preferences.getBoolean(ENABLE_GPS_KEY,false)) {
+        if(preferences.getBoolean(SettingsActivity.ENABLE_GPS_KEY,false)) {
             gpsStop();
         }
         super.onPause();
@@ -475,7 +467,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_ENABLE_BT) {
+        if (requestCode == StartActivity.REQUEST_ENABLE_BT) {
             if (resultCode == Activity.RESULT_OK) {
                 bluetoothStatusTextView.setText(getString(R.string.status_bluetooth_connected));
             } else {
@@ -526,7 +518,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            mLocService.requestLocationUpdates(mLocProvider.getName(), getGpsUpdatePeriod(preferences), getGpsDistanceUpdatePeriod(preferences), (LocationListener) this);
+            mLocService.requestLocationUpdates(mLocProvider.getName(), SettingsActivity.getGpsUpdatePeriod(preferences), SettingsActivity.getGpsDistanceUpdatePeriod(preferences), (LocationListener) this);
             gpsIsStarted = true;
         } else {
         }

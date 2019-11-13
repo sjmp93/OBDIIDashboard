@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt;
+package com.example.sergiojosemp.obddashboard;
 
 import org.junit.Test;
 

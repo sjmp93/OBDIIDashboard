@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt.service;
+package com.sergiojosemp.obddashboard.service;
 
 import android.app.IntentService;
 import android.bluetooth.BluetoothAdapter;
@@ -13,12 +13,13 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.sergiojosemp.canbt.R;
-import com.example.sergiojosemp.canbt.activity.DashboardActivity;
-import com.example.sergiojosemp.canbt.activity.DiagnosticTroubleCodeActivity;
-import com.example.sergiojosemp.canbt.activity.Inject;
-import com.example.sergiojosemp.canbt.activity.MenuActivity;
-import com.example.sergiojosemp.canbt.activity.VerboseActivity;
+import com.sergiojosemp.obddashboard.R;
+import com.sergiojosemp.obddashboard.activity.DashboardActivity;
+import com.sergiojosemp.obddashboard.activity.DiagnosticTroubleCodeActivity;
+import com.sergiojosemp.obddashboard.activity.Inject;
+import com.sergiojosemp.obddashboard.activity.MenuActivity;
+import com.sergiojosemp.obddashboard.activity.SettingsActivity;
+import com.sergiojosemp.obddashboard.activity.VerboseActivity;
 import com.github.pires.obd.commands.protocol.EchoOffCommand;
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand;
 import com.github.pires.obd.commands.protocol.ObdResetCommand;
@@ -36,8 +37,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import static com.example.sergiojosemp.canbt.activity.SettingsActivity.PROTOCOLS_LIST_KEY;
 
 //Based on github.pires obd-reader  https://github.com/pires/android-obd-reader/
 
@@ -218,7 +217,7 @@ public class ObdService extends IntentService {
         queueJob(new ObdCommandJob(new TimeoutCommand(120))); //Según pruebas y documentación ELM327
 
         // Getting protocol from preferences
-        final String protocol = preferences.getString(PROTOCOLS_LIST_KEY, "AUTO");
+        final String protocol = preferences.getString(SettingsActivity.PROTOCOLS_LIST_KEY, "AUTO");
         queueJob(new ObdCommandJob(new SelectProtocolCommand(ObdProtocols.valueOf(protocol))));
         // Job for returning dummy data
         queueJob(new ObdCommandJob(new AmbientAirTemperatureCommand()));

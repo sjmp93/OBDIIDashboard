@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt.activity;
+package com.sergiojosemp.obddashboard.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,7 +18,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sergiojosemp.canbt.R;
+import com.sergiojosemp.obddashboard.R;
 import com.github.pires.obd.commands.ObdCommand;
 import com.github.pires.obd.reader.ObdConfig;
 

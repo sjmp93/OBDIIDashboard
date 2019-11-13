@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt.activity;
+package com.sergiojosemp.obddashboard.activity;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -16,8 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.sergiojosemp.canbt.R;
-import com.example.sergiojosemp.canbt.service.ObdService;
+import com.sergiojosemp.obddashboard.R;
+import com.sergiojosemp.obddashboard.service.ObdService;
 import com.github.pires.obd.commands.control.TroubleCodesCommand;
 import com.github.pires.obd.commands.protocol.ResetTroubleCodesCommand;
 

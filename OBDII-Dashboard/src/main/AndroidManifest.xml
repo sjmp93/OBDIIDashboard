@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sergiojosemp.canbt">
+    package="com.sergiojosemp.obddashboard">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_obd8"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.StartActivity">
+        <activity android:name="com.sergiojosemp.obddashboard.activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,20 +17,20 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.DiscoveryActivity" />
-        <activity android:name=".activity.ConnectActivity" />
+        <activity android:name="com.sergiojosemp.obddashboard.activity.DiscoveryActivity" />
+        <activity android:name="com.sergiojosemp.obddashboard.activity.ConnectActivity" />
         <activity
-            android:name=".activity.MenuActivity"
+            android:name="com.sergiojosemp.obddashboard.activity.MenuActivity"
             android:theme="@style/StartTheme" />
-        <activity android:name=".activity.DashboardActivity" />
+        <activity android:name="com.sergiojosemp.obddashboard.activity.DashboardActivity" />
 
         <service
-            android:name=".service.ObdService"
+            android:name="com.sergiojosemp.obddashboard.service.ObdService"
             android:exported="false"
             android:enabled="true"
             android:launchMode="singleInstance" />
 
-        <activity android:name=".activity.SettingsActivity">
+        <activity android:name="com.sergiojosemp.obddashboard.activity.SettingsActivity">
             <intent-filter>
                 <action android:name=".Preferences" />
                 <category android:name="android.intent.category.PREFERENCE" />
@@ -38,16 +38,16 @@
         </activity>
 
 
-        <activity android:name=".activity.ChartActivity">
+        <activity android:name="com.sergiojosemp.obddashboard.activity.ChartActivity">
         </activity>
 
-        <activity android:name=".activity.VerboseActivity">
+        <activity android:name="com.sergiojosemp.obddashboard.activity.VerboseActivity">
         </activity>
 
-        <activity android:name=".activity.DiagnosticTroubleCodeActivity">
+        <activity android:name="com.sergiojosemp.obddashboard.activity.DiagnosticTroubleCodeActivity">
         </activity>
 
-        <activity android:name=".github.vassiliev.androidfilebrowser.FileBrowserActivity">
+        <activity android:name="com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser.FileBrowserActivity">
         </activity>
 
     </application>

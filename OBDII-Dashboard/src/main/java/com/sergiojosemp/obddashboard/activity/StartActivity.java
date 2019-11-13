@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt.activity;
+package com.sergiojosemp.obddashboard.activity;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -21,7 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.sergiojosemp.canbt.R;
+import com.sergiojosemp.obddashboard.R;
 
 import java.util.ArrayList;
 import java.util.List;

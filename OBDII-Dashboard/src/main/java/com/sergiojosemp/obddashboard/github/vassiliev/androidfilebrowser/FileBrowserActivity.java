@@ -1,4 +1,4 @@
-package com.example.sergiojosemp.canbt.github.vassiliev.androidfilebrowser;
+package com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser;
 
 //Heavily based on code from
 //https://github.com/mburman/Android-File-Explore
@@ -32,7 +32,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sergiojosemp.canbt.R;
+import com.sergiojosemp.obddashboard.R;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -385,7 +385,7 @@ public class FileBrowserActivity extends Activity {
                         TextView aux = (TextView) v;
                         String pathExtra =
                         pathExtra = getIntent().getExtras().getString("path") + ((TextView) v).getText();
-                        Intent ChartActivity = new Intent(getApplicationContext(), com.example.sergiojosemp.canbt.activity.ChartActivity.class);
+                        Intent ChartActivity = new Intent(getApplicationContext(), com.sergiojosemp.obddashboard.activity.ChartActivity.class);
                         ChartActivity.putExtra("path", pathExtra);
                         startActivity(ChartActivity);
                     }
