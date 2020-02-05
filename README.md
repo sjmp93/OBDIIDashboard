@@ -26,14 +26,6 @@ cd whatever_directory_you_cloned_this_repository
 gradle clean build installDebug
 ```
 
-## Test with OBD Server ##
-
-If you want to upload data to a server, for now, check the following:
-* [OBD Server](https://github.com/pires/obd-server/) - a simple implementation of a RESTful app, compiled into a runnable JAR.
-* Enable the upload functionality in preferences
-* Set proper endpoint address and port in preferences.
-
-
 ## Tested on ##
 
 * Xiaomi mi 8
