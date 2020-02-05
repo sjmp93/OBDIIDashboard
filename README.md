@@ -7,7 +7,7 @@ obdii-dashboard
 
  This project is based on pires's android-obd-reader project: https://github.com/pires/android-obd-reader
  
-![screenshot](/Screenshot.png)
+![screenshot](/caption.png)
 
 The latest release can be found [here](https://github.com/sjmp93/OBDII-Dashboard/).
 
