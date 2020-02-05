@@ -9,7 +9,7 @@ OBDIIDashboard
 
 ![screenshot](/6_menu.png)
 ![screenshot](/caption.png) 
-![screenshot](/11_chart 2.png)
+![screenshot](/11_chart\ 2.png)
 
 The latest release can be found [here](https://github.com/sjmp93/OBDIIDashboard/).
 
