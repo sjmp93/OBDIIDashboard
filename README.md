@@ -7,9 +7,8 @@ OBDIIDashboard
 
  This project is based on pires's android-obd-reader project: https://github.com/pires/android-obd-reader
 
-![screenshot](/6_menu.png)
 ![screenshot](/caption.png) 
-![screenshot](/11_chart\ 2.png)
+![screenshot](/chart.png)
 
 The latest release can be found [here](https://github.com/sjmp93/OBDIIDashboard/).
 
