@@ -6,8 +6,10 @@ OBDIIDashboard
 **This project is going to be enhanced in the future by enhancing pires OBD API.**
 
  This project is based on pires's android-obd-reader project: https://github.com/pires/android-obd-reader
- 
-![screenshot](/caption.png)
+
+![screenshot](/6_menu.png)
+![screenshot](/caption.png) 
+![screenshot](/11_chart 2.png)
 
 The latest release can be found [here](https://github.com/sjmp93/OBDIIDashboard/).
 
