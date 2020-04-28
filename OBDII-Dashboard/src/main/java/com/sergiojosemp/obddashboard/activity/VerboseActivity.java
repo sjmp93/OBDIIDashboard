@@ -1,6 +1,7 @@
 package com.sergiojosemp.obddashboard.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,8 +23,6 @@ import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -34,6 +33,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar;
 import com.sergiojosemp.obddashboard.R;
@@ -252,6 +254,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
     }
 
     // Inicio: Entra en el modo inmersivo
+    @SuppressLint("SourceLockedOrientationActivity")
     public void startFullScreen() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
@@ -277,6 +280,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
     }
 
     // Inicio: Sale del modo inmersivo
+    @SuppressLint("SourceLockedOrientationActivity")
     public void stopFullScreen() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE

@@ -9,7 +9,7 @@
             type="com.sergiojosemp.obddashboard.vm.StartViewModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.StartActivity">
@@ -26,7 +26,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
 
             android:id="@+id/enableBluetoothButton"
             android:layout_width="67dp"
@@ -34,7 +34,7 @@
             android:clickable="true"
             android:onClick="@{() -> viewmodel.switchBT()}"
             android:scaleType="centerInside"
-            android:visibility="@{viewmodel.data.value.state  ? View.GONE : View.VISIBLE}"
+            android:visibility="@{viewmodel.data.state  ? View.GONE : View.VISIBLE}"
             app:backgroundTint="#0090ff"
             app:fabCustomSize="66dp"
             app:fabSize="auto"
@@ -80,5 +80,5 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.78" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

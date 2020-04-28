@@ -1,5 +1,6 @@
 package com.sergiojosemp.obddashboard.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,13 +10,13 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sergiojosemp.obddashboard.R;
 import com.sergiojosemp.obddashboard.service.ObdService;
 import com.github.pires.obd.commands.control.TroubleCodesCommand;
@@ -116,6 +117,7 @@ public class DiagnosticTroubleCodeActivity extends Activity {
         }
     };
 
+    @SuppressLint("SourceLockedOrientationActivity")
     public void startFullScreen() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
@@ -131,6 +133,7 @@ public class DiagnosticTroubleCodeActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     public void stopFullScreen() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE

@@ -1,6 +1,7 @@
 package com.sergiojosemp.obddashboard.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -24,15 +25,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar;
 import com.sergiojosemp.obddashboard.R;
@@ -305,6 +307,7 @@ public class DashboardActivity extends AppCompatActivity implements LocationList
     }
 
     // Inicio: Entra en el modo inmersivo
+    @SuppressLint("SourceLockedOrientationActivity")
     public void startFullScreen() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE
@@ -330,6 +333,7 @@ public class DashboardActivity extends AppCompatActivity implements LocationList
     }
 
     // Inicio: Sale del modo inmersivo
+    @SuppressLint("SourceLockedOrientationActivity")
     public void stopFullScreen() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE

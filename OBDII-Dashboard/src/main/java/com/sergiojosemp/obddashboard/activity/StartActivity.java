@@ -9,10 +9,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +17,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sergiojosemp.obddashboard.R;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        /*
         //Binding with layout file
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,
         R.layout.activity_main)
@@ -67,7 +68,7 @@ public class StartActivity extends AppCompatActivity {
             if(viewModel.data.value!!.binary) btDevice.enable() else btDevice.disable()
         })
 
-
+*/
         setContentView(R.layout.main_activity);
 
 
@@ -110,7 +111,7 @@ public class StartActivity extends AppCompatActivity {
         bluetoothDiscoveryButton = findViewById(R.id.discoverButton);
         offlineModeButton = findViewById(R.id.offlineModeButton);
         //Asignación de Listeners a los botones de la interfaz gráfica
-        enableBluetoothButton.setOnClickListener(onClickListenerState);
+        //enableBluetoothButton.setOnClickListener(onClickListenerState);
         bluetoothDiscoveryButton.setOnClickListener(onClickListenerConnect);
         offlineModeButton.setOnClickListener(onClickListenerOffline);
 
@@ -135,19 +136,19 @@ public class StartActivity extends AppCompatActivity {
 
                 if (!bluetoothAdapter.isEnabled()) {
                     bluetoothStatusText.setText(R.string.bluetooth_disabled);
-                    enableBluetoothButton.setActivated(true);
-                    enableBluetoothButton.setClickable(true);
-                    enableBluetoothButton.setAlpha((float) 1.0);
-                    enableBluetoothButton.startAnimation(appear);
+                    //enableBluetoothButton.setActivated(true);
+                    //enableBluetoothButton.setClickable(true);
+                    //enableBluetoothButton.setAlpha((float) 1.0);
+                    //enableBluetoothButton.startAnimation(appear);
                     bluetoothDiscoveryButton.startAnimation(disappear);
 
                 }
 
                 if (bluetoothAdapter.isEnabled()) {
                     bluetoothStatusText.setText(R.string.bluetooth_enabled);
-                    enableBluetoothButton.setActivated(false);
-                    enableBluetoothButton.setClickable(false);
-                    enableBluetoothButton.startAnimation(disappear);
+                    //enableBluetoothButton.setActivated(false);
+                    //enableBluetoothButton.setClickable(false);
+                    //enableBluetoothButton.startAnimation(disappear);
                     bluetoothDiscoveryButton.startAnimation(appear);
                 }
             }
@@ -175,7 +176,7 @@ public class StartActivity extends AppCompatActivity {
             enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BT);
             onActivityResult(REQUEST_ENABLE_BT, RESULT, enableBluetoothIntent);
-            enableBluetoothButton.startAnimation(spin);
+            //enableBluetoothButton.startAnimation(spin);
         }
 
         if (bluetoothAdapter.isEnabled()) {
