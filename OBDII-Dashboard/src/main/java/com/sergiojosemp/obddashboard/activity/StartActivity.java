@@ -140,7 +140,7 @@ public class StartActivity extends AppCompatActivity {
                     //enableBluetoothButton.setClickable(true);
                     //enableBluetoothButton.setAlpha((float) 1.0);
                     //enableBluetoothButton.startAnimation(appear);
-                    bluetoothDiscoveryButton.startAnimation(disappear);
+
 
                 }
 

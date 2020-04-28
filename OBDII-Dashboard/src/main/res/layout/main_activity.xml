@@ -7,6 +7,8 @@
         <import type="android.view.View"/>
         <variable name="viewmodel"
             type="com.sergiojosemp.obddashboard.vm.StartViewModel"/>
+        <variable name="discoveryActivityIntent"
+            type="android.content.Intent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,13 +23,15 @@
             android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold"
+            android:text="@{viewmodel.data.state  ? @string/bluetooth_enabled : @string/bluetooth_disabled}"
+            android:activated="@{!viewmodel.data.state}"
+            android:clickable="@{!viewmodel.data.state}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-
             android:id="@+id/enableBluetoothButton"
             android:layout_width="67dp"
             android:layout_height="102dp"
@@ -35,6 +39,8 @@
             android:onClick="@{() -> viewmodel.switchBT()}"
             android:scaleType="centerInside"
             android:visibility="@{viewmodel.data.state  ? View.GONE : View.VISIBLE}"
+            android:animation="@{!viewmodel.data.state ? @anim/appear : @anim/disappear}"
+
             app:backgroundTint="#0090ff"
             app:fabCustomSize="66dp"
             app:fabSize="auto"
@@ -60,6 +66,7 @@
             android:text="@string/discover_button"
             android:textStyle="bold"
             android:visibility="invisible"
+            android:animation="@{viewmodel.data.state ? @anim/appear : @anim/disappear}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintLeft_toLeftOf="parent"

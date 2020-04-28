@@ -1,4 +1,4 @@
-package com.sergiojosemp.obddashboard
+package com.sergiojosemp.obddashboard.model
 
 class BluetoothModel(var state: Boolean ?= false) {
     fun commute(){
