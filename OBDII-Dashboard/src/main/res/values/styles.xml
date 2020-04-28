@@ -19,7 +19,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:colorBackground">@color/design_default_color_primary_dark</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 

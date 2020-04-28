@@ -50,6 +50,24 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        //Binding with layout file
+        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this,
+        R.layout.activity_main)
+
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        //Bind boolean value with BT device state (if BT adapter is enabled, then, the app starts with that state for TextData...)
+        viewModel.data.value = TextData(binary = btDevice.isEnabled)
+
+        //Observe changes at data to switch btDevice state when data is changed
+        viewModel.data.observe(this, Observer<TextData>(){
+            System.out.println("Observer triggered, switching BT state from ${btDevice.isEnabled} to ${!btDevice.isEnabled}")
+            if(viewModel.data.value!!.binary) btDevice.enable() else btDevice.disable()
+        })
+
+
         setContentView(R.layout.main_activity);
 
 
@@ -60,6 +78,7 @@ public class StartActivity extends AppCompatActivity {
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         /*---------------------------  Definición de Listeners para botones ---------------------------*/
         //Listener para el botón de encendido del BT (botón con el logo de BT)
+
         OnClickListener onClickListenerState = new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +104,7 @@ public class StartActivity extends AppCompatActivity {
         };
         /*--------------------------- Inicialización de la interfaz gráfica ---------------------------*/
         //Asignación de objetos de la interfaz gráfica
+
         bluetoothStatusText = findViewById(R.id.bluetoothStatusText);
         enableBluetoothButton = findViewById(R.id.enableBluetoothButton);
         bluetoothDiscoveryButton = findViewById(R.id.discoverButton);
