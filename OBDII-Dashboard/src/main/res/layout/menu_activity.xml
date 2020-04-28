@@ -1,110 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/StartTheme"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/settingsButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/settings"
-        android:scaleType="centerInside"
-        app:backgroundTint="#00FFFFFF"
-        app:borderWidth="0dp"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.815"
-        app:maxImageSize="56dp"
-        app:rippleColor="#00FFFFFF" />
+    <data>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/diagnosticTroubleCodesButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/dtc_activity"
-        app:backgroundTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.806"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53"
-        app:srcCompat="@mipmap/ic_launcher" />
+    </data>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/chartsButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/charts"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53"
-        app:srcCompat="@mipmap/ic_launcher" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/StartTheme"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/dashboardButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/dashboard"
-        app:backgroundTint="#00FFFFFF"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.806"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.266"
-        app:srcCompat="@mipmap/ic_launcher" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/settingsButton"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:clickable="true"
+            android:foreground="@drawable/settings"
+            android:scaleType="centerInside"
+            app:backgroundTint="#00FFFFFF"
+            app:borderWidth="0dp"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.815"
+            app:maxImageSize="56dp"
+            app:rippleColor="#00FFFFFF" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/verboseButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/terminal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.266"
-        app:srcCompat="@mipmap/ic_launcher" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/diagnosticTroubleCodesButton"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:clickable="true"
+            android:foreground="@drawable/dtc_activity"
+            app:backgroundTint="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.806"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.53"
+            app:srcCompat="@mipmap/ic_launcher" />
 
-    <TextView
-        android:id="@+id/obd_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OBD Device"
-        android:textColor="#F3B3B3B3"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="94dp" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/chartsButton"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:clickable="true"
+            android:foreground="@drawable/charts"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.196"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.53"
+            app:srcCompat="@mipmap/ic_launcher" />
 
-    <ImageView
-        android:id="@+id/obdStatusIcon"
-        android:layout_width="115dp"
-        android:layout_height="110dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/obd_connector_icon" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/dashboardButton"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:clickable="true"
+            android:foreground="@drawable/dashboard"
+            app:backgroundTint="#00FFFFFF"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.806"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.266"
+            app:srcCompat="@mipmap/ic_launcher" />
 
-</android.support.constraint.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/verboseButton"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:clickable="true"
+            android:foreground="@drawable/terminal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.196"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.266"
+            app:srcCompat="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/obd_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OBD Device"
+            android:textColor="#F3B3B3B3"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            tools:layout_editor_absoluteX="46dp"
+            tools:layout_editor_absoluteY="94dp" />
+
+        <ImageView
+            android:id="@+id/obdStatusIcon"
+            android:layout_width="115dp"
+            android:layout_height="110dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/obd_connector_icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

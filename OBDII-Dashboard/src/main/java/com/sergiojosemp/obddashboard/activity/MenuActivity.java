@@ -54,7 +54,7 @@ public class MenuActivity extends AppCompatActivity {
                         Log.d(TAG, getText(R.string.status_bluetooth_connected).toString());
                         obdService.isObdDevice();
                         obdService.emptyQueue(); // Las actividades que se abran desde el menú empezarán con la cola de jobs vacía
-                    }else{
+                    }else{/*
                         try{
                             obdService.connectToDevice();
                             for(int i = 0; i < 2; i++){ // 1 segundo de espera máximo para la reconexión
@@ -69,7 +69,7 @@ public class MenuActivity extends AppCompatActivity {
                             }
                         }catch(InterruptedException ie){
 
-                        }
+                        }*/
                     }
                 } catch (IOException e) {
                     Log.e(TAG,e.getMessage().toString());

@@ -5,7 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewmodel"
+            type="com.sergiojosemp.obddashboard.vm.DiscoverViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

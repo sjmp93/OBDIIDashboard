@@ -6,16 +6,20 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.sergiojosemp.obddashboard.model.BluetoothModel
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.databinding.MainActivityBinding
+import com.sergiojosemp.obddashboard.model.BluetoothModel
 import com.sergiojosemp.obddashboard.vm.StartViewModel
+import java.util.*
 
 class StartMenuActivity: AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST = 0
@@ -53,20 +57,34 @@ class StartMenuActivity: AppCompatActivity() {
             if(viewModel.data.value!!.state!!) btDevice.enable() else btDevice.disable()
         })
 
+        bindingSetup(binding)
+        requestPermissions()
+
         //Request corresponging permissions for BT functionality
         ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN),
                 MY_PERMISSIONS_REQUEST);
+    }
 
+    fun bindingSetup(binding: MainActivityBinding){
         //Binding ViewModel with view
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
+        //Navigation to DiscoveryActivity
         binding.discoverButton.setOnClickListener {
             val DiscoveryActivity =
                 Intent(applicationContext, DiscoveryActivity::class.java)
             startActivity(DiscoveryActivity)
         }
+
+        binding.offlineModeButton.setOnClickListener{
+            val MenuActivity =
+                Intent(applicationContext, MenuActivity::class.java)
+            startActivity(MenuActivity)
+        }
+
+
     }
 
     override fun onStart() {
@@ -75,6 +93,90 @@ class StartMenuActivity: AppCompatActivity() {
         val bluetoothStatusIntent = Intent(BluetoothAdapter.ACTION_STATE_CHANGED)
         val intentFilter = IntentFilter(bluetoothStatusIntent.action)
         registerReceiver(btEventReceiver, intentFilter)
+    }
+
+    fun requestPermissions() {
+        // Here, thisActivity is the current activity
+        val permissionsToRequest: MutableList<String> =
+            ArrayList()
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.BLUETOOTH)
+        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.BLUETOOTH_ADMIN
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.BLUETOOTH_ADMIN)
+        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.INTERNET
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.INTERNET)
+        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WAKE_LOCK
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.WAKE_LOCK)
+        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionsToRequest.add(Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS)
+        }
+        if (permissionsToRequest.size != 0) {
+            val permissionsToRequestArray =
+                arrayOfNulls<String>(permissionsToRequest.size)
+            //permissionsToRequest.toArray<String>(permissionsToRequestArray)
+            ActivityCompat.requestPermissions(
+                this,
+                permissionsToRequest.toTypedArray<String>(),
+                MY_PERMISSIONS_REQUEST
+            )
+        } else {
+            Log.d(
+                "OBDDashboard-log",
+                getText(R.string.grant_permissions_from_settings).toString()
+            )
+        }
     }
 }
 
