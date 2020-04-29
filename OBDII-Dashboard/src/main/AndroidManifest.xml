@@ -19,6 +19,8 @@
         </activity>
 
         <activity android:name="com.sergiojosemp.obddashboard.activity.DiscoveryActivity" />
+        <activity android:name="com.sergiojosemp.obddashboard.activity.DiscoverActivity" />
+
         <activity android:name="com.sergiojosemp.obddashboard.activity.ConnectActivity" />
         <activity
             android:name="com.sergiojosemp.obddashboard.activity.MenuActivity"

@@ -73,9 +73,9 @@ class StartMenuActivity: AppCompatActivity() {
 
         //Navigation to DiscoveryActivity
         binding.discoverButton.setOnClickListener {
-            val DiscoveryActivity =
-                Intent(applicationContext, DiscoveryActivity::class.java)
-            startActivity(DiscoveryActivity)
+            val DiscoverActivity =
+                Intent(applicationContext, DiscoverActivity::class.java)
+            startActivity(DiscoverActivity)
         }
 
         binding.offlineModeButton.setOnClickListener{

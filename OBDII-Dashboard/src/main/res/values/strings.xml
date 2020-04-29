@@ -186,6 +186,7 @@
     <string name="executing_queue_paused">Executing queue will be paused during Diagnostic Trouble Code Activity</string>
     <string name="error_getting_dtc">Error getting Trouble Codes from OBD. Is device connected an OBD device?</string>
     <string name="BT_STATUS_TEXT">BT Status</string>
+    <string name="connect_title">Connect</string>
 
     "Error getting Trouble Codes from OBD. Is OBD device connected?"
     Executing queue will be paused during Diagnostic Trouble Code Activity

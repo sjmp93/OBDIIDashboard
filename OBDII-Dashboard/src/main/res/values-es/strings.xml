@@ -171,4 +171,5 @@
     <string name="null_object_stack_trace_fragment_text">\'int java.util.List.size()\' on a null object reference</string>
     <string name="default_dirname_full_logging">OBDDashboardLogs</string>
     <string name="pref_gps_category">Preferencias de GPS</string>
+    <string name="connect_title">Conectar</string>
 </resources>
