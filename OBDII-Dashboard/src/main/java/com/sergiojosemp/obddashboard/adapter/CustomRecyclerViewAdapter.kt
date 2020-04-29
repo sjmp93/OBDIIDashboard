@@ -1,14 +1,17 @@
 package com.sergiojosemp.obddashboard.adapter
 
+import android.bluetooth.BluetoothAdapter
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.sergiojosemp.obddashboard.R
+import com.sergiojosemp.obddashboard.activity.ConnectActivity
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
 
 class CustomRecyclerViewAdapter(private val devices: MutableList<BluetoothDeviceModel>) : RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder>() {
@@ -44,7 +47,14 @@ class CustomRecyclerViewAdapter(private val devices: MutableList<BluetoothDevice
             itemView.findViewById<TextView>(R.id.bluetoothDeviceName).text = bluetoothDevice.name
             itemView.findViewById<TextView>(R.id.bluetoothDeviceMac).text = bluetoothDevice.mac
             itemView.findViewById<Button>(R.id.bluetoothConnectRowButton).setOnClickListener {
-                System.out.println("nop") //TODO
+                val connectActivity = Intent(itemView.context, ConnectActivity::class.java)
+                connectActivity.putExtra("name", bluetoothDevice.name)
+                connectActivity.putExtra("mac", bluetoothDevice.mac)
+                //We stop bluetooth discovery because we are going to connect to bluetoothDevice.name
+                val bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+                bluetoothAdapter?.cancelDiscovery()
+                //DiscoveryActivity.putExtra("bluetoothAdapter", bluetooth);
+                startActivity(itemView.context,connectActivity,null)
             }
         }
     }
