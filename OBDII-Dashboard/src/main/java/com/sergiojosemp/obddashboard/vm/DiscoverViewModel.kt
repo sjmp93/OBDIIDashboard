@@ -14,5 +14,11 @@ class DiscoverViewModel: ViewModel(){
         devices.value = ArrayList()
     }
 
-    
+    fun containsDevice(device: BluetoothDeviceModel):Boolean{
+        for(_device in devices.value!!){
+            if(device.mac.equals(_device.mac))
+                return true
+        }
+        return false
+    }
 }

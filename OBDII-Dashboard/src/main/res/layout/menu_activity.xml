@@ -6,9 +6,9 @@
     <data>
 
     </data>
-
+    <!--style="@style/StartTheme"-->
     <androidx.constraintlayout.widget.ConstraintLayout
-        style="@style/StartTheme"
+        style="@style/Theme.MaterialComponents"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

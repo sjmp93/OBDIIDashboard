@@ -7,8 +7,6 @@
         <import type="android.view.View"/>
         <variable name="viewmodel"
             type="com.sergiojosemp.obddashboard.vm.StartViewModel"/>
-        <variable name="discoveryActivityIntent"
-            type="android.content.Intent" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +42,7 @@
             app:backgroundTint="#0090ff"
             app:fabCustomSize="66dp"
             app:fabSize="auto"
+            app:tint="@color/activityBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.89"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -57,35 +56,40 @@
             app:useCompatPadding="true" />
 
         <Button
+            android:id="@+id/offlineModeButton"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="191dp"
+            android:layout_height="wrap_content"
+            android:background="@color/obd_disabled"
+            android:backgroundTint="@color/offlineButton"
+            android:soundEffectsEnabled="true"
+            android:text="@string/offline_mode_button"
+            android:textStyle="bold"
+            android:textColor="@color/buttonText"
+            android:theme="@style/Theme.MaterialComponents.DayNight"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.793" />
+
+        <Button
             android:id="@+id/discoverButton"
             style="@android:style/Widget.DeviceDefault.Button.Colored"
             android:layout_width="191dp"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:animation="@{viewmodel.data.state ? @anim/appear : @anim/disappear}"
             android:background="?attr/colorPrimaryDark"
             android:clickable="true"
             android:text="@string/discover_button"
             android:textStyle="bold"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.897" />
+            app:layout_constraintTop_toBottomOf="@+id/offlineModeButton"
+            app:layout_constraintVertical_bias="0.0" />
 
-        <Button
-            android:id="@+id/offlineModeButton"
-            style="@android:style/Widget.DeviceDefault.Button.Colored"
-            android:background="@color/obd_disabled"
-            android:layout_width="191dp"
-            android:layout_height="wrap_content"
-            android:text="@string/offline_mode_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.78" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

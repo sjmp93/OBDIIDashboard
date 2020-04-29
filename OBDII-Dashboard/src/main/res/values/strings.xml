@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OBDII-Dashboard (beta)</string>
+    <string name="app_name">OBDII Dashboard</string>
     <string name="engine_coolant_temperature" translatable="false">Engine Coolant Temperature</string>
     <string name="engine_oil_temperature" translatable="false">Engine oil temperature</string>
     <string name="engine_load" translatable="false">Engine Load</string>

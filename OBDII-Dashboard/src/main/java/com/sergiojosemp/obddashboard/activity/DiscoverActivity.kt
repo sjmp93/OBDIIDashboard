@@ -64,11 +64,14 @@ class DiscoverActivity: AppCompatActivity() {
             layoutManager = LinearLayoutManager(context)
             adapter = CustomRecyclerViewAdapter( mutableListOf<BluetoothDeviceModel>())
         }
-
+        supportActionBar!!.hide()
         supportActionBar!!.title = getText(R.string.discovered_devices_text)
 
         //Tomar lista de dispositivos encontrados, para ello se crea un receiver para el intent ACTION_FOUND
         bluetoothReceiver = object : BroadcastReceiver() {
+            fun containDevices(discoveredDevice: BluetoothDeviceModel){
+
+            }
             override fun onReceive(context: Context, intent: Intent) {
                 // Only if receiver is triggered by new device found
                 if (BluetoothDevice.ACTION_FOUND == intent.action) {
@@ -77,34 +80,13 @@ class DiscoverActivity: AppCompatActivity() {
 
                     //We save discovered device on viewmodel list if it doesn't already contains it
                     val btDiscoveredDevice = BluetoothDeviceModel(name= if (device.name != null) device.name else "Unknown device" ,mac=device.address)
-                    if(!binding.viewmodel!!.devices.value!!.contains(btDiscoveredDevice)){
+                    if(!binding.viewmodel!!.containsDevice(btDiscoveredDevice)){
                         val array :ArrayList<BluetoothDeviceModel> = binding.viewmodel!!.devices.value!!
                         array.add(btDiscoveredDevice)
                         binding.viewmodel!!.devices.value = array
 
                         System.out.println(btDiscoveredDevice.toString())
                     }
-                    /*
-                        val onClickListenerRow = View.OnClickListener { v -> val connectActivity = Intent(getApplicationContext(), ConnectActivity::class.java)
-                                val tableRowView = v as TableRow
-                                val auxNameText: TextView
-                                val auxMacText: TextView
-                                auxNameText = tableRowView.getVirtualChildAt(0) as TextView
-                                auxMacText = tableRowView.getVirtualChildAt(1) as TextView
-                                connectActivity.putExtra("name", auxNameText.text)
-                                connectActivity.putExtra("mac", auxMacText.text)
-                                //Se detiene la búsqueda de dispositivos
-                                bluetoothAdapter?.cancelDiscovery()
-                                //DiscoveryActivity.putExtra("bluetoothAdapter", bluetooth);
-                                startActivity(connectActivity)
-                            }
-                        tableRow.setOnClickListener(onClickListenerRow)
-
-                        //Se actualiza la interfaz con el nuevo dispositivo encontrado
-                        tableRow.minimumHeight =
-                            MINIMUM_HEIGHT // Se establece el tamaño mínimo de cada item
-                        deviceListTable.addView(tableRow)
-                    }*/
                 }
             }
             fun onDestroy() {

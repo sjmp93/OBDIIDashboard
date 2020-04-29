@@ -5,9 +5,14 @@
     <color name="colorSecundary">#FFB13B</color>
     <color name="colorSecundaryDark">#FF8F07</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="deviceNameListTextColor">#FF8F07</color>
+    <color name="activityBackground">#FFFFFF</color>
+    <color name="actionBarTitle">#FFFFFF</color>
+    <color name="offlineButton">#FF9800</color>
+    <color name="buttonText">#FFFFFF</color>
 
 
-        <!-- http://www.google.com/design/spec/style/color.html#color-color-palette -->
+    <!-- http://www.google.com/design/spec/style/color.html#color-color-palette -->
         <color name="primary">#607d8b</color>
         <!-- Blue Grey 500 -->
         <color name="primary_dark">#455a64</color>

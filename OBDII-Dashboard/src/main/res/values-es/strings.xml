@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OBDII-Dashboard (beta)</string>
+    <string name="app_name">OBDII Dashboard</string>
     <string name="BT_STATUS_TEXT">Estado del Bluetooth</string>
     <string name="OBD_STATUS_TEXT">Estado del OBD</string>
     <string name="action_clear_codes">Limpiar códigos</string>
