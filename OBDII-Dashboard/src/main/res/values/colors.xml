@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008cff</color>
+    <color name="primaryButton">#008cff</color>
+    <color name="primaryActionBar">#FFFFFF</color>
+    <color name="secondaryActionBar">#FFFFFF</color>
     <color name="colorPrimaryDark">#0077ff</color>
     <color name="colorSecundary">#FFB13B</color>
     <color name="colorSecundaryDark">#FF8F07</color>
     <color name="colorAccent">#D81B60</color>
     <color name="deviceNameListTextColor">#FF8F07</color>
     <color name="activityBackground">#FFFFFF</color>
+    <color name="activityTitle">#000000</color>
     <color name="actionBarTitle">#FFFFFF</color>
     <color name="offlineButton">#FF9800</color>
     <color name="buttonText">#FFFFFF</color>

@@ -79,7 +79,7 @@
             android:layout_width="191dp"
             android:layout_height="wrap_content"
             android:animation="@{viewmodel.data.state ? @anim/appear : @anim/disappear}"
-            android:background="?attr/colorPrimaryDark"
+            android:backgroundTint="@color/primaryButton"
             android:clickable="true"
             android:text="@string/discover_button"
             android:textStyle="bold"

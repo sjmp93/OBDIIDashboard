@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="450dp"
+            android:divider="?android:attr/listDivider"
             android:elevation="5dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -45,11 +46,11 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:paddingStart="10dp"
-                android:paddingTop="10dp"
+                android:paddingTop="100dp"
                 android:paddingEnd="0dp"
                 android:paddingBottom="0dp"
                 android:text="Dispositivos encontrados"
-                android:textColor="@android:color/white"
+                android:textColor="@color/activityTitle"
                 android:textSize="50dp"
                 android:textStyle="bold" />
         </LinearLayout>
