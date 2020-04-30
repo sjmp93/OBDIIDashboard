@@ -9,50 +9,71 @@
             type="com.sergiojosemp.obddashboard.vm.DiscoverViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         tools:context=".activity.DiscoverActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/bluetooth_device_list"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:data="@{viewmodel.devices}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            tools:listitem="@layout/bluetooth_device_row" />
+            android:layout_height="300dp"
+            app:elevation="0dp"
+            android:fitsSystemWindows="true"
+            android:backgroundTint="@color/activityBackground" comment1="Sets the background tint of the toolbar of the same color as background"
+            android:overScrollMode="never" comment2="Avoids over scroll effect when collapse the toolbar">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+            <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
+                android:id="@+id/collapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="0dp"
+                android:fitsSystemWindows="true"
+                app:collapsedTitleGravity="top"
+                app:collapsedTitleTextAppearance="@style/CollapsedActionBar"
+                app:contentScrim="@color/activityBackground"
+                app:expandedTitleMarginEnd="56dp"
+                app:expandedTitleMarginStart="25dp"
+                app:expandedTitleTextAppearance="@style/ExpandedActionBar"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:maxLines="2"
+                app:statusBarScrim="@color/activityBackground"
+                app:title="@string/discovered_devices_text"
+                app:titleEnabled="true">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:gravity="top"
+                    android:overScrollMode="never"
+                    android:textAlignment="gravity"
+                    app:buttonGravity="bottom"
+                    app:layout_collapseMode="pin" />
+            </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="450dp"
-            android:divider="?android:attr/listDivider"
-            android:elevation="5dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/textView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/bluetooth_device_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:paddingStart="10dp"
-                android:paddingTop="100dp"
-                android:paddingEnd="0dp"
-                android:paddingBottom="0dp"
-                android:text="Dispositivos encontrados"
-                android:textColor="@color/activityTitle"
-                android:textSize="50dp"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:layout_height="0dp"
+                app:data="@{viewmodel.devices}"
+                tools:listitem="@layout/bluetooth_device_row" />
+        </androidx.core.widget.NestedScrollView>
+        <!--
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layout_anchor="@id/appBar"
+            app:layout_anchorGravity="bottom|end" />
+            -->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

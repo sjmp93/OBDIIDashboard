@@ -64,7 +64,7 @@ public class ConnectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         setContentView(R.layout.connect_activity);
-        getSupportActionBar().setTitle(getText(R.string.connect_activity_title));
+        //getSupportActionBar().setTitle(getText(R.string.connect_activity_title));
         //Definimos animaciones para los botones
         final Animation spin = AnimationUtils.loadAnimation(this, R.anim.spin);
         final Animation appear = AnimationUtils.loadAnimation(this, R.anim.appear);

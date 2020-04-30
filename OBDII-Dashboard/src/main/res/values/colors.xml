@@ -11,7 +11,7 @@
     <color name="deviceNameListTextColor">#FF8F07</color>
     <color name="activityBackground">#FFFFFF</color>
     <color name="activityTitle">#000000</color>
-    <color name="actionBarTitle">#FFFFFF</color>
+    <color name="actionBarTitle">#000000</color>
     <color name="offlineButton">#FF9800</color>
     <color name="buttonText">#FFFFFF</color>
 

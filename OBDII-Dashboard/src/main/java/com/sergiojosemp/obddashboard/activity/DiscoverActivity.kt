@@ -64,8 +64,9 @@ class DiscoverActivity: AppCompatActivity() {
             layoutManager = LinearLayoutManager(context)
             adapter = CustomRecyclerViewAdapter( mutableListOf<BluetoothDeviceModel>())
         }
-        supportActionBar!!.hide()
-        supportActionBar!!.title = getText(R.string.discovered_devices_text)
+
+        //supportActionBar!!.hide()
+        //supportActionBar!!.title = getText(R.string.discovered_devices_text)
 
         //Tomar lista de dispositivos encontrados, para ello se crea un receiver para el intent ACTION_FOUND
         bluetoothReceiver = object : BroadcastReceiver() {
