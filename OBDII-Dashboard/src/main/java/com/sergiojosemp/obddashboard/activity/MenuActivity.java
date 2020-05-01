@@ -163,7 +163,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.menu_activity);
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS);
 
-
+    /*
         dashboardButton = findViewById(R.id.dashboardButton);
         settingsButton = findViewById(R.id.settingsButton);
         diagnosticTroubleCodesButton = findViewById(R.id.diagnosticTroubleCodesButton);
@@ -227,6 +227,8 @@ public class MenuActivity extends AppCompatActivity {
         if(getIntent().getExtras() != null && getIntent().getExtras().getString(EXTRA).equals(EXTRA_CONTENT)){
             setObdIndicatorNotAvailable();
         }
+
+     */
     }
 
     @Override

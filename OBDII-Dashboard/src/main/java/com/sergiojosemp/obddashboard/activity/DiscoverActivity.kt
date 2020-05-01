@@ -28,14 +28,6 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
-//https://stackoverflow.com/questions/44525388/asynctask-in-android-with-kotlin
-class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
-    override fun doInBackground(vararg params: Void?): Void? {
-        handler()
-        return null
-    }
-}
-
 class DiscoverActivity: AppCompatActivity() {
     private val REQUEST_COARSE_LOCATION = 5
     private var bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
@@ -131,5 +123,12 @@ class DiscoverActivity: AppCompatActivity() {
             )
         }
     }
+}
 
+//https://stackoverflow.com/questions/44525388/asynctask-in-android-with-kotlin
+class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
+    override fun doInBackground(vararg params: Void?): Void? {
+        handler()
+        return null
+    }
 }

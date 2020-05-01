@@ -22,8 +22,7 @@
 
         <activity android:name="com.sergiojosemp.obddashboard.activity.ConnectActivity" />
         <activity
-            android:name="com.sergiojosemp.obddashboard.activity.MenuActivity"
-            android:theme="@style/StartTheme" />
+            android:name="com.sergiojosemp.obddashboard.activity.MenuActivity" />
         <activity android:name="com.sergiojosemp.obddashboard.activity.DashboardActivity" />
 
         <service
