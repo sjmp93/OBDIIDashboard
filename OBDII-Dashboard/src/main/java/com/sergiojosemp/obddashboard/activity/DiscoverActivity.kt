@@ -3,12 +3,15 @@ package com.sergiojosemp.obddashboard.activity
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.bluetooth.BluetoothSocket
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.os.AsyncTask
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,30 +22,26 @@ import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.adapter.CustomRecyclerViewAdapter
 import com.sergiojosemp.obddashboard.databinding.DiscoverActivityBinding
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
-import com.sergiojosemp.obddashboard.model.BluetoothModel
 import com.sergiojosemp.obddashboard.vm.DiscoverViewModel
 import kotlinx.android.synthetic.main.discover_activity.*
+import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 
+//https://stackoverflow.com/questions/44525388/asynctask-in-android-with-kotlin
+class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
+    override fun doInBackground(vararg params: Void?): Void? {
+        handler()
+        return null
+    }
+}
+
 class DiscoverActivity: AppCompatActivity() {
     private val REQUEST_COARSE_LOCATION = 5
-    private val DEVICE_ITEM_TEXT_SIZE = 24
-    private val MINIMUM_HEIGHT = 150
-
-
-    private val discoveredDevices =
-        ArrayList<String>() //Lista de dispositivos encontrados durante la búsqueda
-
-
-
     private var bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
-    private val devices =
-        HashMap<String, BluetoothDevice>() //Diccionario que relaciona una mac con el objeto BluetoothDevice correspondiente
-
-    private val TAG = "" // Para el log
+    private val TAG = "OBD-Log"
     private lateinit var binding: DiscoverActivityBinding
-    private var bluetoothReceiver: BroadcastReceiver? = null //Objeto que recibirá eventos del sistema
+    private var bluetoothReceiver: BroadcastReceiver? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?){
@@ -52,27 +51,40 @@ class DiscoverActivity: AppCompatActivity() {
             this, R.layout.discover_activity)
 
         val discoverViewModel: DiscoverViewModel = ViewModelProviders.of(this).get(DiscoverViewModel::class.java)
+        // Observe changes on viewModel.device. When triggered, it tries to start a bluetooth socket in order to establish a bluetooth connection with the observed device
+        discoverViewModel.device.observe(this, androidx.lifecycle.Observer {
+            doAsync {
+                if (BluetoothAdapter.checkBluetoothAddress(it.mac)) {
+                    val bluetoothDevice: BluetoothDevice = bluetoothAdapter!!.getRemoteDevice(it.mac)
+                    var tmp: BluetoothSocket? = null
+                    try {
+                        tmp = bluetoothDevice.javaClass.getMethod("createRfcommSocket", *arrayOf<Class<*>?>(Int::class.javaPrimitiveType))
+                            .invoke(bluetoothDevice, 1) as BluetoothSocket
 
-        discoverViewModel.devices.observe(this, androidx.lifecycle.Observer {
-            System.out.println("Observer")
+                        tmp!!.connect()
+                        Log.d(TAG, getString(R.string.connected_to_device))
+
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    } finally {
+                        discoverViewModel.connecting.postValue(false)
+                    }
+                }
+            }.execute()
         })
 
         binding.viewmodel = discoverViewModel
         binding.lifecycleOwner = this
-
+        // Connects to the RecyclerView
         bluetooth_device_list.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = CustomRecyclerViewAdapter( mutableListOf<BluetoothDeviceModel>())
+            adapter = CustomRecyclerViewAdapter(context, mutableListOf<BluetoothDeviceModel>())
         }
 
-        //supportActionBar!!.hide()
-        //supportActionBar!!.title = getText(R.string.discovered_devices_text)
-
-        //Tomar lista de dispositivos encontrados, para ello se crea un receiver para el intent ACTION_FOUND
+        // Take a list of near bluetooth devices
         bluetoothReceiver = object : BroadcastReceiver() {
-            fun containDevices(discoveredDevice: BluetoothDeviceModel){
-
-            }
             override fun onReceive(context: Context, intent: Intent) {
                 // Only if receiver is triggered by new device found
                 if (BluetoothDevice.ACTION_FOUND == intent.action) {
@@ -86,22 +98,25 @@ class DiscoverActivity: AppCompatActivity() {
                         array.add(btDiscoveredDevice)
                         binding.viewmodel!!.devices.value = array
 
-                        System.out.println(btDiscoveredDevice.toString())
+                        System.out.println("${btDiscoveredDevice.name} with MAC address: ${btDiscoveredDevice.mac} discovered.")
                     }
                 }
             }
-            fun onDestroy() {
-                unregisterReceiver(this)
-            }
         }
 
-        //Configuramos la aplicación para recibir el evento por parte del sistema
+        // Setting up the receiver
         val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
         registerReceiver(bluetoothReceiver, filter)
-        checkLocationPermission() //Necesario para poder utilizar ACTION_FOUND a partir de Android 6
-        //Iniciamos la búsqueda de dispositivos
+        checkLocationPermission() // We need to ckeck permissions after Android 6 in order to search bluetooth devices
+
         bluetoothAdapter?.startDiscovery()
     }
+
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(bluetoothReceiver)
+    }
+
 
     protected fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(

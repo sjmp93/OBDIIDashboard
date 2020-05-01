@@ -7,7 +7,7 @@
     <color name="colorPrimaryDark">#242424</color>
     <color name="colorSecundary">#D1D1D1</color>
     <color name="colorSecundaryDark">#FF8F07</color>
-    <color name="colorAccent">#FF8F07</color>
+    <color name="colorAccent">#03A9F4</color>
     <color name="deviceNameListTextColor">#FF8F07</color>
     <color name="activityBackground">#000000</color>
     <color name="activityTitle">#FFFFFF</color>

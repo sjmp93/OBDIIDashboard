@@ -18,6 +18,7 @@
     <string name="connect_activity">ConnectActivity</string>
     <string name="connect_activity_title">Conectar a</string>
     <string name="connected_to_device">Conectado al dispositivo Bluetooth.</string>
+    <string name="connection_finished">Conexión finalizada.</string>
     <string name="connecting_text">Conectando</string>
     <string name="connection_error_is_obd_adapter">Error de conexión. ¿Se trata de un adaptador OBD?</string>
     <string name="creating_service">Creando servicio...</string>

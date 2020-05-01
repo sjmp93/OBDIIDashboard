@@ -1,6 +1,8 @@
 package com.sergiojosemp.obddashboard.adapter
 
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -9,21 +11,18 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.activity.ConnectActivity
+import com.sergiojosemp.obddashboard.activity.DiscoverActivity
+import com.sergiojosemp.obddashboard.databinding.BluetoothDeviceRowBinding
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
+import com.sergiojosemp.obddashboard.vm.DiscoverViewModel
 
-class CustomRecyclerViewAdapter(private val devices: MutableList<BluetoothDeviceModel>) : RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder>() {
-
-    /*fun removePost(post: Post) {
-        val index = posts.indexOf(post)
-        if (index != -1) {
-            posts.remove(post)
-            notifyItemRemoved(index)
-        }
-    }*/
-
+//We get context from DiscoverActivity since this adapter is dependant of Android stuff and its context.
+class CustomRecyclerViewAdapter(private val context : Context, private val devices: MutableList<BluetoothDeviceModel>) : RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder>() {
     fun setData(data: MutableList<BluetoothDeviceModel>) {
         devices.clear()
         devices.addAll(data)
@@ -40,13 +39,23 @@ class CustomRecyclerViewAdapter(private val devices: MutableList<BluetoothDevice
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         holder.bind(devices[position])
+
     }
 
     inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(bluetoothDevice: BluetoothDeviceModel) {
+            val discoverViewModel: DiscoverViewModel = ViewModelProviders.of(context as DiscoverActivity).get(DiscoverViewModel::class.java)
+
             itemView.findViewById<TextView>(R.id.bluetoothDeviceName).text = bluetoothDevice.name
             itemView.findViewById<TextView>(R.id.bluetoothDeviceMac).text = bluetoothDevice.mac
-            itemView.findViewById<Button>(R.id.bluetoothConnectRowButton).setOnClickListener {
+            itemView.findViewById<Button>(R.id.bluetoothConnectRowButton).setOnClickListener(){
+                System.out.println("Connecting...")
+                //discoverViewModel.switchConnect()
+                discoverViewModel.connecting.value = true
+                discoverViewModel.connect(bluetoothDevice)
+            }
+
+            /*itemView.findViewById<Button>(R.id.bluetoothConnectRowButton).setOnClickListener {
                 val connectActivity = Intent(itemView.context, ConnectActivity::class.java)
                 connectActivity.putExtra("name", bluetoothDevice.name)
                 connectActivity.putExtra("mac", bluetoothDevice.mac)
@@ -54,8 +63,9 @@ class CustomRecyclerViewAdapter(private val devices: MutableList<BluetoothDevice
                 val bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
                 bluetoothAdapter?.cancelDiscovery()
                 //DiscoveryActivity.putExtra("bluetoothAdapter", bluetooth);
-                startActivity(itemView.context,connectActivity,null)
-            }
+                //startActivity(itemView.context,connectActivity,null)
+
+            }*/
         }
     }
 
