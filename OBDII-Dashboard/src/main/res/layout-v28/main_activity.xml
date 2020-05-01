@@ -55,19 +55,9 @@
 
         <Button
             android:id="@+id/offlineModeButton"
-            style="@style/Widget.MaterialComponents.Button.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/obd_disabled"
+            style="@style/StartActivityButtons"
             android:backgroundTint="@color/offlineButton"
-            android:soundEffectsEnabled="true"
             android:text="@string/offline_mode_button"
-            android:textColor="@color/buttonText"
-            android:textStyle="bold"
-            android:theme="@style/Theme.MaterialComponents.DayNight"
-            app:cornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,23 +66,16 @@
 
         <Button
             android:id="@+id/discoverButton"
-            style="@android:style/Widget.DeviceDefault.Button.Colored"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            style="@style/StartActivityButtons"
             android:animation="@{viewmodel.data.state ? @anim/appear : @anim/disappear}"
-            android:backgroundTint="@color/primaryButton"
-            android:clickable="true"
+            android:backgroundTint="#4FAFFC"
             android:text="@string/discover_button"
-            android:textStyle="bold"
-            android:visibility="visible"
-            app:cornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/offlineModeButton"
             app:layout_constraintVertical_bias="0.0" />
+
 
         <ImageView
             android:id="@+id/imageView"

@@ -12,8 +12,8 @@
     <color name="activityBackground">#000000</color>
     <color name="activityTitle">#FFFFFF</color>
     <color name="actionBarTitle">#FFFFFF</color>
-    <color name="offlineButton">#9C27B0</color>
-    <color name="buttonText">#C0C0C0</color>
+    <color name="offlineButton">#14C975</color>
+    <color name="buttonText">#FFFFFF</color>
 
 
     <!-- http://www.google.com/design/spec/style/color.html#color-color-palette -->

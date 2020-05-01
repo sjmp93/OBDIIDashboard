@@ -17,12 +17,14 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
+            comment1="Sets the background tint of the toolbar of the same color as background"
+            comment2="Avoids over scroll effect when collapse the toolbar"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            app:elevation="0dp"
+            android:backgroundTint="@color/activityBackground"
             android:fitsSystemWindows="true"
-            android:backgroundTint="@color/activityBackground" comment1="Sets the background tint of the toolbar of the same color as background"
-            android:overScrollMode="never" comment2="Avoids over scroll effect when collapse the toolbar">
+            android:overScrollMode="never"
+            app:elevation="0dp">
 
             <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbar"
