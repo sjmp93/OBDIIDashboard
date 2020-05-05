@@ -16,14 +16,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.adapter.CustomRecyclerViewAdapter
 import com.sergiojosemp.obddashboard.databinding.DiscoverActivityBinding
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
+import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 import com.sergiojosemp.obddashboard.vm.DiscoverViewModel
 import kotlinx.android.synthetic.main.discover_activity.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
@@ -44,8 +48,13 @@ class DiscoverActivity: AppCompatActivity() {
 
         val discoverViewModel: DiscoverViewModel = ViewModelProviders.of(this).get(DiscoverViewModel::class.java)
         // Observe changes on viewModel.device. When triggered, it tries to start a bluetooth socket in order to establish a bluetooth connection with the observed device
+
+        var valueReceived: MutableLiveData<ByteArray> = MutableLiveData()
+        valueReceived.observe(this, androidx.lifecycle.Observer {
+            GlobalScope.launch { Log.d(TAG,"Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
+        })
         discoverViewModel.device.observe(this, androidx.lifecycle.Observer {
-            doAsync {
+            /*doAsync {
                 if (BluetoothAdapter.checkBluetoothAddress(it.mac)) {
                     val bluetoothDevice: BluetoothDevice = bluetoothAdapter!!.getRemoteDevice(it.mac)
                     var tmp: BluetoothSocket? = null
@@ -64,7 +73,10 @@ class DiscoverActivity: AppCompatActivity() {
                         discoverViewModel.connecting.postValue(false)
                     }
                 }
-            }.execute()
+            }.execute()*/
+
+            val obdCoroutine = OBDKotlinCoroutinesTesting(bluetoothAdapter!!, it.mac!!, valueReceived)
+            discoverViewModel.connecting.postValue(false)
         })
 
         binding.viewmodel = discoverViewModel
@@ -106,7 +118,8 @@ class DiscoverActivity: AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        unregisterReceiver(bluetoothReceiver)
+        if (bluetoothReceiver != null)
+            unregisterReceiver(bluetoothReceiver)
     }
 
 

@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sergiojosemp.obddashboard.R;
 import com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser.FileBrowserActivity;
+import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting;
 import com.sergiojosemp.obddashboard.service.ObdService;
 
 import java.io.File;
@@ -99,8 +100,8 @@ public class MenuActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        Intent serviceIntent = new Intent(MenuActivity.this, ObdService.class);
-        bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
+        //Intent serviceIntent = new Intent(MenuActivity.this, ObdService.class);
+        //bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
     }
 
     protected void onPause() {
@@ -162,6 +163,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_activity);
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS);
+        //OBDKotlinCoroutinesTesting test = new OBDKotlinCoroutinesTesting();
 
     /*
         dashboardButton = findViewById(R.id.dashboardButton);
