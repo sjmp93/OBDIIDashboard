@@ -29,43 +29,15 @@ class MenuActivityKT : AppCompatActivity(){
     private val diagnosticTroubleCodesButton: FloatingActionButton? = null
     private val verboseButton: FloatingActionButton? = null
 
-    private val TAG = ""
+    private val TAG = "OBD-Log"
 
     @Inject
     private var preferences //Toda la configuración se almacena en este objeto
             : SharedPreferences? = null
     private lateinit var obd : OBDKotlinCoroutinesTesting
-
-    inner class OBDServiceConnection : ServiceConnection{
-        override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
-        }
-
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
-            obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch { Log.d(TAG,"Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
-            })
-        }
-
-    }
     private val serviceConn : OBDServiceConnection = OBDServiceConnection()
-
-    override fun onResume() {
-        super.onResume()
-        val serviceIntent = Intent(this, OBDKotlinCoroutinesTesting::class.java);
-        bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if(serviceConn!=null)
-            unbindService(serviceConn);
-    }
-
     private lateinit var binding: MenuActivityBinding
 
-    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         //Se carga y configura el nuevo layout
         super.onCreate(savedInstanceState)
@@ -73,11 +45,6 @@ class MenuActivityKT : AppCompatActivity(){
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS)
         binding = DataBindingUtil.setContentView(
             this, R.layout.menu_activity)
-
-
-
-
-
 
         binding.lifecycleOwner = this
         binding.verboseButton.setOnClickListener(){
@@ -153,7 +120,35 @@ class MenuActivityKT : AppCompatActivity(){
      */
     }
 
+    override fun onResume() {
+        super.onResume()
+        val serviceIntent = Intent(this, OBDKotlinCoroutinesTesting::class.java);
+        bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(serviceConn!=null)
+            unbindService(serviceConn);
+        obd.disconnectFromDevice()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+    }
+
+
+    inner class OBDServiceConnection : ServiceConnection{
+        override fun onServiceDisconnected(name: ComponentName?) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
+            obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
+                GlobalScope.launch { Log.d(TAG,"From Menu Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
+            })
+        }
+
     }
 }

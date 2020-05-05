@@ -51,7 +51,7 @@ class DiscoverActivity: AppCompatActivity() {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
             obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch { Log.d(TAG,"Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
+                GlobalScope.launch { Log.d(TAG,"From Discover Activity : Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
             })
         }
 
@@ -77,16 +77,15 @@ class DiscoverActivity: AppCompatActivity() {
         })
 
         discoverViewModel.device.observe(this, androidx.lifecycle.Observer {
-
             obd.num = 2
-
-            val menuActivity = Intent(this, MenuActivityKT::class.java)
-            startActivity(menuActivity)
+            obd.connectToDevice(bluetoothAdapter!!,it.mac!!,discoverViewModel.connecting)
+            //val menuActivity = Intent(this, MenuActivityKT::class.java)
+            //startActivity(menuActivity)
             //OBDKotlinCoroutinesTesting(bluetoothAdapter!!, it.mac!!, discoverViewModel.valueReceived, discoverViewModel.connecting)
         })
 
         discoverViewModel.connecting.observe(this, androidx.lifecycle.Observer {
-            if(it == false && discoverViewModel.device.value != null) {
+            if(it == false && discoverViewModel.device.value != null) { //Only true if device connected
                 val menuActivity = Intent(this, MenuActivityKT::class.java)
                 startActivity(menuActivity)
             }
@@ -118,6 +117,9 @@ class DiscoverActivity: AppCompatActivity() {
                 }
             }
         }
+
+        val intent = Intent(this,OBDKotlinCoroutinesTesting::class.java)
+        startService(intent)
     }
 
     override fun onResume() {
@@ -127,8 +129,7 @@ class DiscoverActivity: AppCompatActivity() {
         registerReceiver(bluetoothReceiver, filter)
         checkLocationPermission() // We need to ckeck permissions after Android 6 in order to search bluetooth devices
 
-        var intent = Intent(this,OBDKotlinCoroutinesTesting::class.java)
-        startService(intent)
+        val intent = Intent(this,OBDKotlinCoroutinesTesting::class.java)
         bindService(intent, serviceConn, Context.BIND_AUTO_CREATE);
 
         bluetoothAdapter?.startDiscovery()

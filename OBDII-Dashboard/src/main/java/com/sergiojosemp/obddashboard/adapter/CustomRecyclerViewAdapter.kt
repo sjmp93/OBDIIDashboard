@@ -53,10 +53,8 @@ class CustomRecyclerViewAdapter(private val context : Context, private val devic
             itemView.findViewById<TextView>(R.id.bluetoothDeviceName).text = bluetoothDevice.name
             itemView.findViewById<TextView>(R.id.bluetoothDeviceMac).text = bluetoothDevice.mac
             itemView.findViewById<Button>(R.id.bluetoothConnectRowButton).setOnClickListener(){
-                System.out.println("Connecting...")
-                //discoverViewModel.switchConnect()
                 discoverViewModel.connecting.postValue(true)
-                GlobalScope.launch { discoverViewModel.connect(bluetoothDevice) } //This is a blocking call, so we execute it in parallel
+                GlobalScope.launch { discoverViewModel.connect(bluetoothDevice) } //This is a blocking call, so we execute it in parallel to not to block the UI
             }
 
             /*itemView.findViewById<Button>(R.id.bluetoothConnectRowButton).setOnClickListener {

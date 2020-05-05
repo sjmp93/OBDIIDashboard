@@ -35,6 +35,6 @@ class DiscoverViewModel: ViewModel(){
 
     fun connect(_device: BluetoothDeviceModel){
         device.postValue(_device)
-        Log.d(TAG, "Connecting")
+        Log.d(TAG, "Connecting to ${_device.name} (MAC:${_device.mac})...")
     }
 }
