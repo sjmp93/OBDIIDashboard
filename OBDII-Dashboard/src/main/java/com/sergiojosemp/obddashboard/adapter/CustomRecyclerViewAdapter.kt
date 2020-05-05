@@ -17,9 +17,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.activity.ConnectActivity
 import com.sergiojosemp.obddashboard.activity.DiscoverActivity
+import com.sergiojosemp.obddashboard.activity.MenuActivity
+import com.sergiojosemp.obddashboard.activity.StartActivity
 import com.sergiojosemp.obddashboard.databinding.BluetoothDeviceRowBinding
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
 import com.sergiojosemp.obddashboard.vm.DiscoverViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 //We get context from DiscoverActivity since this adapter is dependant of Android stuff and its context.
 class CustomRecyclerViewAdapter(private val context : Context, private val devices: MutableList<BluetoothDeviceModel>) : RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder>() {
@@ -51,8 +55,8 @@ class CustomRecyclerViewAdapter(private val context : Context, private val devic
             itemView.findViewById<Button>(R.id.bluetoothConnectRowButton).setOnClickListener(){
                 System.out.println("Connecting...")
                 //discoverViewModel.switchConnect()
-                discoverViewModel.connecting.value = true
-                discoverViewModel.connect(bluetoothDevice)
+                discoverViewModel.connecting.postValue(true)
+                GlobalScope.launch { discoverViewModel.connect(bluetoothDevice) } //This is a blocking call, so we execute it in parallel
             }
 
             /*itemView.findViewById<Button>(R.id.bluetoothConnectRowButton).setOnClickListener {

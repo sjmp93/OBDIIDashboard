@@ -23,10 +23,18 @@
         <activity android:name="com.sergiojosemp.obddashboard.activity.ConnectActivity" />
         <activity
             android:name="com.sergiojosemp.obddashboard.activity.MenuActivity" />
+        <activity
+            android:name="com.sergiojosemp.obddashboard.activity.MenuActivityKT" />
         <activity android:name="com.sergiojosemp.obddashboard.activity.DashboardActivity" />
 
         <service
             android:name="com.sergiojosemp.obddashboard.service.ObdService"
+            android:exported="false"
+            android:enabled="true"
+            android:launchMode="singleInstance" />
+
+        <service
+            android:name="com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting"
             android:exported="false"
             android:enabled="true"
             android:launchMode="singleInstance" />

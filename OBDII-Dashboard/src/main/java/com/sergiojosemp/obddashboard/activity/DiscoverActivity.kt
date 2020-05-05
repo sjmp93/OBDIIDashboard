@@ -1,17 +1,17 @@
 package com.sergiojosemp.obddashboard.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
 import android.os.AsyncTask
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -40,6 +40,28 @@ class DiscoverActivity: AppCompatActivity() {
     private var bluetoothReceiver: BroadcastReceiver? = null
 
 
+
+    private lateinit var obd : OBDKotlinCoroutinesTesting
+
+    inner class OBDServiceConnection : ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
+            obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
+                GlobalScope.launch { Log.d(TAG,"Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
+            })
+        }
+
+    }
+    private val serviceConn : DiscoverActivity.OBDServiceConnection = OBDServiceConnection()
+
+
+
+
+    @SuppressLint("NewApi")
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
 
@@ -49,34 +71,25 @@ class DiscoverActivity: AppCompatActivity() {
         val discoverViewModel: DiscoverViewModel = ViewModelProviders.of(this).get(DiscoverViewModel::class.java)
         // Observe changes on viewModel.device. When triggered, it tries to start a bluetooth socket in order to establish a bluetooth connection with the observed device
 
-        var valueReceived: MutableLiveData<ByteArray> = MutableLiveData()
-        valueReceived.observe(this, androidx.lifecycle.Observer {
+
+        discoverViewModel.valueReceived.observe(this, androidx.lifecycle.Observer {
             GlobalScope.launch { Log.d(TAG,"Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
         })
+
         discoverViewModel.device.observe(this, androidx.lifecycle.Observer {
-            /*doAsync {
-                if (BluetoothAdapter.checkBluetoothAddress(it.mac)) {
-                    val bluetoothDevice: BluetoothDevice = bluetoothAdapter!!.getRemoteDevice(it.mac)
-                    var tmp: BluetoothSocket? = null
-                    try {
-                        tmp = bluetoothDevice.javaClass.getMethod("createRfcommSocket", *arrayOf<Class<*>?>(Int::class.javaPrimitiveType))
-                            .invoke(bluetoothDevice, 1) as BluetoothSocket
 
-                        tmp!!.connect()
-                        Log.d(TAG, getString(R.string.connected_to_device))
+            obd.num = 2
 
-                    } catch (e: IllegalAccessException) {
-                        e.printStackTrace()
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    } finally {
-                        discoverViewModel.connecting.postValue(false)
-                    }
-                }
-            }.execute()*/
+            val menuActivity = Intent(this, MenuActivityKT::class.java)
+            startActivity(menuActivity)
+            //OBDKotlinCoroutinesTesting(bluetoothAdapter!!, it.mac!!, discoverViewModel.valueReceived, discoverViewModel.connecting)
+        })
 
-            val obdCoroutine = OBDKotlinCoroutinesTesting(bluetoothAdapter!!, it.mac!!, valueReceived)
-            discoverViewModel.connecting.postValue(false)
+        discoverViewModel.connecting.observe(this, androidx.lifecycle.Observer {
+            if(it == false && discoverViewModel.device.value != null) {
+                val menuActivity = Intent(this, MenuActivityKT::class.java)
+                startActivity(menuActivity)
+            }
         })
 
         binding.viewmodel = discoverViewModel
@@ -94,24 +107,29 @@ class DiscoverActivity: AppCompatActivity() {
                 if (BluetoothDevice.ACTION_FOUND == intent.action) {
                     //We take Bluetooth device from intent extra, contains name and MAC address
                     val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-
                     //We save discovered device on viewmodel list if it doesn't already contains it
                     val btDiscoveredDevice = BluetoothDeviceModel(name= if (device.name != null) device.name else "Unknown device" ,mac=device.address)
                     if(!binding.viewmodel!!.containsDevice(btDiscoveredDevice)){
                         val array :ArrayList<BluetoothDeviceModel> = binding.viewmodel!!.devices.value!!
                         array.add(btDiscoveredDevice)
                         binding.viewmodel!!.devices.value = array
-
-                        System.out.println("${btDiscoveredDevice.name} with MAC address: ${btDiscoveredDevice.mac} discovered.")
+                       Log.d(TAG,"${btDiscoveredDevice.name} with MAC address: ${btDiscoveredDevice.mac} discovered.")
                     }
                 }
             }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
         // Setting up the receiver
         val filter = IntentFilter(BluetoothDevice.ACTION_FOUND)
         registerReceiver(bluetoothReceiver, filter)
         checkLocationPermission() // We need to ckeck permissions after Android 6 in order to search bluetooth devices
+
+        var intent = Intent(this,OBDKotlinCoroutinesTesting::class.java)
+        startService(intent)
+        bindService(intent, serviceConn, Context.BIND_AUTO_CREATE);
 
         bluetoothAdapter?.startDiscovery()
     }
@@ -120,6 +138,8 @@ class DiscoverActivity: AppCompatActivity() {
         super.onPause()
         if (bluetoothReceiver != null)
             unregisterReceiver(bluetoothReceiver)
+        if(serviceConn!=null)
+            unbindService(serviceConn);
     }
 
 
@@ -135,13 +155,5 @@ class DiscoverActivity: AppCompatActivity() {
                 REQUEST_COARSE_LOCATION
             )
         }
-    }
-}
-
-//https://stackoverflow.com/questions/44525388/asynctask-in-android-with-kotlin
-class doAsync(val handler: () -> Unit) : AsyncTask<Void, Void, Void>() {
-    override fun doInBackground(vararg params: Void?): Void? {
-        handler()
-        return null
     }
 }

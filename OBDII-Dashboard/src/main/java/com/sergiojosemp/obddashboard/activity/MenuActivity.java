@@ -17,15 +17,21 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sergiojosemp.obddashboard.R;
 import com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser.FileBrowserActivity;
 import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting;
 import com.sergiojosemp.obddashboard.service.ObdService;
+import com.sergiojosemp.obddashboard.vm.DiscoverViewModel;
 
 import java.io.File;
 import java.io.IOException;
+
+import kotlin.UByteArray;
+import kotlinx.coroutines.GlobalScope;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -163,6 +169,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_activity);
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS);
+
         //OBDKotlinCoroutinesTesting test = new OBDKotlinCoroutinesTesting();
 
     /*

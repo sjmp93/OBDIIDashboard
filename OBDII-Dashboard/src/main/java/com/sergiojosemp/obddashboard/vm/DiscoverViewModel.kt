@@ -1,20 +1,22 @@
 package com.sergiojosemp.obddashboard.vm
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
-import com.sergiojosemp.obddashboard.model.BluetoothModel
 
+val TAG: String = "OBD-Log"
 class DiscoverViewModel: ViewModel(){
     var device: MutableLiveData<BluetoothDeviceModel>
     var devices: MutableLiveData<ArrayList<BluetoothDeviceModel>>
     var connecting: MutableLiveData<Boolean>
-    //val pr: MutableList = MutableList(1, )
+    var valueReceived: MutableLiveData<ByteArray>
 
     init{
         device = MutableLiveData()
         devices = MutableLiveData()
         connecting = MutableLiveData()
+        valueReceived =  MutableLiveData()
         devices.value = ArrayList()
         connecting.value = false
     }
@@ -32,10 +34,7 @@ class DiscoverViewModel: ViewModel(){
     }
 
     fun connect(_device: BluetoothDeviceModel){
-        //mostrarDispositivos();
-        //Log.d(TAG, getText(R.string.connecting_text).toString())
-        //Thread de conexión asíncorono
-        device.value = _device
-        System.out.println("Connecting")
+        device.postValue(_device)
+        Log.d(TAG, "Connecting")
     }
 }
