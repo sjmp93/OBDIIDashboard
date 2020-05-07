@@ -1,14 +1,14 @@
 package com.sergiojosemp.obddashboard.activity
 
 
-import android.annotation.SuppressLint
 import android.content.*
+import android.nfc.Tag
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.databinding.MenuActivityBinding
@@ -16,6 +16,7 @@ import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 import com.sergiojosemp.obddashboard.service.ObdService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+
 
 class MenuActivityKT : AppCompatActivity(){
 
@@ -124,6 +125,18 @@ class MenuActivityKT : AppCompatActivity(){
         super.onResume()
         val serviceIntent = Intent(this, OBDKotlinCoroutinesTesting::class.java);
         bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
+    }
+
+    override fun onBackPressed() {
+        MaterialAlertDialogBuilder(this, R.style.AlertDialog)
+            .setTitle("Exit")
+            .setMessage("Going back will result in bluetooth device being disconnected, are you sure?")
+            .setPositiveButton("Ok",  DialogInterface.OnClickListener { dialog, which ->
+                obd.disconnectFromDevice()
+                Log.d(TAG,"Going back to discover activity")
+                super.onBackPressed()})
+            .setNegativeButton("Cancel", /* listener = */ null)
+            .show();
     }
 
     override fun onPause() {

@@ -106,7 +106,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
             if(this.btAdapter == null && this.mac == null) {
                 this.btAdapter = bluetoothAdapter
                 this.mac = mac
-                sendAndReceivePrototype()
+                sendAndReceivePrototype() //TODO remove this when dashboard or verbose mode works
             }
         } catch (e: Exception){
             //progressBar.postValue(false)
@@ -119,6 +119,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
 
     fun disconnectFromDevice(){
         try{
+            Log.d(TAG,"Disconnecting from device")
             x.cancel()
             btConnection?.close()
             btConnection = null

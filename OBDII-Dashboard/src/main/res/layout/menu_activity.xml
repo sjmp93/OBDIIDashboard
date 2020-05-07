@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="25dp"
                 android:text="Bluetooth conectado"
-                android:textColor="@color/primaryButton"
+                android:textColor="@color/bluetoothStatusText"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -83,17 +83,14 @@
                     android:autoSizeMaxTextSize="32sp"
                     android:autoSizeMinTextSize="11sp"
                     android:autoSizeTextType="uniform"
-                    android:backgroundTint="@color/primaryButton"
+                    android:backgroundTint="@color/dashboardModeButton"
                     android:clickable="true"
                     android:elevation="5dp"
                     android:gravity="bottom|start"
-                    android:outlineAmbientShadowColor="#0081FF"
-                    android:outlineProvider="background"
                     android:paddingBottom="25dp"
                     android:text="Dashboard Mode"
                     android:textSize="32sp"
-                    app:backgroundTint="#65D55C"
-                    app:rippleColor="#FF0000" />
+                    app:rippleColor="@color/dashboardModeRipple" />
 
                 <Button
                     android:id="@+id/verboseButton"
@@ -102,12 +99,13 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="0dp"
                     android:layout_marginBottom="25dp"
-                    android:backgroundTint="#323232"
+                    android:backgroundTint="@color/verboseModeButton"
                     android:clickable="true"
                     android:gravity="bottom|start"
                     android:paddingBottom="25dp"
                     android:text="Verbose Mode"
-                    android:textSize="32sp" />
+                    android:textSize="32sp"
+                    app:rippleColor="@color/verboseModeRipple" />
 
                 <Button
                     android:id="@+id/chartsButton"
@@ -116,12 +114,13 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="0dp"
                     android:layout_marginBottom="25dp"
-                    android:backgroundTint="#fdca77"
+                    android:backgroundTint="@color/chartModeButton"
                     android:clickable="true"
                     android:gravity="bottom|start"
                     android:paddingBottom="25dp"
                     android:text="Chart Mode"
-                    android:textSize="32sp" />
+                    android:textSize="32sp"
+                    app:rippleColor="@color/chartModeRipple" />
 
                 <Button
                     android:id="@+id/diagnosticTroubleCodesButton"
@@ -130,12 +129,13 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="0dp"
                     android:layout_marginBottom="25dp"
-                    android:backgroundTint="@color/offlineButton"
+                    android:backgroundTint="@color/dtcModeButton"
                     android:clickable="true"
                     android:gravity="bottom|start"
                     android:paddingBottom="25dp"
                     android:text="DTC Mode"
-                    android:textSize="32sp" />
+                    android:textSize="32sp"
+                    app:rippleColor="@color/dtcModeRipple" />
 
                 <Button
                     android:id="@+id/settingsButton"
@@ -150,8 +150,9 @@
                     android:scaleType="centerInside"
                     android:text="Settings"
                     android:textSize="32sp"
-                    app:backgroundTint="#B2AFAF"
-                    app:maxImageSize="56dp" />
+                    app:backgroundTint="@color/settingsButton"
+                    app:maxImageSize="56dp"
+                    app:rippleColor="@color/settingsRipple" />
 
             </LinearLayout>
         </HorizontalScrollView>

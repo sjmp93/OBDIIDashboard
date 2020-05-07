@@ -50,8 +50,8 @@ class DiscoverActivity: AppCompatActivity() {
                 GlobalScope.launch { Log.d(TAG,"From Discover Activity : Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
             })
         }
-
     }
+
     private val serviceConn : DiscoverActivity.OBDServiceConnection = OBDServiceConnection()
 
 
@@ -116,6 +116,7 @@ class DiscoverActivity: AppCompatActivity() {
 
         binding.swipeRefreshLayout.setOnRefreshListener(OnRefreshListener {
             bluetoothAdapter?.cancelDiscovery()
+            Log.d(TAG,"Trying to discover more devices...")
             bluetoothAdapter?.startDiscovery()
             GlobalScope.launch {
                 delay(1000L) //some delay to let bluetoothAdapter to start discovering devices

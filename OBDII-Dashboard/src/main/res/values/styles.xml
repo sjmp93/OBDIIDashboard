@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="MaterialComponents" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primaryActionBar</item>
+        <item name="colorPrimary">@color/primaryButton</item>
         <item name="colorSecondary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryActionBar</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -72,5 +72,9 @@
         <item name="android:textStyle">bold</item>
         <item name="cornerRadius">15dp</item>
         <item name="android:textColor">@color/buttonText</item>
+    </style>
+
+    <style name="AlertDialog" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:buttonStyle">@style/AppTextAppearance.Button</item>
     </style>
 </resources>

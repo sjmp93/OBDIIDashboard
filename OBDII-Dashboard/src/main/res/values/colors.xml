@@ -12,8 +12,20 @@
     <color name="activityBackground">#FFFFFF</color>
     <color name="activityTitle">#000000</color>
     <color name="actionBarTitle">#000000</color>
+    <color name="discoverDevices">#4FAFFC</color>
     <color name="offlineButton">#F14B4B</color>
     <color name="buttonText">#FFFFFF</color>
+    <color name="dashboardModeButton">#4FAFFC</color>
+    <color name="verboseModeButton">#323232</color>
+    <color name="chartModeButton">#FDCA77</color>
+    <color name="dtcModeButton">#F14B4B</color>
+    <color name="settingsButton">#B2AFAF</color>
+    <color name="dashboardModeRipple">#0077FF</color>
+    <color name="verboseModeRipple">#000000</color>
+    <color name="chartModeRipple">#FFF700</color>
+    <color name="dtcModeRipple">#FF0000</color>
+    <color name="settingsRipple">#515151</color>
+    <color name="bluetoothStatusText">#4FAFFC</color>
 
 
 
