@@ -4,21 +4,19 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
-import android.bluetooth.BluetoothSocket
 import android.content.*
 import android.content.pm.PackageManager
-import android.os.AsyncTask
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.adapter.CustomRecyclerViewAdapter
 import com.sergiojosemp.obddashboard.databinding.DiscoverActivityBinding
@@ -27,10 +25,8 @@ import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 import com.sergiojosemp.obddashboard.vm.DiscoverViewModel
 import kotlinx.android.synthetic.main.discover_activity.*
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.IOException
-import java.util.*
-import kotlin.collections.ArrayList
 
 class DiscoverActivity: AppCompatActivity() {
     private val REQUEST_COARSE_LOCATION = 5
@@ -77,11 +73,8 @@ class DiscoverActivity: AppCompatActivity() {
         })
 
         discoverViewModel.device.observe(this, androidx.lifecycle.Observer {
-            obd.num = 2
-            obd.connectToDevice(bluetoothAdapter!!,it.mac!!,discoverViewModel.connecting)
-            //val menuActivity = Intent(this, MenuActivityKT::class.java)
-            //startActivity(menuActivity)
-            //OBDKotlinCoroutinesTesting(bluetoothAdapter!!, it.mac!!, discoverViewModel.valueReceived, discoverViewModel.connecting)
+            obd.num = 2 //TODO remove this - for debugging purpose
+            GlobalScope.launch{ obd.connectToDevice(bluetoothAdapter!!,it.mac!!,discoverViewModel.connecting) } // Separated thread to not to block UI
         })
 
         discoverViewModel.connecting.observe(this, androidx.lifecycle.Observer {
@@ -98,6 +91,9 @@ class DiscoverActivity: AppCompatActivity() {
             layoutManager = LinearLayoutManager(context)
             adapter = CustomRecyclerViewAdapter(context, mutableListOf<BluetoothDeviceModel>())
         }
+        //Needed to set bold text style to CollapsingToolbarLayout title
+        binding.collapsingToolbar.setExpandedTitleTypeface(Typeface.create(binding.collapsingToolbar.getExpandedTitleTypeface(), Typeface.BOLD));
+        binding.collapsingToolbar.setCollapsedTitleTypeface(Typeface.create(binding.collapsingToolbar.getExpandedTitleTypeface(), Typeface.BOLD));
 
         // Take a list of near bluetooth devices
         bluetoothReceiver = object : BroadcastReceiver() {
@@ -118,6 +114,19 @@ class DiscoverActivity: AppCompatActivity() {
             }
         }
 
+        binding.swipeRefreshLayout.setOnRefreshListener(OnRefreshListener {
+            bluetoothAdapter?.cancelDiscovery()
+            bluetoothAdapter?.startDiscovery()
+            GlobalScope.launch {
+                delay(1000L) //some delay to let bluetoothAdapter to start discovering devices
+                while (bluetoothAdapter?.isDiscovering ?: false){
+                    delay(1000L)
+                }
+                //When bluetoothAdapter stops to be discovering devices, then, set Refreshing progress to false
+                binding.swipeRefreshLayout.setRefreshing(false);
+            }
+        })
+
         val intent = Intent(this,OBDKotlinCoroutinesTesting::class.java)
         startService(intent)
     }
@@ -137,6 +146,7 @@ class DiscoverActivity: AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+        bluetoothAdapter?.cancelDiscovery()
         if (bluetoothReceiver != null)
             unregisterReceiver(bluetoothReceiver)
         if(serviceConn!=null)

@@ -56,17 +56,23 @@
         <Button
             android:id="@+id/offlineModeButton"
             style="@style/StartActivityButtons"
+            android:layout_height="120dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="5dp"
             android:backgroundTint="@color/offlineButton"
             android:text="@string/offline_mode_button"
-            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintBottom_toTopOf="@id/discoverButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintTop_toBottomOf="@id/imageView"
+            app:layout_constraintVertical_bias="0.45" />
 
         <Button
             android:id="@+id/discoverButton"
             style="@style/StartActivityButtons"
+            android:layout_height="120dp"
+            android:layout_marginBottom="20dp"
             android:animation="@{viewmodel.data.state ? @anim/appear : @anim/disappear}"
             android:backgroundTint="#4FAFFC"
             android:text="@string/discover_button"
@@ -79,8 +85,16 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="323dp"
-            android:layout_height="344dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="25dp"
+            android:paddingStart="30dp"
+            android:paddingTop="30dp"
+            android:paddingEnd="30dp"
+            android:paddingBottom="30dp"
             app:layout_constraintBottom_toTopOf="@+id/offlineModeButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

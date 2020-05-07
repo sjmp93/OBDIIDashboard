@@ -130,7 +130,7 @@ class MenuActivityKT : AppCompatActivity(){
         super.onPause()
         if(serviceConn!=null)
             unbindService(serviceConn);
-        obd.disconnectFromDevice()
+        //obd.disconnectFromDevice()
     }
 
     override fun onDestroy() {

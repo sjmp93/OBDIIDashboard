@@ -59,7 +59,7 @@
             comment1="Sets the background tint of the toolbar of the same color as background"
             comment2="Avoids over scroll effect when collapse the toolbar"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="370dp"
             android:backgroundTint="@color/activityBackground"
             android:fitsSystemWindows="true"
             android:overScrollMode="never"
@@ -94,8 +94,13 @@
                     app:layout_collapseMode="pin" />
             </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
-
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/NestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -104,17 +109,19 @@
                 android:id="@+id/bluetooth_device_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:overScrollMode="never"
                 app:data="@{viewmodel.devices}"
                 tools:listitem="@layout/bluetooth_device_row" />
         </androidx.core.widget.NestedScrollView>
-        <!--
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:layout_anchor="@id/appBar"
-            app:layout_anchorGravity="bottom|end" />
-            -->
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <!--
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/appBar"
+        app:layout_anchorGravity="bottom|end" />
+        -->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

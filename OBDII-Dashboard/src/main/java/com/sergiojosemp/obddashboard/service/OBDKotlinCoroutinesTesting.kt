@@ -1,10 +1,12 @@
 package com.sergiojosemp.obddashboard.service
 
 import android.app.*
+import android.app.Notification.EXTRA_NOTIFICATION_ID
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Binder
 import android.os.Build
@@ -88,7 +90,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
 */
     }
 
-    fun connectToDevice(bluetoothAdapter: BluetoothAdapter, mac: String, progressBar: MutableLiveData<Boolean>){
+    fun connectToDevice(bluetoothAdapter: BluetoothAdapter, mac: String, progressBar: MutableLiveData<Boolean>?){
         val btDevice = bluetoothAdapter!!.getRemoteDevice(mac)
         try {
             btConnection = btDevice.javaClass.getMethod(
@@ -98,10 +100,19 @@ class OBDKotlinCoroutinesTesting(): Service() {
                 .invoke(btDevice, 1) as BluetoothSocket
             btConnection!!.connect()
             Log.d(TAG, "Connected")
-            progressBar.postValue(false)
-            sendAndReceivePrototype()
+            progressBar?.postValue(false)
+            outputStream = btConnection!!.getOutputStream();
+            inputStream = btConnection!!.getInputStream()
+            if(this.btAdapter == null && this.mac == null) {
+                this.btAdapter = bluetoothAdapter
+                this.mac = mac
+                sendAndReceivePrototype()
+            }
         } catch (e: Exception){
             //progressBar.postValue(false)
+            //e.printStackTrace()
+            btConnection?.close()
+            btConnection = null
             Log.d(TAG, "Error connecting to device, try again")
         }
     }
@@ -119,17 +130,17 @@ class OBDKotlinCoroutinesTesting(): Service() {
 
     fun sendAndReceivePrototype(){
 
-        outputStream = btConnection!!.getOutputStream();
-        inputStream = btConnection!!.getInputStream()
+
 
         val BUFFER_SIZE = 1024
         val buffer = ByteArray(4)
         var bytes = 0
-
+        var error = false
         x = GlobalScope.launch { // launch a new coroutine in background and continue
-            while(btConnection?.isConnected ?: false) {
+            while(error || btConnection?.isConnected ?: false) {
                 delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
                 try {
+                    error = false
                     bytes = inputStream.read(buffer)
                     val a = buffer[0].toByte().toString(16)//.toByte()
                     val b = buffer[1].toByte().toString(16)//.toByte()
@@ -139,7 +150,12 @@ class OBDKotlinCoroutinesTesting(): Service() {
                     //byteArray.postValue(buffer)
                     liveOutput.postValue(buffer)
                 } catch (e: Exception) {
-                    Log.d(TAG,"Possible error on I/O streaming or device disconnected")
+                    Log.d(TAG,"Device disconnected. Trying to reconnect.")
+                    error = true
+                    btConnection?.close()
+                    btConnection = null
+                    connectToDevice(btAdapter!!, mac!!, null)
+                    //}
                 }
             }
         }
@@ -169,43 +185,37 @@ class OBDKotlinCoroutinesTesting(): Service() {
 
 
     private fun createNotification(): Notification {
-        val notificationChannelId = "ENDLESS SERVICE CHANNEL"
+        val notificationChannelId = "OBD SERVICE CHANNEL"
 
-        // depending on the Android API that we're dealing with we will have
-        // to use a specific method to create the notification
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
-            val channel = NotificationChannel(
-                notificationChannelId,
-                "Endless Service notifications channel",
-                NotificationManager.IMPORTANCE_HIGH
-            ).let {
-                it.description = "Endless Service channel"
-                it.enableLights(true)
-                it.lightColor = Color.RED
-                it.enableVibration(true)
-                it.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
-                it
-            }
-            notificationManager.createNotificationChannel(channel)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
+        val channel = NotificationChannel(
+            notificationChannelId,
+            "OBD Service Channel",
+            NotificationManager.IMPORTANCE_LOW
+        ).let {
+            it.description = "OBD Service Channel"
+            it.enableLights(true)
+            it.lightColor = Color.BLUE
+            it.enableVibration(true)
+            it.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
+            it
+        }
+        notificationManager.createNotificationChannel(channel)
+
+        val pendingIntent: PendingIntent = Intent(this, StartMenuActivity::class.java).let { notificationIntent ->
+            PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         }
 
-        /*val pendingIntent: PendingIntent = Intent(this, StartMenuActivity::class.java).let { notificationIntent ->
-            PendingIntent.getActivity(this, 0, notificationIntent, 0)
-        }*/
-
-        val builder: Notification.Builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) Notification.Builder(
-            this,
-            notificationChannelId
-        ) else Notification.Builder(this)
+        val builder: Notification.Builder = Notification.Builder(this, notificationChannelId)
 
         return builder
-            .setContentTitle("Endless Service")
-            .setContentText("This is your favorite endless service working")
+            .setContentTitle("OBD Dashboard is running in background")
+            //.setContentText("")
             //.setContentIntent(pendingIntent)
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setTicker("Ticker text")
-            .setPriority(Notification.PRIORITY_HIGH) // for under android 26 compatibility
+            //.setAutoCancel(true)
+            .setSmallIcon(R.drawable.dtc_512)
+            //.setTicker("Ticker text")
+            //.setProgress(100, 20, false)
             .build()
     }
 }
