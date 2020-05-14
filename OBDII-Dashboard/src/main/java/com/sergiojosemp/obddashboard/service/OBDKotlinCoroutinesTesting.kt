@@ -1,23 +1,25 @@
 package com.sergiojosemp.obddashboard.service
 
 import android.app.*
-import android.app.Notification.EXTRA_NOTIFICATION_ID
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Binder
-import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.MutableLiveData
+import com.github.pires.obd.commands.ObdCommand
+import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand
+import com.github.pires.obd.enums.AvailableCommandNames
+import com.github.pires.obd.reader.ObdCommandJob
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.activity.StartMenuActivity
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -134,9 +136,10 @@ class OBDKotlinCoroutinesTesting(): Service() {
 
 
         val BUFFER_SIZE = 1024
-        val buffer = ByteArray(4)
+        val buffer = ByteArray(5)
         var bytes = 0
         var error = false
+        var job: ObdCommandJob = ObdCommandJob(EngineCoolantTemperatureCommand())
         x = GlobalScope.launch { // launch a new coroutine in background and continue
             while(error || btConnection?.isConnected ?: false) {
                 delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
@@ -147,9 +150,15 @@ class OBDKotlinCoroutinesTesting(): Service() {
                     val b = buffer[1].toByte().toString(16)//.toByte()
                     val c = buffer[2].toByte().toString(16)//.toByte()
                     val d = buffer[3].toByte().toString(16)//.toByte()
-                    println("0x${a} 0x${b} 0x${c} 0x${d}")
+                    val e = buffer[4].toByte().toString(16)//.toByte()
+                    println("0x${a} 0x${b} 0x${c} 0x${d} 0x${e}")
+                    //val readMessage = String(buffer, 0, bytes)
+                    //println(readMessage)
                     //byteArray.postValue(buffer)
                     liveOutput.postValue(buffer)
+                    job.getCommand().run(inputStream,outputStream)
+                    Log.d(TAG,"OBD COMMAND sent and received with value ${job.command.calculatedResult}")
+                    job.command.calculatedResult
                 } catch (e: Exception) {
                     Log.d(TAG,"Device disconnected. Trying to reconnect.")
                     error = true
