@@ -23,13 +23,15 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.lang.IndexOutOfBoundsException
 
 
 private val TAG = "OBD-Log"
 class OBDKotlinCoroutinesTesting(): Service() {
     lateinit var outputStream: OutputStream
     lateinit var inputStream: InputStream
-    lateinit var liveOutput: MutableLiveData<ByteArray>
+    var liveOutput: MutableLiveData<ByteArray>
+    var commandResult: MutableLiveData<String> //TODO remove when dashboard working
     var num : Int = 0
     var btAdapter: BluetoothAdapter? = null
     var mac: String? = null
@@ -39,8 +41,8 @@ class OBDKotlinCoroutinesTesting(): Service() {
     lateinit var x: Job
     init{
         liveOutput = MutableLiveData()
+        commandResult = MutableLiveData()
         Log.d("OBD-Log", "Service started")
-
         /*
         try{
             liveOutput = MutableLiveData()
@@ -144,7 +146,9 @@ class OBDKotlinCoroutinesTesting(): Service() {
             while(error || btConnection?.isConnected ?: false) {
                 delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
                 try {
+
                     error = false
+
                     bytes = inputStream.read(buffer)
                     val a = buffer[0].toByte().toString(16)//.toByte()
                     val b = buffer[1].toByte().toString(16)//.toByte()
@@ -157,13 +161,19 @@ class OBDKotlinCoroutinesTesting(): Service() {
                     //byteArray.postValue(buffer)
                     liveOutput.postValue(buffer)
                     job.getCommand().run(inputStream,outputStream)
+                    if(job.command.calculatedResult != "-40.0")
+                        commandResult.postValue(job.command.calculatedResult)
                     Log.d(TAG,"OBD COMMAND sent and received with value ${job.command.calculatedResult}")
-                    job.command.calculatedResult
-                } catch (e: Exception) {
+
+                } catch(iob: IndexOutOfBoundsException){
+                    Log.d(TAG, "Index out of bounds exception")
+                }
+                catch (e: Exception) {
                     Log.d(TAG,"Device disconnected. Trying to reconnect.")
                     error = true
                     btConnection?.close()
                     btConnection = null
+                    delay(233L)
                     connectToDevice(btAdapter!!, mac!!, null)
                     //}
                 }

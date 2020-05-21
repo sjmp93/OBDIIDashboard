@@ -154,6 +154,12 @@ class DiscoverActivity: AppCompatActivity() {
             unbindService(serviceConn);
     }
 
+    override fun onBackPressed() {
+        val intent = Intent(this,OBDKotlinCoroutinesTesting::class.java)
+        stopService(intent)
+        super.onBackPressed()
+    }
+
 
     protected fun checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(

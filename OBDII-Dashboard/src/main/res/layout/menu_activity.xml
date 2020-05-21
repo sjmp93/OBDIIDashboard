@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewmodel"
+            type="com.sergiojosemp.obddashboard.vm.MenuViewModel" />
     </data>
     <!--style="@style/StartTheme"-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="25dp"
-                android:text="Bluetooth conectado"
+                android:text="@{viewmodel.obdDebugReceivedValue, default = No_value}"
                 android:textColor="@color/bluetoothStatusText"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -86,6 +88,7 @@
                     android:backgroundTint="@color/dashboardModeButton"
                     android:clickable="true"
                     android:elevation="5dp"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(1)}"
                     android:gravity="bottom|start"
                     android:paddingBottom="25dp"
                     android:text="Dashboard Mode"
@@ -101,6 +104,7 @@
                     android:layout_marginBottom="25dp"
                     android:backgroundTint="@color/verboseModeButton"
                     android:clickable="true"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(2)}"
                     android:gravity="bottom|start"
                     android:paddingBottom="25dp"
                     android:text="Verbose Mode"
@@ -116,6 +120,7 @@
                     android:layout_marginBottom="25dp"
                     android:backgroundTint="@color/chartModeButton"
                     android:clickable="true"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(3)}"
                     android:gravity="bottom|start"
                     android:paddingBottom="25dp"
                     android:text="Chart Mode"
@@ -131,6 +136,7 @@
                     android:layout_marginBottom="25dp"
                     android:backgroundTint="@color/dtcModeButton"
                     android:clickable="true"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(4)}"
                     android:gravity="bottom|start"
                     android:paddingBottom="25dp"
                     android:text="DTC Mode"
@@ -145,6 +151,7 @@
                     android:layout_marginTop="0dp"
                     android:layout_marginBottom="25dp"
                     android:clickable="true"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(5)}"
                     android:gravity="bottom|start"
                     android:paddingBottom="25dp"
                     android:scaleType="centerInside"
