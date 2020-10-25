@@ -179,9 +179,6 @@ class MenuActivityKT : AppCompatActivity(){
         super.onResume()
         val serviceIntent = Intent(this, OBDKotlinCoroutinesTesting::class.java);
         bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
-/*
-
-*/
     }
 
     override fun onBackPressed() {

@@ -16,6 +16,7 @@ import com.github.pires.obd.enums.AvailableCommandNames
 import com.github.pires.obd.reader.ObdCommandJob
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.activity.StartMenuActivity
+import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -94,7 +95,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
 */
     }
 
-    fun connectToDevice(bluetoothAdapter: BluetoothAdapter, mac: String, progressBar: MutableLiveData<Boolean>?){
+    fun connectToDevice(bluetoothAdapter: BluetoothAdapter, mac: String, progressBar: MutableLiveData<Boolean>?, device :MutableLiveData<BluetoothDeviceModel>?){
         val btDevice = bluetoothAdapter!!.getRemoteDevice(mac)
         try {
             btConnection = btDevice.javaClass.getMethod(
@@ -113,7 +114,8 @@ class OBDKotlinCoroutinesTesting(): Service() {
                 sendAndReceivePrototype() //TODO remove this when dashboard or verbose mode works
             }
         } catch (e: Exception){
-            //progressBar.postValue(false)
+            device?.postValue(null)
+            progressBar?.postValue(false)
             //e.printStackTrace()
             btConnection?.close()
             btConnection = null
@@ -134,9 +136,6 @@ class OBDKotlinCoroutinesTesting(): Service() {
 
 
     fun sendAndReceivePrototype(){
-
-
-
         val BUFFER_SIZE = 1024
         val buffer = ByteArray(5)
         var bytes = 0
@@ -174,7 +173,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
                     btConnection?.close()
                     btConnection = null
                     delay(233L)
-                    connectToDevice(btAdapter!!, mac!!, null)
+                    connectToDevice(btAdapter!!, mac!!, null, null)
                     //}
                 }
             }
