@@ -74,13 +74,15 @@ class DiscoverActivity: AppCompatActivity() {
 
         discoverViewModel.device.observe(this, androidx.lifecycle.Observer {
             obd.num = 2 //TODO remove this - for debugging purpose
-            GlobalScope.launch{ obd.connectToDevice(bluetoothAdapter!!,it.mac!!,discoverViewModel.connecting) } // Separated thread to not to block UI
+            if(it != null) GlobalScope.launch{ obd.connectToDevice(bluetoothAdapter!!,it.mac!!,discoverViewModel.connecting, discoverViewModel.device) } // Separated thread to not to block UI
         })
 
         discoverViewModel.connecting.observe(this, androidx.lifecycle.Observer {
             if(it == false && discoverViewModel.device.value != null) { //Only true if device connected
                 val menuActivity = Intent(this, MenuActivityKT::class.java)
                 startActivity(menuActivity)
+            } else if(it == false && discoverViewModel.device.value == null){
+
             }
         })
 
