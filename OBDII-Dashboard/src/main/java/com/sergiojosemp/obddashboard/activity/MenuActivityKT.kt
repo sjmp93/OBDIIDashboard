@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 class MenuActivityKT : AppCompatActivity(){
 
     private val PREFERENCES = "preferences"
+    private val ONLINE_EXTRA = "ONLINE_EXTRA"
 
 
     private var obdService: ObdService? = null
@@ -39,6 +40,7 @@ class MenuActivityKT : AppCompatActivity(){
     private val diagnosticTroubleCodesButton: FloatingActionButton? = null
     private val verboseButton: FloatingActionButton? = null
 
+
     private val TAG = "OBD-Log"
 
     @Inject
@@ -47,11 +49,14 @@ class MenuActivityKT : AppCompatActivity(){
     private val serviceConn : OBDServiceConnection = OBDServiceConnection()
     private lateinit var binding: MenuActivityBinding
     private lateinit var viewModel: MenuViewModel
+    private var onlineModeFlag: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Se carga y configura el nuevo layout
         super.onCreate(savedInstanceState)
+        onlineModeFlag = intent.extras.getBoolean(ONLINE_EXTRA)
         //setContentView(R.layout.menu_activity)
+        //getExtraData(ONLINE_EXTRA)
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS)
         binding = DataBindingUtil.setContentView(
             this, R.layout.menu_activity)
@@ -182,15 +187,21 @@ class MenuActivityKT : AppCompatActivity(){
     }
 
     override fun onBackPressed() {
-        MaterialAlertDialogBuilder(this, R.style.AlertDialog)
-            .setTitle("Exit")
-            .setMessage("Going back will result in bluetooth device being disconnected, are you sure?")
-            .setPositiveButton("Ok",  DialogInterface.OnClickListener { dialog, which ->
-                obd.disconnectFromDevice()
-                Log.d(TAG,"Going back to discover activity")
-                super.onBackPressed()})
-            .setNegativeButton("Cancel", /* listener = */ null)
-            .show();
+        if(onlineModeFlag)
+            MaterialAlertDialogBuilder(this, R.style.AlertDialog)
+                .setTitle(getString(R.string.exit_title))
+                .setMessage(getString(R.string.go_back_advice))
+                .setPositiveButton(getString(R.string.ok_option),  DialogInterface.OnClickListener { dialog, which ->
+                    obd.disconnectFromDevice()
+                    Log.d(TAG,"Going back to discover activity")
+                    super.onBackPressed()})
+                .setNegativeButton(getString(R.string.cancel_option), /* listener = */ null)
+                .show();
+        else{
+            Log.d(TAG,"Going back to start menu activity")
+            super.onBackPressed()
+        }
+
     }
 
     override fun onPause() {

@@ -188,6 +188,10 @@
     <string name="error_getting_dtc">Error getting Trouble Codes from OBD. Is device connected an OBD device?</string>
     <string name="BT_STATUS_TEXT">BT Status</string>
     <string name="connect_title">Connect</string>
+    <string name="exit_title">Exit</string>
+    <string name="ok_option">Ok</string>
+    <string name="cancel_option">Cancel</string>
+    <string name="go_back_advice">Going back will result in bluetooth device being disconnected, are you sure?</string>
 
     "Error getting Trouble Codes from OBD. Is OBD device connected?"
     Executing queue will be paused during Diagnostic Trouble Code Activity

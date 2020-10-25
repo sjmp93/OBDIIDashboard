@@ -23,6 +23,8 @@ import java.util.*
 
 class StartMenuActivity: AppCompatActivity() {
     private val MY_PERMISSIONS_REQUEST = 0
+    private val ONLINE_EXTRA = "ONLINE_EXTRA"
+
     private lateinit var viewModel: StartViewModel
     private lateinit var binding: MainActivityBinding
     private val btDevice = BluetoothAdapter.getDefaultAdapter()
@@ -79,9 +81,10 @@ class StartMenuActivity: AppCompatActivity() {
         }
 
         binding.offlineModeButton.setOnClickListener{
-            val MenuActivity =
-                Intent(applicationContext, MenuActivity::class.java)
-            startActivity(MenuActivity)
+            val menuActivity =
+                Intent(applicationContext, MenuActivityKT::class.java)
+            menuActivity.putExtra(ONLINE_EXTRA, false)
+            startActivity(menuActivity)
         }
 
 

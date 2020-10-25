@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 
 class DiscoverActivity: AppCompatActivity() {
     private val REQUEST_COARSE_LOCATION = 5
+    private val ONLINE_EXTRA = "ONLINE_EXTRA"
     private var bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private val TAG = "OBD-Log"
     private lateinit var binding: DiscoverActivityBinding
@@ -80,6 +81,7 @@ class DiscoverActivity: AppCompatActivity() {
         discoverViewModel.connecting.observe(this, androidx.lifecycle.Observer {
             if(it == false && discoverViewModel.device.value != null) { //Only true if device connected
                 val menuActivity = Intent(this, MenuActivityKT::class.java)
+                menuActivity.putExtra(ONLINE_EXTRA, true)
                 startActivity(menuActivity)
             } else if(it == false && discoverViewModel.device.value == null){
 
