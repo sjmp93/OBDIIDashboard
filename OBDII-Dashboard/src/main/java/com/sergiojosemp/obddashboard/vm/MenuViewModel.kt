@@ -1,15 +1,16 @@
 package com.sergiojosemp.obddashboard.vm
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class MenuViewModel: ViewModel() {
     var obdDebugReceivedValue: MutableLiveData<String> ?= null //TODO remove this when dashboard is working
     var selectedOption: MutableLiveData<Int> ?= null
+    var connectedStatusLed: MutableLiveData<Boolean> ?= null
     init{
-        obdDebugReceivedValue = MutableLiveData()
+        obdDebugReceivedValue = MutableLiveData("")
         selectedOption = MutableLiveData()
+        connectedStatusLed = MutableLiveData()
     }
 
     fun setValue(receivedValue: String){
@@ -28,4 +29,10 @@ class MenuViewModel: ViewModel() {
     fun setSelectedOption(option: Int){
         selectedOption?.postValue(option)
     }
+
+    fun setConnectedStatusLed(status: Boolean){
+        connectedStatusLed!!.postValue(status)
+    }
+
+
 }

@@ -7,7 +7,8 @@
     <color name="colorPrimaryDark">#0077ff</color>
     <color name="colorSecundary">#FFB13B</color>
     <color name="colorSecundaryDark">#FF8F07</color>
-    <color name="colorAccent">#FF9800</color>
+    <color name="colorAccent">#FFFFFF</color>
+    <color name="connectionStatusColor">#4E4E4E</color>
     <color name="deviceNameListTextColor">#FF8F07</color>
     <color name="activityBackground">#FFFFFF</color>
     <color name="activityTitle">#000000</color>
@@ -26,7 +27,7 @@
     <color name="dtcModeRipple">#FF0000</color>
     <color name="settingsRipple">#515151</color>
     <color name="bluetoothStatusText">#4FAFFC</color>
-
+    <color name="connectionLedConnected">#87DC59</color>
 
 
     <!-- http://www.google.com/design/spec/style/color.html#color-color-palette -->

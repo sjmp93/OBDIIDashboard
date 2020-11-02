@@ -7,6 +7,7 @@
         <variable
             name="viewmodel"
             type="com.sergiojosemp.obddashboard.vm.MenuViewModel" />
+        <import type="android.view.View"/>
     </data>
     <!--style="@style/StartTheme"-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,35 +25,50 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView2"
-                style="@style/ExpandedActionBar"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-
-                android:gravity="bottom|left"
-                android:paddingStart="25dp"
-                android:paddingEnd="0dp"
-                android:paddingBottom="15dp"
-                android:text="Menú"
-                app:layout_constraintBottom_toTopOf="@id/textView3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/ConnectionStatusText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="25dp"
-                android:text="@{viewmodel.obdDebugReceivedValue, default = No_value}"
-                android:textColor="@color/bluetoothStatusText"
+                android:text="@{viewmodel.connectedStatusLed ? @string/status_obd_connected : @string/status_obd_disconnected, default = @string/status_obd_disconnected}"
+                android:textColor="@color/connectionStatusColor"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.050000012" />
+
+            <ImageView
+                android:id="@+id/ConnectionStatusLed"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@{viewmodel.connectedStatusLed ? @color/connectionLedConnected : @color/dtcModeButton, default = @color/dtcModeButton}"
+                android:layout_marginHorizontal="10dp"
+                android:visibility="@{viewmodel.obdDebugReceivedValue.isEmpty() ? View.VISIBLE : View.INVISIBLE, default = visible}"
+                app:layout_constraintBottom_toBottomOf="@+id/ConnectionStatusText"
+                app:layout_constraintEnd_toStartOf="@+id/ConnectionStatusText"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ConnectionStatusText" />
+
+            <TextView
+                android:id="@+id/MenuTitle"
+                style="@style/ExpandedActionBar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="bottom|left"
+                android:paddingStart="25dp"
+                android:paddingEnd="0dp"
+                android:paddingBottom="15dp"
+                android:text="Menú"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -69,6 +85,7 @@
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
             <LinearLayout
+                android:id="@+id/ModesHorizontalLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"

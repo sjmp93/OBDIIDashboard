@@ -157,6 +157,7 @@
     <string name="trying_reset">Trying reset</string>
     <string name="obd_service_working">OBD Service working</string>
     <string name="connected_to_device">Connected to BT device.</string>
+    <string name="status_obd_connected">Connected</string>
     <string name="connection_finished">Connection finished.</string>
     <string name="connection_error_is_obd_adapter">Connection error. Is this an OBD adapter?</string>
     <string name="checking_if_obdr">Checking if BT device is an OBD adapter or not...</string>

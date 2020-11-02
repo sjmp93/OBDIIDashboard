@@ -2,26 +2,21 @@ package com.sergiojosemp.obddashboard.activity
 
 
 import android.content.*
-import android.graphics.Color
-import android.nfc.Tag
 import android.os.Bundle
 import android.os.Environment
 import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.databinding.MenuActivityBinding
 import com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser.FileBrowserActivity
-import com.sergiojosemp.obddashboard.model.BluetoothModel
 import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 import com.sergiojosemp.obddashboard.service.ObdService
 import com.sergiojosemp.obddashboard.vm.MenuViewModel
-import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,7 +41,7 @@ class MenuActivityKT : AppCompatActivity(){
     @Inject
     private lateinit var preferences: SharedPreferences
     private lateinit var obd : OBDKotlinCoroutinesTesting
-    private val serviceConn : OBDServiceConnection = OBDServiceConnection()
+    private val serviceConn : OBDServiceConnectionOnMenu = OBDServiceConnectionOnMenu()
     private lateinit var binding: MenuActivityBinding
     private lateinit var viewModel: MenuViewModel
     private var onlineModeFlag: Boolean = false
@@ -69,7 +64,7 @@ class MenuActivityKT : AppCompatActivity(){
                 val dashboardActivity = Intent(this, DashboardActivity::class.java);
                 startActivity(dashboardActivity)
             } else if (it.equals(2)) { // Verbose Mode
-                val verboseActivity = Intent(this, VerboseActivity::class.java);
+                val verboseActivity = Intent(this, VerboseActivityKT::class.java);
                 startActivity(verboseActivity)
             } else if (it.equals(3)) { // Chart Mode TODO refactor this
                 val REQUEST_CODE_PICK_FILE = 2
@@ -216,7 +211,7 @@ class MenuActivityKT : AppCompatActivity(){
     }
 
 
-    inner class OBDServiceConnection : ServiceConnection{
+    inner class OBDServiceConnectionOnMenu : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             TODO("Not yet implemented")
         }
@@ -224,11 +219,36 @@ class MenuActivityKT : AppCompatActivity(){
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) { //TODO here we have to fill a textView that shows OBD connection status
             obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
             obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch { Log.d(TAG,"From Menu Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
+                GlobalScope.launch { Log.d(com.sergiojosemp.obddashboard.vm.TAG,"From Menu Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
             })
 
             obd.commandResult.observe(binding.lifecycleOwner!!,  androidx.lifecycle.Observer{
-                GlobalScope.launch { viewModel.setValue(it)}
+                //This routine emulates led blinking when data is received
+                /*GlobalScope.launch {
+                    viewModel.setValue("Invisible")
+                    delay(100L)
+                    viewModel.setValue("")
+                    delay(200L)
+                    viewModel.setValue("Invisible")
+                    delay(200L)
+                    viewModel.setValue("")
+                    delay(200L)
+                    viewModel.setValue("Invisible")
+                    delay(100L)
+                    viewModel.setValue("")
+                }*/
+            })
+
+            obd.btConnectionStatus.observe(binding.lifecycleOwner!!,  androidx.lifecycle.Observer{
+                GlobalScope.launch {
+                    if(it) {
+                        //viewModel.setValue(getString(R.string.status_obd_connected))
+                        viewModel.setConnectedStatusLed(true)
+                    }else{
+                        //viewModel.setValue(getString(R.string.status_obd_disconnected))
+                        viewModel.setConnectedStatusLed(false)
+                    }
+                }
             })
         }
 

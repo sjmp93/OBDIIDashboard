@@ -53,6 +53,9 @@
         <activity android:name="com.sergiojosemp.obddashboard.activity.VerboseActivity">
         </activity>
 
+        <activity android:name="com.sergiojosemp.obddashboard.activity.VerboseActivityKT">
+        </activity>
+
         <activity android:name="com.sergiojosemp.obddashboard.activity.DiagnosticTroubleCodeActivity">
         </activity>
 

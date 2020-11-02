@@ -10,9 +10,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.github.pires.obd.commands.ObdCommand
 import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand
-import com.github.pires.obd.enums.AvailableCommandNames
 import com.github.pires.obd.reader.ObdCommandJob
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.activity.StartMenuActivity
@@ -24,7 +22,6 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
-import java.lang.IndexOutOfBoundsException
 
 
 private val TAG = "OBD-Log"
@@ -33,16 +30,24 @@ class OBDKotlinCoroutinesTesting(): Service() {
     lateinit var inputStream: InputStream
     var liveOutput: MutableLiveData<ByteArray>
     var commandResult: MutableLiveData<String> //TODO remove when dashboard working
+    var btConnectionStatus: MutableLiveData<Boolean>
     var num : Int = 0
     var btAdapter: BluetoothAdapter? = null
     var mac: String? = null
     var byteArray: MutableLiveData<ByteArray>? = null
     var progressBar: MutableLiveData<Boolean>? = null
     var btConnection: BluetoothSocket? = null
+
+
+
     lateinit var x: Job
     init{
         liveOutput = MutableLiveData()
         commandResult = MutableLiveData()
+        btConnectionStatus = MutableLiveData()
+
+
+
         Log.d("OBD-Log", "Service started")
         /*
         try{
@@ -95,7 +100,12 @@ class OBDKotlinCoroutinesTesting(): Service() {
 */
     }
 
-    fun connectToDevice(bluetoothAdapter: BluetoothAdapter, mac: String, progressBar: MutableLiveData<Boolean>?, device :MutableLiveData<BluetoothDeviceModel>?){
+    fun connectToDevice(
+        bluetoothAdapter: BluetoothAdapter,
+        mac: String,
+        progressBar: MutableLiveData<Boolean>?,
+        device: MutableLiveData<BluetoothDeviceModel>?
+    ){
         val btDevice = bluetoothAdapter!!.getRemoteDevice(mac)
         try {
             btConnection = btDevice.javaClass.getMethod(
@@ -105,6 +115,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
                 .invoke(btDevice, 1) as BluetoothSocket
             btConnection!!.connect()
             Log.d(TAG, "Connected")
+            btConnectionStatus.postValue(true)
             progressBar?.postValue(false)
             outputStream = btConnection!!.getOutputStream();
             inputStream = btConnection!!.getInputStream()
@@ -117,21 +128,25 @@ class OBDKotlinCoroutinesTesting(): Service() {
             device?.postValue(null)
             progressBar?.postValue(false)
             //e.printStackTrace()
-            btConnection?.close()
-            btConnection = null
+            disconnectRoutine()
             Log.d(TAG, "Error connecting to device, try again")
         }
     }
 
     fun disconnectFromDevice(){
         try{
-            Log.d(TAG,"Disconnecting from device")
+            Log.d(TAG, "Disconnecting from device")
             x.cancel()
-            btConnection?.close()
-            btConnection = null
+            disconnectRoutine()
         } catch (e: Exception){
             Log.d(TAG, "Error disconnecting from device. Is any device connected?")
         }
+    }
+
+    fun disconnectRoutine(){
+        btConnection?.close()
+        btConnection = null
+        btConnectionStatus.postValue(false)
     }
 
 
@@ -142,8 +157,8 @@ class OBDKotlinCoroutinesTesting(): Service() {
         var error = false
         var job: ObdCommandJob = ObdCommandJob(EngineCoolantTemperatureCommand())
         x = GlobalScope.launch { // launch a new coroutine in background and continue
-            while(error || btConnection?.isConnected ?: false) {
-                delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
+            while(error || (btConnection?.isConnected ?: false)) {
+                delay(2000L) // non-blocking delay for 1 second (default time unit is ms)
                 try {
 
                     error = false
@@ -159,16 +174,19 @@ class OBDKotlinCoroutinesTesting(): Service() {
                     //println(readMessage)
                     //byteArray.postValue(buffer)
                     liveOutput.postValue(buffer)
-                    job.getCommand().run(inputStream,outputStream)
+                    job.getCommand().run(inputStream, outputStream)
                     if(job.command.calculatedResult != "-40.0")
                         commandResult.postValue(job.command.calculatedResult)
-                    Log.d(TAG,"OBD COMMAND sent and received with value ${job.command.calculatedResult}")
+                    Log.d(
+                        TAG,
+                        "OBD COMMAND sent and response received with value ${job.command.calculatedResult}"
+                    )
 
-                } catch(iob: IndexOutOfBoundsException){
+                } catch (iob: IndexOutOfBoundsException){
                     Log.d(TAG, "Index out of bounds exception")
                 }
                 catch (e: Exception) {
-                    Log.d(TAG,"Device disconnected. Trying to reconnect.")
+                    Log.d(TAG, "Device disconnected. Trying to reconnect.")
                     error = true
                     btConnection?.close()
                     btConnection = null
@@ -182,7 +200,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
 
 
     fun printThing(){
-        Log.d(TAG,"Thing ${num}")
+        Log.d(TAG, "Thing ${num}")
     }
 
     @Throws(IOException::class)
@@ -222,7 +240,12 @@ class OBDKotlinCoroutinesTesting(): Service() {
         notificationManager.createNotificationChannel(channel)
 
         val pendingIntent: PendingIntent = Intent(this, StartMenuActivity::class.java).let { notificationIntent ->
-            PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.getActivity(
+                this,
+                0,
+                notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
         }
 
         val builder: Notification.Builder = Notification.Builder(this, notificationChannelId)
