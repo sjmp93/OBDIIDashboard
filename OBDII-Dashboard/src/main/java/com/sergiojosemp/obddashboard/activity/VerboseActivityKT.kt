@@ -1,9 +1,6 @@
 package com.sergiojosemp.obddashboard.activity
 
-import android.content.ComponentName
-import android.content.Context
-import android.content.ServiceConnection
-import android.content.SharedPreferences
+import android.content.*
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -36,7 +33,7 @@ class VerboseActivityKT : AppCompatActivity(){
     private val accelerometerListener: SensorEventListener?
     private var orientSensor: Sensor? = null // Se usa para recibir la orientación a través del sensor de orientación del dispositivo
     private var accelerometerSensor: Sensor? = null // Se usa para recibir la aceleración a través del sensor de aceleración del dispositivo
-
+    private val serviceConn : OBDServiceConnectionOnMenu = OBDServiceConnectionOnMenu()
 
     init {
         orientListener = object : SensorEventListener {
@@ -73,7 +70,7 @@ class VerboseActivityKT : AppCompatActivity(){
                 val y = event.values[1]
                 val z = event.values[2]
                 val mod = Math.sqrt(x * x + y * y + (z * z).toDouble()) / 9.81 //G
-                viewModel.accelerationIndicator?.postValue(mod.toString())
+                viewModel.accelerationIndicator?.postValue("G-Force: ${mod.toString().substring(0,4)}")
             }
 
             override fun onAccuracyChanged(sensor: Sensor, accuracy: Int) {
@@ -93,7 +90,6 @@ class VerboseActivityKT : AppCompatActivity(){
 
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
-
     }
 
     override fun onResume(){
@@ -118,17 +114,28 @@ class VerboseActivityKT : AppCompatActivity(){
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
+        val serviceIntent = Intent(this, OBDKotlinCoroutinesTesting::class.java);
+        bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
     }
+
+    override fun onPause(){
+        super.onPause()
+        if(serviceConn!=null)
+            unbindService(serviceConn);
+    }
+
+
+
 
     inner class OBDServiceConnectionOnMenu : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             TODO("Not yet implemented")
         }
-
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) { //TODO here we have to fill a textView that shows OBD connection status
             obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
+            //FIXME Here we are receiving data from OBDService, so, from here, we have to update the UI
             obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch { Log.d(com.sergiojosemp.obddashboard.vm.TAG,"From Menu Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
+                GlobalScope.launch { Log.d(com.sergiojosemp.obddashboard.vm.TAG,"From Verbose Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
             })
 
             /*obd.compass.observe(binding.lifecycleOwner!!,  androidx.lifecycle.Observer{
