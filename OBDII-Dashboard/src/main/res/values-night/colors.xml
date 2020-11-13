@@ -28,7 +28,7 @@
     <color name="settingsRipple">#515151</color>
     <color name="bluetoothStatusText">#4FAFFC</color>
     <color name="connectionLedConnected">#87DC59</color>
-
+    <color name="connectionLedDisconnected">#F14B4B</color>
 
 
     <!-- http://www.google.com/design/spec/style/color.html#color-color-palette -->

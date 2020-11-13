@@ -10,11 +10,22 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.github.pires.obd.commands.SpeedCommand
+import com.github.pires.obd.commands.control.ModuleVoltageCommand
+import com.github.pires.obd.commands.engine.OilTempCommand
+import com.github.pires.obd.commands.engine.RPMCommand
+import com.github.pires.obd.commands.engine.ThrottlePositionCommand
+import com.github.pires.obd.commands.fuel.ConsumptionRateCommand
+import com.github.pires.obd.commands.pressure.FuelPressureCommand
+import com.github.pires.obd.commands.pressure.PressureCommand
+import com.github.pires.obd.commands.temperature.AirIntakeTemperatureCommand
+import com.github.pires.obd.commands.temperature.AmbientAirTemperatureCommand
 import com.github.pires.obd.commands.temperature.EngineCoolantTemperatureCommand
 import com.github.pires.obd.reader.ObdCommandJob
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.activity.StartMenuActivity
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
+import com.sergiojosemp.obddashboard.model.ObdDataModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -37,7 +48,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
     var byteArray: MutableLiveData<ByteArray>? = null
     var progressBar: MutableLiveData<Boolean>? = null
     var btConnection: BluetoothSocket? = null
-
+    val obdCommandReceived: MutableLiveData<ObdDataModel> = MutableLiveData()
 
 
     lateinit var x: Job
@@ -156,11 +167,26 @@ class OBDKotlinCoroutinesTesting(): Service() {
         var bytes = 0
         var error = false
         var job: ObdCommandJob = ObdCommandJob(EngineCoolantTemperatureCommand())
+        var i = 0;
+        var simulateCommand = 0
         x = GlobalScope.launch { // launch a new coroutine in background and continue
             while(error || (btConnection?.isConnected ?: false)) {
-                delay(2000L) // non-blocking delay for 1 second (default time unit is ms)
+                delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
                 try {
-
+                    simulateCommand = i % 10
+                    when (simulateCommand){
+                        0 -> job = ObdCommandJob(EngineCoolantTemperatureCommand())
+                        1 -> job = ObdCommandJob(SpeedCommand())
+                        2 -> job = ObdCommandJob(RPMCommand())
+                        3 -> job = ObdCommandJob(AirIntakeTemperatureCommand())
+                        4 -> job = ObdCommandJob(ThrottlePositionCommand())
+                        5 -> job = ObdCommandJob(OilTempCommand())
+                        6 -> job = ObdCommandJob(FuelPressureCommand())
+                        7 -> job = ObdCommandJob(ModuleVoltageCommand())
+                        8 -> job = ObdCommandJob(ConsumptionRateCommand())
+                        9 -> job = ObdCommandJob(AmbientAirTemperatureCommand())
+                    }
+                    i++
                     error = false
 
                     bytes = inputStream.read(buffer)
@@ -175,8 +201,10 @@ class OBDKotlinCoroutinesTesting(): Service() {
                     //byteArray.postValue(buffer)
                     liveOutput.postValue(buffer)
                     job.getCommand().run(inputStream, outputStream)
-                    if(job.command.calculatedResult != "-40.0")
+                    if(job.command.calculatedResult != "-40.0") {
                         commandResult.postValue(job.command.calculatedResult)
+                        obdCommandReceived?.postValue(ObdDataModel(job.command.name, job.command.calculatedResult))
+                    }
                     Log.d(
                         TAG,
                         "OBD COMMAND sent and response received with value ${job.command.calculatedResult}"

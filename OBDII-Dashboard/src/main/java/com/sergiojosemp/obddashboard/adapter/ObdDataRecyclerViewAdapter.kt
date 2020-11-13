@@ -20,10 +20,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 //We get context from DiscoverActivity since this adapter is dependant of Android stuff and its context.
-class ObdDataRecyclerViewAdapter(private val context : Context, private val obdData: MutableList<ObdDataModel>) : RecyclerView.Adapter<ObdDataRecyclerViewAdapter.CustomViewHolder>() {
+class ObdDataRecyclerViewAdapter(private val context : Context?, private val obdData: MutableList<ObdDataModel>?) : RecyclerView.Adapter<ObdDataRecyclerViewAdapter.CustomViewHolder>() {
     fun setData(data: MutableList<ObdDataModel>) {
-        obdData.clear()
-        obdData.addAll(data)
+        obdData?.clear()
+        obdData?.addAll(data)
         notifyDataSetChanged()
     }
 
@@ -33,10 +33,10 @@ class ObdDataRecyclerViewAdapter(private val context : Context, private val obdD
         )
     }
 
-    override fun getItemCount(): Int = obdData.size
+    override fun getItemCount(): Int = obdData?.size ?: 0
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.bind(obdData[position])
+        obdData?.get(position)?.let { holder.bind(it) }
     }
 
     inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {

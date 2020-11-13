@@ -44,7 +44,7 @@
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:background="@drawable/circle_shape"
-                android:backgroundTint="@{viewmodel.connectedStatusLed ? @color/connectionLedConnected : @color/dtcModeButton, default = @color/dtcModeButton}"
+                android:backgroundTint="@{viewmodel.connectedStatusLed ? @color/connectionLedConnected : @color/connectionLedDisconnected, default = @color/dtcModeButton}"
                 android:layout_marginHorizontal="10dp"
                 android:visibility="@{viewmodel.obdDebugReceivedValue.isEmpty() ? View.VISIBLE : View.INVISIBLE, default = visible}"
                 app:layout_constraintBottom_toBottomOf="@+id/ConnectionStatusText"

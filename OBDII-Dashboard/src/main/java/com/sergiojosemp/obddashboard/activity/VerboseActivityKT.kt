@@ -156,6 +156,13 @@ class VerboseActivityKT : AppCompatActivity(){
                     viewModel.compassIndicator?.postValue(it)
                 }
             })*/
+            obd.obdCommandReceived.observe(binding.lifecycleOwner!!,  androidx.lifecycle.Observer{
+                GlobalScope.launch {
+                    viewModel.setObdResult(it)
+                }
+            })
         }
+
+
     }
 }
