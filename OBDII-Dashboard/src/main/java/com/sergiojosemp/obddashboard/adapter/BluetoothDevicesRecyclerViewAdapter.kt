@@ -1,32 +1,23 @@
 package com.sergiojosemp.obddashboard.adapter
 
-import android.app.Activity
-import android.bluetooth.BluetoothAdapter
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.BindingAdapter
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sergiojosemp.obddashboard.R
-import com.sergiojosemp.obddashboard.activity.ConnectActivity
 import com.sergiojosemp.obddashboard.activity.DiscoverActivity
-import com.sergiojosemp.obddashboard.activity.MenuActivity
-import com.sergiojosemp.obddashboard.activity.StartActivity
-import com.sergiojosemp.obddashboard.databinding.BluetoothDeviceRowBinding
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
 import com.sergiojosemp.obddashboard.vm.DiscoverViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 //We get context from DiscoverActivity since this adapter is dependant of Android stuff and its context.
-class CustomRecyclerViewAdapter(private val context : Context, private val devices: MutableList<BluetoothDeviceModel>) : RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder>() {
+class BluetoothDevicesRecyclerViewAdapter(private val context : Context, private val devices: MutableList<BluetoothDeviceModel>) : RecyclerView.Adapter<BluetoothDevicesRecyclerViewAdapter.CustomViewHolder>() {
     fun setData(data: MutableList<BluetoothDeviceModel>) {
         devices.clear()
         devices.addAll(data)
@@ -58,18 +49,6 @@ class CustomRecyclerViewAdapter(private val context : Context, private val devic
                                      discoverViewModel.connect(bluetoothDevice)
                                     } //This is a blocking call, so we execute it in parallel to not to block the UI
             }
-
-            /*itemView.findViewById<Button>(R.id.bluetoothConnectRowButton).setOnClickListener {
-                val connectActivity = Intent(itemView.context, ConnectActivity::class.java)
-                connectActivity.putExtra("name", bluetoothDevice.name)
-                connectActivity.putExtra("mac", bluetoothDevice.mac)
-                //We stop bluetooth discovery because we are going to connect to bluetoothDevice.name
-                val bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-                bluetoothAdapter?.cancelDiscovery()
-                //DiscoveryActivity.putExtra("bluetoothAdapter", bluetooth);
-                //startActivity(itemView.context,connectActivity,null)
-
-            }*/
         }
     }
 
@@ -78,7 +57,7 @@ class CustomRecyclerViewAdapter(private val context : Context, private val devic
         @JvmStatic
         fun setRecyclerViewProperties(recyclerView: RecyclerView?, data: MutableList<BluetoothDeviceModel>?) {
             val adapter = recyclerView?.adapter
-            if (adapter is CustomRecyclerViewAdapter && data != null) {
+            if (adapter is BluetoothDevicesRecyclerViewAdapter && data != null) {
                 adapter.setData(data)
             }
         }

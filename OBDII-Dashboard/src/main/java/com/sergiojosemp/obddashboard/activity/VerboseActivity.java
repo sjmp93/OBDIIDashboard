@@ -314,7 +314,7 @@ public class VerboseActivity extends AppCompatActivity implements LocationListen
         obdStatusTextView = (TextView) findViewById(R.id.obd_status_text);
         gpsStatusTextView = (TextView) findViewById(R.id.gpsPositionValue);
         vv = (LinearLayout) findViewById(R.id.vehicle_view);
-        tl = (TableLayout) findViewById(R.id.data_table);
+        //tl = (TableLayout) findViewById(R.id.data_table);
         voltageText = (TextView) findViewById(R.id.voltage_text);
 
         startFullScreen();

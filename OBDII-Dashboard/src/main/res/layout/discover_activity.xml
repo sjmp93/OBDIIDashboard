@@ -106,7 +106,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/bluetooth_device_list"
+                android:id="@+id/obd_data_list"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:overScrollMode="never"

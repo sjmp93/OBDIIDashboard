@@ -11,10 +11,17 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sergiojosemp.obddashboard.R
+import com.sergiojosemp.obddashboard.adapter.BluetoothDevicesRecyclerViewAdapter
+import com.sergiojosemp.obddashboard.adapter.ObdDataRecyclerViewAdapter
+import com.sergiojosemp.obddashboard.databinding.NewVerboseActivityBinding
 import com.sergiojosemp.obddashboard.databinding.VerboseActivityBinding
+import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
+import com.sergiojosemp.obddashboard.model.ObdDataModel
 import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 import com.sergiojosemp.obddashboard.vm.VerboseViewModel
+import kotlinx.android.synthetic.main.discover_activity.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -23,7 +30,7 @@ class VerboseActivityKT : AppCompatActivity(){
 
     @Inject
     private lateinit var preferences: SharedPreferences
-    private lateinit var binding: VerboseActivityBinding
+    private lateinit var binding: NewVerboseActivityBinding
     private lateinit var viewModel: VerboseViewModel
     private lateinit var obd : OBDKotlinCoroutinesTesting
 
@@ -83,13 +90,19 @@ class VerboseActivityKT : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS)
         binding = DataBindingUtil.setContentView(
-            this, R.layout.verbose_activity)
+            this, R.layout.new_verbose_activity)
 
         viewModel = ViewModelProviders.of(this).get(VerboseViewModel::class.java)
 
 
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
+
+        // Connects to the RecyclerView
+        obd_data_list.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = ObdDataRecyclerViewAdapter(context, mutableListOf<ObdDataModel>())
+        }
     }
 
     override fun onResume(){

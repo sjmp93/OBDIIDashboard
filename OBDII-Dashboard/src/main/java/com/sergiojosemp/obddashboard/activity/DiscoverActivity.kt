@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.sergiojosemp.obddashboard.R
-import com.sergiojosemp.obddashboard.adapter.CustomRecyclerViewAdapter
+import com.sergiojosemp.obddashboard.adapter.BluetoothDevicesRecyclerViewAdapter
 import com.sergiojosemp.obddashboard.databinding.DiscoverActivityBinding
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
 import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
@@ -91,9 +91,9 @@ class DiscoverActivity: AppCompatActivity() {
         binding.viewmodel = discoverViewModel
         binding.lifecycleOwner = this
         // Connects to the RecyclerView
-        bluetooth_device_list.apply {
+        obd_data_list.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = CustomRecyclerViewAdapter(context, mutableListOf<BluetoothDeviceModel>())
+            adapter = BluetoothDevicesRecyclerViewAdapter(context, mutableListOf<BluetoothDeviceModel>())
         }
         //Needed to set bold text style to CollapsingToolbarLayout title
         binding.collapsingToolbar.setExpandedTitleTypeface(Typeface.create(binding.collapsingToolbar.getExpandedTitleTypeface(), Typeface.BOLD));
