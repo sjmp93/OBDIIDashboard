@@ -13,11 +13,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sergiojosemp.obddashboard.R
-import com.sergiojosemp.obddashboard.adapter.BluetoothDevicesRecyclerViewAdapter
 import com.sergiojosemp.obddashboard.adapter.ObdDataRecyclerViewAdapter
 import com.sergiojosemp.obddashboard.databinding.NewVerboseActivityBinding
-import com.sergiojosemp.obddashboard.databinding.VerboseActivityBinding
-import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
 import com.sergiojosemp.obddashboard.model.ObdDataModel
 import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 import com.sergiojosemp.obddashboard.vm.VerboseViewModel
@@ -40,7 +37,7 @@ class VerboseActivityKT : AppCompatActivity(){
     private val accelerometerListener: SensorEventListener?
     private var orientSensor: Sensor? = null // Se usa para recibir la orientación a través del sensor de orientación del dispositivo
     private var accelerometerSensor: Sensor? = null // Se usa para recibir la aceleración a través del sensor de aceleración del dispositivo
-    private val serviceConn : OBDServiceConnectionOnMenu = OBDServiceConnectionOnMenu()
+    private val serviceConn : OBDServiceConnectionOnVerboseMode = OBDServiceConnectionOnVerboseMode()
 
     init {
         orientListener = object : SensorEventListener {
@@ -140,7 +137,7 @@ class VerboseActivityKT : AppCompatActivity(){
 
 
 
-    inner class OBDServiceConnectionOnMenu : ServiceConnection {
+    inner class OBDServiceConnectionOnVerboseMode : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
             TODO("Not yet implemented")
         }
@@ -151,11 +148,6 @@ class VerboseActivityKT : AppCompatActivity(){
                 GlobalScope.launch { Log.d(com.sergiojosemp.obddashboard.vm.TAG,"From Verbose Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
             })
 
-            /*obd.compass.observe(binding.lifecycleOwner!!,  androidx.lifecycle.Observer{
-                GlobalScope.launch {
-                    viewModel.compassIndicator?.postValue(it)
-                }
-            })*/
             obd.obdCommandReceived.observe(binding.lifecycleOwner!!,  androidx.lifecycle.Observer{
                 GlobalScope.launch {
                     viewModel.setObdResult(it)

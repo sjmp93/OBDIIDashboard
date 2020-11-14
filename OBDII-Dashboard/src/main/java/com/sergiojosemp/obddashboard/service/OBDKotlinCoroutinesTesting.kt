@@ -171,7 +171,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
         var simulateCommand = 0
         x = GlobalScope.launch { // launch a new coroutine in background and continue
             while(error || (btConnection?.isConnected ?: false)) {
-                delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
+                delay(200L) // non-blocking delay for 1 second (default time unit is ms)
                 try {
                     simulateCommand = i % 10
                     when (simulateCommand){
@@ -186,7 +186,11 @@ class OBDKotlinCoroutinesTesting(): Service() {
                         8 -> job = ObdCommandJob(ConsumptionRateCommand())
                         9 -> job = ObdCommandJob(AmbientAirTemperatureCommand())
                     }
-                    i++
+                    if(i < 999999)
+                        i++
+                    else
+                        i = 0
+
                     error = false
 
                     bytes = inputStream.read(buffer)
