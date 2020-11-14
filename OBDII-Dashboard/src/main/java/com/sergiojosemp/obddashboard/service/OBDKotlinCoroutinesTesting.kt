@@ -17,6 +17,7 @@ import androidx.lifecycle.MutableLiveData
 import com.github.pires.obd.reader.ObdCommandJob
 import com.github.pires.obd.reader.ObdConfig
 import com.sergiojosemp.obddashboard.R
+import com.sergiojosemp.obddashboard.activity.SettingsActivity
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
 import com.sergiojosemp.obddashboard.model.ObdDataModel
 import kotlinx.coroutines.GlobalScope
@@ -106,15 +107,12 @@ class OBDKotlinCoroutinesTesting(): Service() {
     }
 
     fun sendAndReceivePrototype(){
-        val buffer = ByteArray(5) // to read only 5 first bytes (ex: 41 05 --> 52 49 32 48 53)
         var error = false
-        var i = 0;
-        var simulateCommand = 0
         obdCommunicationLoop = GlobalScope.launch { // launch a new coroutine in background and continue
             while(error || (btConnection?.isConnected ?: false)) {
                 try {
+                    var periodBetweenRequests: Int = 0
                     for (command in ObdConfig.getCommands()) {
-                        //delay(250L) // non-blocking delay for 250 ms (default time unit is ms)
                         val job = ObdCommandJob(command)
                         if (preferences!!.getBoolean(command.name,false)){
                             try {
@@ -128,10 +126,9 @@ class OBDKotlinCoroutinesTesting(): Service() {
                                         )
                                     )
                                 }
-                                Log.d(
-                                    TAG,
-                                    "OBD COMMAND sent and response received with value ${job.command.calculatedResult}"
-                                )
+                                Log.d(TAG, "OBD COMMAND sent and response received with value ${job.command.calculatedResult}")
+                                periodBetweenRequests = SettingsActivity.getObdUpdatePeriod(preferences)
+                                delay(periodBetweenRequests.toLong()) // non-blocking delay for X ms, where X is defined in SettingsActivity (default time unit is ms)
                             } catch (iob: IndexOutOfBoundsException) {
                                 Log.d(TAG, "Index out of bounds exception")
                             }

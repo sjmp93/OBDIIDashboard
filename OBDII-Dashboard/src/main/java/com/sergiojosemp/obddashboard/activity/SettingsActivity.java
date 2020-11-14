@@ -58,7 +58,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         } catch (Exception e) {
         }
 
-        if (period <= 0) {
+        if (period < 0) {
             period = 4000;
         }
 
