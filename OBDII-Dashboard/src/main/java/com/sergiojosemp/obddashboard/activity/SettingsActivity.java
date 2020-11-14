@@ -102,7 +102,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         ArrayList<ObdCommand> ucmds = new ArrayList<>();
         for (int i = 0; i < cmds.size(); i++) {
             ObdCommand cmd = cmds.get(i);
-            boolean selected = prefs.getBoolean(cmd.getName(), true);
+            boolean selected = prefs.getBoolean(cmd.getName(), false);
             if (selected)
                 ucmds.add(cmd);
         }

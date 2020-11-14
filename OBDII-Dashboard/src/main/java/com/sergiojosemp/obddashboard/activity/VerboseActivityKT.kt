@@ -153,6 +153,15 @@ class VerboseActivityKT : AppCompatActivity(){
                     viewModel.setObdResult(it)
                 }
             })
+
+            obd.btConnectionStatus.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
+                GlobalScope.launch {
+                    if(it)
+                        viewModel.bluetoothIndicator.postValue(getString(R.string.status_obd_connected))
+                    else
+                        viewModel.bluetoothIndicator.postValue(getString(R.string.status_obd_disconnected))
+                }
+            })
         }
 
 

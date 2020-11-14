@@ -99,74 +99,7 @@ class MenuActivityKT : AppCompatActivity(){
             obd.printThing()
         }
 
-        //OBDKotlinCoroutinesTesting test = new OBDKotlinCoroutinesTesting();
 
-        /*
-        dashboardButton = findViewById(R.id.dashboardButton);
-        settingsButton = findViewById(R.id.settingsButton);
-        diagnosticTroubleCodesButton = findViewById(R.id.diagnosticTroubleCodesButton);
-        chartsButton = findViewById(R.id.chartsButton);
-        verboseButton = findViewById(R.id.verboseButton);
-
-        dashboardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent DashboardActivity = new Intent(MenuActivity.this, DashboardActivity.class);
-                startActivity(DashboardActivity);
-            }
-        });
-
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent SettingsActivity = new Intent(MenuActivity.this, SettingsActivity.class);
-                startActivity(SettingsActivity);
-            }
-        });
-
-        diagnosticTroubleCodesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent DiagnosticTroubleCodeActivity = new Intent(MenuActivity.this, DiagnosticTroubleCodeActivity.class);
-                startActivity(DiagnosticTroubleCodeActivity);
-            }
-        });
-
-        chartsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int REQUEST_CODE_PICK_FILE = 2;
-
-                Intent fileExploreIntent = new Intent(
-                        FileBrowserActivity.INTENT_ACTION_SELECT_FILE,
-                        null,
-                        MenuActivity.this,
-                        FileBrowserActivity.class
-                );
-                File sdcard = Environment.getExternalStorageDirectory();
-                String path = sdcard.getPath() + "/" + preferences.getString(SettingsActivity.DIRECTORY_FULL_LOGGING_KEY,
-                        getString(R.string.default_dirname_full_logging)) + "/";
-
-                fileExploreIntent.putExtra(FileBrowserActivity.startDirectoryParameter, path);//El explorador empezará desde el directorio indicado en las preferencias.
-                startActivityForResult(fileExploreIntent, REQUEST_CODE_PICK_FILE);
-            }
-        });
-
-        verboseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent VerboseActivity = new Intent(MenuActivity.this, VerboseActivity.class);
-                startActivity(VerboseActivity);
-            }
-        });
-
-        setObdIndicatorOff();
-        //Modo sin conexión
-        if(getIntent().getExtras() != null && getIntent().getExtras().getString(EXTRA).equals(EXTRA_CONTENT)){
-            setObdIndicatorNotAvailable();
-        }
-
-     */
     }
 
     fun startDashBoard(){
@@ -218,6 +151,7 @@ class MenuActivityKT : AppCompatActivity(){
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) { //TODO here we have to fill a textView that shows OBD connection status
             obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
+            obd.preferences = getSharedPreferences(PREFERENCES, 0) // here we initialize sharedPreferences for obd service using our context (not available until this moment)
             obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
                 GlobalScope.launch { Log.d(com.sergiojosemp.obddashboard.vm.TAG,"From Menu Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
             })

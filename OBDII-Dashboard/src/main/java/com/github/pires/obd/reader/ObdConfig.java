@@ -40,15 +40,28 @@ public final class ObdConfig {
     public static ArrayList<ObdCommand> getCommands() {
         ArrayList<ObdCommand> cmds = new ArrayList<>();
 
+        // Pressure
+        cmds.add(new BarometricPressureCommand());
+        cmds.add(new FuelPressureCommand());
+        cmds.add(new FuelRailPressureCommand());
+        cmds.add(new IntakeManifoldPressureCommand());
+
+        // Temperature
+        cmds.add(new AirIntakeTemperatureCommand());
+        cmds.add(new AmbientAirTemperatureCommand());
+        cmds.add(new EngineCoolantTemperatureCommand());
+
+
         // Control
         cmds.add(new ModuleVoltageCommand());
         cmds.add(new EquivalentRatioCommand());
-        cmds.add(new DistanceMILOnCommand());
-        cmds.add(new DtcNumberCommand());
+        //cmds.add(new DistanceMILOnCommand());
+        //cmds.add(new DtcNumberCommand());
         cmds.add(new TimingAdvanceCommand());
-        cmds.add(new TroubleCodesCommand());
-        cmds.add(new VinCommand());
-
+        //cmds.add(new TroubleCodesCommand());
+        //cmds.add(new VinCommand());
+        // Misc
+        cmds.add(new SpeedCommand()); //FIXME SharedPreferences Map size limit = 40
         // Engine
         cmds.add(new LoadCommand());
         cmds.add(new RPMCommand());
@@ -57,7 +70,7 @@ public final class ObdConfig {
         cmds.add(new ThrottlePositionCommand());
 
         // Fuel
-        cmds.add(new FindFuelTypeCommand());
+        //cmds.add(new FindFuelTypeCommand());
         cmds.add(new ConsumptionRateCommand());
         // cmds.add(new AverageFuelEconomyObdCommand());
         //cmds.add(new FuelEconomyCommand());
@@ -72,19 +85,7 @@ public final class ObdConfig {
         cmds.add(new WidebandAirFuelRatioCommand());
         cmds.add(new OilTempCommand());
 
-        // Pressure
-        cmds.add(new BarometricPressureCommand());
-        cmds.add(new FuelPressureCommand());
-        cmds.add(new FuelRailPressureCommand());
-        cmds.add(new IntakeManifoldPressureCommand());
 
-        // Temperature
-        cmds.add(new AirIntakeTemperatureCommand());
-        cmds.add(new AmbientAirTemperatureCommand());
-        cmds.add(new EngineCoolantTemperatureCommand());
-
-        // Misc
-        cmds.add(new SpeedCommand());
 
 
         return cmds;

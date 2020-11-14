@@ -195,10 +195,11 @@
             <TextView
                 android:id="@+id/btStatusValue"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text=""
+                android:gravity="top|center"
+                android:lines="2"
+                android:text="@{viewmodel.bluetoothIndicator, default = Connected}"
                 android:textColor="#FFFFFF" />
 
             <TextView
@@ -206,8 +207,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:lines="2"
+                android:ellipsize="middle"
                 android:gravity="center"
-                android:text=""
+                android:text="@{viewmodel.obdIndicator, default = No_command}"
                 android:textColor="#FFFFFF" />
         </TableRow>
 
