@@ -32,3 +32,9 @@ gradle clean build installDebug
 * Xiaomi mi 8
 * Xiaomi mi A1
 * Google Pixel 3
+
+## Development support project ##
+This is an Arduino project to simulate OBD Bluetooth device receiveng requests and responses
+https://github.com/sjmp93/ArduinOBDSim
+
+
