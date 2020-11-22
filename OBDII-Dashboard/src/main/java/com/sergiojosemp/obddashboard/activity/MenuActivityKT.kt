@@ -8,6 +8,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -46,10 +47,11 @@ class MenuActivityKT : AppCompatActivity(){
     private lateinit var viewModel: MenuViewModel
     private var onlineModeFlag: Boolean = false
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //Se carga y configura el nuevo layout
         super.onCreate(savedInstanceState)
-        onlineModeFlag = intent.extras.getBoolean(ONLINE_EXTRA)
+        onlineModeFlag = intent.extras!!.getBoolean(ONLINE_EXTRA) ?: false
         //setContentView(R.layout.menu_activity)
         //getExtraData(ONLINE_EXTRA)
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS)
@@ -184,6 +186,8 @@ class MenuActivityKT : AppCompatActivity(){
                     }
                 }
             })
+
+
         }
 
     }

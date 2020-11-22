@@ -83,7 +83,10 @@
     <string name="pref_gps_update_period_title">Período de actualización (en segundos)</string>
     <string name="pref_imperial_units_summaryOff">Activar sistema imperial de unidades</string>
     <string name="pref_imperial_units_summaryOn">Volver al sistema métrico de unidades</string>
+    <string name="simulator_mode_summaryOff">Activar el modo simulador</string>
+    <string name="simulator_mode_summaryOn">Desctivar el modo simulador y empezar a trabajar con un adaptador OBD</string>
     <string name="pref_imperial_units_title">Sistema imperial de unidades</string>
+    <string name="simulator_mode_preference">Modo simulador</string>
     <string name="pref_max_fuel_econ_summary">Cualquier valor de consumo mayor que este será ignorado</string>
     <string name="pref_max_fuel_econ_title">Valor máximo de consumo de combustible</string>
     <string name="pref_max_rpm">Valor de RPM máximo</string>

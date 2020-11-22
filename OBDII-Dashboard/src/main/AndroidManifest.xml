@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sergiojosemp.obddashboard">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_obd8"
@@ -61,7 +62,12 @@
 
         <activity android:name="com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser.FileBrowserActivity">
         </activity>
-
+        <receiver android:name="com.sergiojosemp.obddashboard.activity.AlarmReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="test"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 

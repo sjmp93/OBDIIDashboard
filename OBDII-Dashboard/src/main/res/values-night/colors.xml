@@ -69,7 +69,8 @@
     <color name="obd_connector_icon">#46ABFF</color>
     <color name="obd_disabled">#949493</color>
     <color name="device_list_item_text">#0090ff</color>
-
+    <color name="simulator_button_on">#EA1818</color>
+    <color name="simulator_button_off">#A0DF56</color>
 
 
 

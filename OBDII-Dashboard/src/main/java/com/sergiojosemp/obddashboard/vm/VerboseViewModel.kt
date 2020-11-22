@@ -54,12 +54,6 @@ class VerboseViewModel : ViewModel(){
 
     }
 
-    fun workingOnSimulator(obd : OBDKotlinCoroutinesTesting){
-        if(obd?.simulator?.value ?: false)
-            obd.simulator.postValue(false)
-        else
-            obd.simulator.postValue(true)
-    }
 }
 
 

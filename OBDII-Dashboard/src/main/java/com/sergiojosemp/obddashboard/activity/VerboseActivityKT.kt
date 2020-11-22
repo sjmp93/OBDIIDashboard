@@ -1,5 +1,6 @@
 package com.sergiojosemp.obddashboard.activity
 
+import android.app.NotificationManager
 import android.content.*
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -139,6 +140,8 @@ class VerboseActivityKT : AppCompatActivity(){
 
     inner class OBDServiceConnectionOnVerboseMode : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
+            obd.inputStream.reset()
+            obd.outputStream.flush();
             TODO("Not yet implemented")
         }
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) { //TODO here we have to fill a textView that shows OBD connection status

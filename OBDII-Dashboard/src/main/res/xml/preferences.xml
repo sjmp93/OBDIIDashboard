@@ -47,6 +47,13 @@
             android:summaryOff="@string/pref_imperial_units_summaryOff"
             android:summaryOn="@string/pref_imperial_units_summaryOn"
             android:title="@string/pref_imperial_units_title" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:dialogTitle="@string/simulator_mode_preference"
+            android:key="simulator_mode_preference"
+            android:summaryOff="@string/simulator_mode_summaryOff"
+            android:summaryOn="@string/simulator_mode_summaryOn"
+            android:title="@string/simulator_mode_preference" />
         <EditTextPreference
             android:defaultValue="260"
             android:dialogTitle="@string/pref_obd_update_period_title"

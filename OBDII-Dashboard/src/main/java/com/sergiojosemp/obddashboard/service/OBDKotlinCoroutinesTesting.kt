@@ -14,7 +14,6 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.github.pires.obd.commands.ObdCommand
 import com.github.pires.obd.commands.protocol.EchoOffCommand
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand
 import com.github.pires.obd.commands.protocol.ObdResetCommand
@@ -49,7 +48,6 @@ class OBDKotlinCoroutinesTesting(): Service() {
     var progressBar: MutableLiveData<Boolean>? = null
     var btConnection: BluetoothSocket? = null
     val obdCommandReceived: MutableLiveData<ObdDataModel> = MutableLiveData()
-    val simulator: MutableLiveData<Boolean> = MutableLiveData(false)
 
     var preferences: SharedPreferences? = null
 
@@ -87,6 +85,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
                 sendAndReceivePrototype() //TODO remove this when dashboard or verbose mode works
             }
         } catch (e: Exception){
+
             device?.postValue(null)
             progressBar?.postValue(false)
             //e.printStackTrace()
@@ -113,7 +112,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
 
     fun sendAndReceivePrototype(){
         var error = false
-        if(!simulator.value!!) {
+        if(!preferences!!.getBoolean("simulator_mode_preference", false)) {
             // AT Z command
             ObdCommandJob(ObdResetCommand()).getCommand().run(inputStream, outputStream)
             ObdCommandJob(EchoOffCommand()).getCommand().run(inputStream, outputStream)

@@ -100,8 +100,11 @@
     <string name="pref_obd_protocols_title">OBD Protocol</string>
     <string name="pref_obd_protocols_summary">Select OBD Protocol to use</string>
     <string name="pref_imperial_units_title">Imperial Units</string>
+    <string name="simulator_mode_preference">Simlator mode</string>
     <string name="pref_imperial_units_summaryOff">Enable imperial units</string>
     <string name="pref_imperial_units_summaryOn">Go back to metric units</string>
+    <string name="simulator_mode_summaryOff">Enable simulator mode</string>
+    <string name="simulator_mode_summaryOn">Disable simulator mode and start working with an OBD device</string>
     <string name="pref_obd_update_period_title">Update Period in Miliseconds</string>
     <string name="pref_obd_update_period_summary">The length of time between querying vehicle data in miliseconds</string>
     <string name="pref_max_fuel_econ_title">Maximum Fuel Economy Value</string>

@@ -1,13 +1,12 @@
 package com.sergiojosemp.obddashboard.activity
 
 import android.Manifest
+import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,7 +17,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.databinding.MainActivityBinding
 import com.sergiojosemp.obddashboard.model.BluetoothModel
+import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 import com.sergiojosemp.obddashboard.vm.StartViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 class StartMenuActivity: AppCompatActivity() {
@@ -66,7 +68,16 @@ class StartMenuActivity: AppCompatActivity() {
         ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN),
                 MY_PERMISSIONS_REQUEST);
+
+        /*val newIntent = Intent("test")
+        val pendingIntent =
+            PendingIntent.getBroadcast(this, 0, newIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+        val alarmReceiver = AlarmReceiver()
+        alarmReceiver.SetContext(this)
+        alarmReceiver.SetAlarm()
+        */
     }
+
 
     fun bindingSetup(binding: MainActivityBinding){
         //Binding ViewModel with view
