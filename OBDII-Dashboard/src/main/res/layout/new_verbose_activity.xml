@@ -10,6 +10,7 @@
             name="viewmodel"
             type="com.sergiojosemp.obddashboard.vm.VerboseViewModel" />
         <import type="android.view.View"/>
+        <import type="com.sergiojosemp.obddashboard.activity.VerboseActivityKT"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,6 +104,20 @@
                 android:text="@{viewmodel.rpmIndicator, default = 0}"
                 android:textColor="#FFFFFF" />
         </TableRow>
+
+        <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:backgroundTint="#EA1818"
+            android:onClick="@{() -> viewmodel.workingOnSimulator()}"
+            android:src="@drawable/ic_conector_3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.91"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.87" />FIXME Eliminar-->
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/NestedScrollView"

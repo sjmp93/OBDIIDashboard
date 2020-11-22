@@ -29,7 +29,7 @@ class VerboseActivityKT : AppCompatActivity(){
     private lateinit var preferences: SharedPreferences
     private lateinit var binding: NewVerboseActivityBinding
     private lateinit var viewModel: VerboseViewModel
-    private lateinit var obd : OBDKotlinCoroutinesTesting
+    public lateinit var obd : OBDKotlinCoroutinesTesting //TODO private
 
     @Inject
     private var sensorManager: SensorManager? = null

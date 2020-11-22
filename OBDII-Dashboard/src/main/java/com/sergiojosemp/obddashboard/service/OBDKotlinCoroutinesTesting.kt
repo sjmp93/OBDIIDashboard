@@ -14,6 +14,11 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.github.pires.obd.commands.ObdCommand
+import com.github.pires.obd.commands.protocol.EchoOffCommand
+import com.github.pires.obd.commands.protocol.LineFeedOffCommand
+import com.github.pires.obd.commands.protocol.ObdResetCommand
+import com.github.pires.obd.commands.protocol.TimeoutCommand
 import com.github.pires.obd.reader.ObdCommandJob
 import com.github.pires.obd.reader.ObdConfig
 import com.sergiojosemp.obddashboard.R
@@ -44,7 +49,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
     var progressBar: MutableLiveData<Boolean>? = null
     var btConnection: BluetoothSocket? = null
     val obdCommandReceived: MutableLiveData<ObdDataModel> = MutableLiveData()
-
+    val simulator: MutableLiveData<Boolean> = MutableLiveData(false)
 
     var preferences: SharedPreferences? = null
 
@@ -108,6 +113,17 @@ class OBDKotlinCoroutinesTesting(): Service() {
 
     fun sendAndReceivePrototype(){
         var error = false
+        if(!simulator.value!!) {
+            // AT Z command
+            ObdCommandJob(ObdResetCommand()).getCommand().run(inputStream, outputStream)
+            ObdCommandJob(EchoOffCommand()).getCommand().run(inputStream, outputStream)
+            ObdCommandJob(LineFeedOffCommand()).getCommand().run(inputStream, outputStream)
+            ObdCommandJob(TimeoutCommand(120)).getCommand().run(inputStream, outputStream)
+        }
+        // Getting protocol from preferences
+        //final String protocol = preferences.getString(SettingsActivity.PROTOCOLS_LIST_KEY, "AUTO");
+        //ObdCommandJob(SelectProtocolCommand(ObdProtocols.valueOf(protocol))).getCommand().run(inputStream, outputStream)
+
         obdCommunicationLoop = GlobalScope.launch { // launch a new coroutine in background and continue
             while(error || (btConnection?.isConnected ?: false)) {
                 try {

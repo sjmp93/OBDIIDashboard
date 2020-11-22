@@ -8,6 +8,7 @@ import com.github.pires.obd.commands.SpeedCommand
 import com.github.pires.obd.commands.engine.RPMCommand
 import com.github.pires.obd.commands.fuel.ConsumptionRateCommand
 import com.sergiojosemp.obddashboard.model.ObdDataModel
+import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 
 class VerboseViewModel : ViewModel(){
     val compassIndicator: MutableLiveData<String> ?= MutableLiveData()
@@ -51,6 +52,15 @@ class VerboseViewModel : ViewModel(){
         }
         obdResultsList?.postValue(receivedDataList)
 
-        }
     }
+
+    fun workingOnSimulator(obd : OBDKotlinCoroutinesTesting){
+        if(obd?.simulator?.value ?: false)
+            obd.simulator.postValue(false)
+        else
+            obd.simulator.postValue(true)
+    }
+}
+
+
 
