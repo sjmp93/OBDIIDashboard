@@ -11,8 +11,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
 import com.github.pires.obd.commands.protocol.EchoOffCommand
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand
@@ -35,7 +38,7 @@ import java.io.OutputStream
 
 private val TAG = "OBD-Log"
 class OBDKotlinCoroutinesTesting(): Service() {
-
+    private val PREFERENCES = "preferences"
     lateinit var outputStream: OutputStream
     lateinit var inputStream: InputStream
     var liveOutput: MutableLiveData<ByteArray>
@@ -48,10 +51,11 @@ class OBDKotlinCoroutinesTesting(): Service() {
     var progressBar: MutableLiveData<Boolean>? = null
     var btConnection: BluetoothSocket? = null
     val obdCommandReceived: MutableLiveData<ObdDataModel> = MutableLiveData()
+    val notificationsChannelId = "OBDashboard Notifications"
 
     var preferences: SharedPreferences? = null
-
     lateinit var obdCommunicationLoop: Job
+
     init{
         liveOutput = MutableLiveData()
         commandResult = MutableLiveData()
@@ -60,12 +64,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
         Log.d("OBD-Log", "Service started")
     }
 
-    fun connectToDevice(
-        bluetoothAdapter: BluetoothAdapter,
-        mac: String,
-        progressBar: MutableLiveData<Boolean>?,
-        device: MutableLiveData<BluetoothDeviceModel>?
-    ){
+    fun connectToDevice(bluetoothAdapter: BluetoothAdapter, mac: String, progressBar: MutableLiveData<Boolean>?, device: MutableLiveData<BluetoothDeviceModel>?){
         val btDevice = bluetoothAdapter!!.getRemoteDevice(mac)
         try {
             btConnection = btDevice.javaClass.getMethod(
@@ -85,10 +84,10 @@ class OBDKotlinCoroutinesTesting(): Service() {
                 sendAndReceivePrototype() //TODO remove this when dashboard or verbose mode works
             }
         } catch (e: Exception){
-
             device?.postValue(null)
             progressBar?.postValue(false)
             //e.printStackTrace()
+            notifyError(500,getString(R.string.notification_error_connecting_device))
             disconnectRoutine()
             Log.d(TAG, "Error connecting to device, try again")
         }
@@ -113,11 +112,13 @@ class OBDKotlinCoroutinesTesting(): Service() {
     fun sendAndReceivePrototype(){
         var error = false
         if(!preferences!!.getBoolean("simulator_mode_preference", false)) {
+            notifyProgress(200,getString(R.string.initialization_process))
             // AT Z command
             ObdCommandJob(ObdResetCommand()).getCommand().run(inputStream, outputStream)
             ObdCommandJob(EchoOffCommand()).getCommand().run(inputStream, outputStream)
             ObdCommandJob(LineFeedOffCommand()).getCommand().run(inputStream, outputStream)
-            ObdCommandJob(TimeoutCommand(120)).getCommand().run(inputStream, outputStream)
+            ObdCommandJob(TimeoutCommand(620)).getCommand().run(inputStream, outputStream)
+            cancelNotification(200)
         }
         // Getting protocol from preferences
         //final String protocol = preferences.getString(SettingsActivity.PROTOCOLS_LIST_KEY, "AUTO");
@@ -126,7 +127,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
         obdCommunicationLoop = GlobalScope.launch { // launch a new coroutine in background and continue
             while(error || (btConnection?.isConnected ?: false)) {
                 try {
-                    var periodBetweenRequests: Int = 0
+                    var periodBetweenRequests = 0
                     for (command in ObdConfig.getCommands()) {
                         val job = ObdCommandJob(command)
                         if (preferences!!.getBoolean(command.name,false)){
@@ -174,6 +175,8 @@ class OBDKotlinCoroutinesTesting(): Service() {
 
     override fun onBind(intent: Intent?): IBinder? {
         var notification = createNotification()
+        createNotificationChannel() // Create notifications channel for general purpose notifications
+        preferences = getSharedPreferences(PREFERENCES, 0) // here we initialize sharedPreferences for obd service using our context (not available until this moment)
         startForeground(1, notification)
         return ObdServiceBinder()
     }
@@ -184,6 +187,9 @@ class OBDKotlinCoroutinesTesting(): Service() {
     }
 
 
+    //*******************************************************************************************************************//
+    //******************************************** Notifications stuff **************************************************//
+    //*******************************************************************************************************************//
 
     private fun createNotification(): Notification {
         val notificationChannelId = "OBD SERVICE CHANNEL"
@@ -201,8 +207,6 @@ class OBDKotlinCoroutinesTesting(): Service() {
         }
         notificationManager.createNotificationChannel(channel)
 
-
-
         val builder: Notification.Builder = Notification.Builder(this, notificationChannelId)
 
         return builder
@@ -210,6 +214,60 @@ class OBDKotlinCoroutinesTesting(): Service() {
             .setSmallIcon(R.drawable.dtc_512)
             .build()
     }
+
+    private fun createNotificationChannel() {
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager;
+        val channel = NotificationChannel(
+            notificationsChannelId,
+            notificationsChannelId,
+            NotificationManager.IMPORTANCE_HIGH
+        ).let {
+            it.description = "OBDashboard Notifications Channel"
+            it.enableLights(true)
+            it.lightColor = Color.BLUE
+            it
+        }
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    fun notifyError(notificationId: Int, notificationText: String){
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                val notificationBuilder = NotificationCompat.Builder(
+                    applicationContext,
+                    notificationsChannelId
+                )
+                notificationBuilder.setPriority(NotificationManager.IMPORTANCE_HIGH);
+                val notification = notificationBuilder
+                    .setSmallIcon(R.drawable.dtc_512)
+                    .setContentText(notificationText)
+                    .setTimeoutAfter(4000)
+                    .build()
+                val notificationManager = NotificationManagerCompat.from(applicationContext)
+                notificationManager.notify(notificationId, notification)
+         }
+    }
+
+    fun notifyProgress(notificationId: Int, notificationText: String){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val notificationBuilder = NotificationCompat.Builder(
+                applicationContext,
+                notificationsChannelId
+            )
+            notificationBuilder.setPriority(NotificationManager.IMPORTANCE_HIGH);
+            val notification = notificationBuilder
+                .setProgress(100,50,true)
+                .setSmallIcon(R.drawable.dtc_512)
+                .setContentText(notificationText)
+                .build()
+            val notificationManager = NotificationManagerCompat.from(applicationContext)
+            notificationManager.notify(notificationId, notification)
+        }
+    }
+
+    fun cancelNotification(notificationId: Int){
+        (applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).cancel(notificationId);
+    }
+
 }
 
 

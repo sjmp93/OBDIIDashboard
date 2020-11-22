@@ -43,6 +43,7 @@
     <string name="getting_trouble_codes_text">Obteniendo códigos de error</string>
     <string name="grant_permissions_from_settings">Conceder permisos desde los ajustes de aplicaciones del sistema Android</string>
     <string name="initialization_jobs">Encolados los jobs de inicialización.</string>
+    <string name="initialization_process">Configurando la conexión con el dispositivo.</string>
     <string name="io_error">Error E/S.</string>
     <string name="is_obd">El dispositivo Bluetoot es un adaptador OBD</string>
     <string name="job">"Job "</string>
@@ -181,6 +182,7 @@
     <string name="cancel_option">Cancelar</string>
     <string name="go_back_advice">Si vuelve hacia atras el dispositivo bluetooth será desconectado. ¿Quiere continuar?</string>
     <string name="status_obd_connected">Conectado</string>
+    <string name="notification_error_connecting_device">Estamos teniendo problemas para conectarnos a tu dispositivo</string>
 
 
 </resources>

@@ -8,7 +8,6 @@ import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,7 +18,6 @@ import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 import com.sergiojosemp.obddashboard.service.ObdService
 import com.sergiojosemp.obddashboard.vm.MenuViewModel
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -56,11 +54,12 @@ class MenuActivityKT : AppCompatActivity(){
         //getExtraData(ONLINE_EXTRA)
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS)
         binding = DataBindingUtil.setContentView(
-            this, R.layout.menu_activity)
+            this, R.layout.menu_activity
+        )
 
         viewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
 
-        viewModel!!.selectedOption!!.observe(this,  androidx.lifecycle.Observer{
+        viewModel!!.selectedOption!!.observe(this, androidx.lifecycle.Observer {
 
             if (it.equals(1)) { // Dashboard Mode
                 val dashboardActivity = Intent(this, DashboardActivity::class.java);
@@ -121,14 +120,19 @@ class MenuActivityKT : AppCompatActivity(){
             MaterialAlertDialogBuilder(this, R.style.AlertDialog)
                 .setTitle(getString(R.string.exit_title))
                 .setMessage(getString(R.string.go_back_advice))
-                .setPositiveButton(getString(R.string.ok_option),  DialogInterface.OnClickListener { dialog, which ->
+                .setPositiveButton(getString(R.string.ok_option), DialogInterface.OnClickListener { dialog, which ->
                     obd.disconnectFromDevice()
-                    Log.d(TAG,"Going back to discover activity")
-                    super.onBackPressed()})
+                    Log.d(TAG, "Going back to discover activity")
+                    // clear activities stack and go back to start menu activity
+                    val intent = Intent(this, StartMenuActivity::class.java)
+                    intent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                })
                 .setNegativeButton(getString(R.string.cancel_option), /* listener = */ null)
                 .show();
         else{
-            Log.d(TAG,"Going back to start menu activity")
+            Log.d(TAG, "Going back to start menu activity")
             super.onBackPressed()
         }
 
@@ -153,12 +157,11 @@ class MenuActivityKT : AppCompatActivity(){
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) { //TODO here we have to fill a textView that shows OBD connection status
             obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
-            obd.preferences = getSharedPreferences(PREFERENCES, 0) // here we initialize sharedPreferences for obd service using our context (not available until this moment)
             obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch { Log.d(com.sergiojosemp.obddashboard.vm.TAG,"From Menu Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
+                GlobalScope.launch { Log.d(com.sergiojosemp.obddashboard.vm.TAG, "From Menu Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}") }
             })
 
-            obd.commandResult.observe(binding.lifecycleOwner!!,  androidx.lifecycle.Observer{
+            obd.commandResult.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
                 //This routine emulates led blinking when data is received
                 /*GlobalScope.launch {
                     viewModel.setValue("Invisible")
@@ -175,12 +178,12 @@ class MenuActivityKT : AppCompatActivity(){
                 }*/
             })
 
-            obd.btConnectionStatus.observe(binding.lifecycleOwner!!,  androidx.lifecycle.Observer{
+            obd.btConnectionStatus.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
                 GlobalScope.launch {
-                    if(it) {
+                    if (it) {
                         //viewModel.setValue(getString(R.string.status_obd_connected))
                         viewModel.setConnectedStatusLed(true)
-                    }else{
+                    } else {
                         //viewModel.setValue(getString(R.string.status_obd_disconnected))
                         viewModel.setConnectedStatusLed(false)
                     }
