@@ -17,10 +17,10 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.MutableLiveData
-import com.github.pires.obd.commands.protocol.EchoOffCommand
-import com.github.pires.obd.commands.protocol.LineFeedOffCommand
-import com.github.pires.obd.commands.protocol.ObdResetCommand
-import com.github.pires.obd.commands.protocol.TimeoutCommand
+import com.github.pires.obd.commands.protocol.*
+import com.github.pires.obd.enums.ObdProtocols
+import com.github.pires.obd.exceptions.NoDataException
+import com.github.pires.obd.exceptions.ResponseException
 import com.github.pires.obd.reader.ObdCommandJob
 import com.github.pires.obd.reader.ObdConfig
 import com.sergiojosemp.obddashboard.R
@@ -84,6 +84,7 @@ class OBDKotlinCoroutinesTesting(): Service() {
                 sendAndReceivePrototype() //TODO remove this when dashboard or verbose mode works
             }
         } catch (e: Exception){
+            cancelNotification(200)
             device?.postValue(null)
             progressBar?.postValue(false)
             //e.printStackTrace()
@@ -114,44 +115,62 @@ class OBDKotlinCoroutinesTesting(): Service() {
         if(!preferences!!.getBoolean("simulator_mode_preference", false)) {
             notifyProgress(200,getString(R.string.initialization_process))
             // AT Z command
+            //TODO Probar hasta recibir un OK como respuesta para cada uno de estos comandos?
+            ObdCommandJob(ObdResetCommand()).getCommand().run(inputStream, outputStream)
+            ObdCommandJob(ObdResetCommand()).getCommand().run(inputStream, outputStream)
             ObdCommandJob(ObdResetCommand()).getCommand().run(inputStream, outputStream)
             ObdCommandJob(EchoOffCommand()).getCommand().run(inputStream, outputStream)
+            ObdCommandJob(EchoOffCommand()).getCommand().run(inputStream, outputStream)
             ObdCommandJob(LineFeedOffCommand()).getCommand().run(inputStream, outputStream)
-            ObdCommandJob(TimeoutCommand(620)).getCommand().run(inputStream, outputStream)
+            ObdCommandJob(LineFeedOffCommand()).getCommand().run(inputStream, outputStream)
+            ObdCommandJob(TimeoutCommand(720)).getCommand().run(inputStream, outputStream)
+
             cancelNotification(200)
         }
         // Getting protocol from preferences
-        //final String protocol = preferences.getString(SettingsActivity.PROTOCOLS_LIST_KEY, "AUTO");
-        //ObdCommandJob(SelectProtocolCommand(ObdProtocols.valueOf(protocol))).getCommand().run(inputStream, outputStream)
-
+        /*val protocol = preferences!!.getString(SettingsActivity.PROTOCOLS_LIST_KEY, "AUTO");
+        ObdCommandJob(SelectProtocolCommand(ObdProtocols.valueOf(protocol!!))).getCommand().run(inputStream, outputStream)
+*/
         obdCommunicationLoop = GlobalScope.launch { // launch a new coroutine in background and continue
             while(error || (btConnection?.isConnected ?: false)) {
                 try {
                     var periodBetweenRequests = 0
                     for (command in ObdConfig.getCommands()) {
-                        val job = ObdCommandJob(command)
-                        if (preferences!!.getBoolean(command.name,false)){
-                            try {
-                                job.getCommand().run(inputStream, outputStream)
-                                if (job.command.calculatedResult != "-40.0") {
-                                    commandResult.postValue(job.command.calculatedResult)
-                                    obdCommandReceived?.postValue(
-                                        ObdDataModel(
-                                            job.command.name,
-                                            job.command.calculatedResult
+                        try {
+                            val job = ObdCommandJob(command)
+                            if (preferences!!.getBoolean(command.name, false)) {
+                                try {
+                                    job.getCommand().run(inputStream, outputStream)
+                                    if (job.command.calculatedResult != "-40.0") {
+                                        commandResult.postValue(job.command.calculatedResult)
+                                        obdCommandReceived?.postValue(
+                                            ObdDataModel(
+                                                job.command.name,
+                                                job.command.calculatedResult
+                                            )
                                         )
+                                    }
+                                    Log.d(
+                                        TAG,
+                                        "OBD COMMAND sent and response received with value ${job.command.calculatedResult}"
                                     )
+                                    periodBetweenRequests =
+                                        SettingsActivity.getObdUpdatePeriod(preferences)
+                                    delay(periodBetweenRequests.toLong()) // non-blocking delay for X ms, where X is defined in SettingsActivity (default time unit is ms)
+                                } catch (iob: IndexOutOfBoundsException) {
+                                    Log.d(TAG, "Index out of bounds exception")
                                 }
-                                Log.d(TAG, "OBD COMMAND sent and response received with value ${job.command.calculatedResult}")
-                                periodBetweenRequests = SettingsActivity.getObdUpdatePeriod(preferences)
-                                delay(periodBetweenRequests.toLong()) // non-blocking delay for X ms, where X is defined in SettingsActivity (default time unit is ms)
-                            } catch (iob: IndexOutOfBoundsException) {
-                                Log.d(TAG, "Index out of bounds exception")
                             }
+                        } catch (noData: ResponseException) {
+                            notifyError(
+                                400,
+                                noData.message ?: "Unknown error"
+                            ) // no hay getter de command en NoDataException
                         }
                     }
                     error = false
-                }catch (e: Exception) {
+                }
+                catch (e: Exception) {
                     Log.d(TAG, "Device disconnected. Trying to reconnect.")
                     error = true
                     btConnection?.close()
