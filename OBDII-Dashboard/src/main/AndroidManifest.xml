@@ -2,14 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sergiojosemp.obddashboard">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_obd8"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_obd8"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="com.sergiojosemp.obddashboard.activity.StartActivity">
+        android:theme="@style/MaterialComponents">
+        <activity android:name="com.sergiojosemp.obddashboard.activity.StartMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,14 +19,23 @@
         </activity>
 
         <activity android:name="com.sergiojosemp.obddashboard.activity.DiscoveryActivity" />
+        <activity android:name="com.sergiojosemp.obddashboard.activity.DiscoverActivity" />
+
         <activity android:name="com.sergiojosemp.obddashboard.activity.ConnectActivity" />
         <activity
-            android:name="com.sergiojosemp.obddashboard.activity.MenuActivity"
-            android:theme="@style/StartTheme" />
+            android:name="com.sergiojosemp.obddashboard.activity.MenuActivity" />
+        <activity
+            android:name="com.sergiojosemp.obddashboard.activity.MenuActivityKT" />
         <activity android:name="com.sergiojosemp.obddashboard.activity.DashboardActivity" />
 
         <service
             android:name="com.sergiojosemp.obddashboard.service.ObdService"
+            android:exported="false"
+            android:enabled="true"
+            android:launchMode="singleInstance" />
+
+        <service
+            android:name="com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting"
             android:exported="false"
             android:enabled="true"
             android:launchMode="singleInstance" />
@@ -44,11 +54,20 @@
         <activity android:name="com.sergiojosemp.obddashboard.activity.VerboseActivity">
         </activity>
 
+        <activity android:name="com.sergiojosemp.obddashboard.activity.VerboseActivityKT">
+        </activity>
+
         <activity android:name="com.sergiojosemp.obddashboard.activity.DiagnosticTroubleCodeActivity">
         </activity>
 
         <activity android:name="com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser.FileBrowserActivity">
         </activity>
+        <receiver android:name="com.sergiojosemp.obddashboard.activity.AlarmReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="test"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 
@@ -69,6 +88,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
 
 </manifest>

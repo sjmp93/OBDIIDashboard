@@ -9,8 +9,6 @@ import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +16,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sergiojosemp.obddashboard.R;
 import com.sergiojosemp.obddashboard.service.ObdService;
 
@@ -63,7 +64,7 @@ public class ConnectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         setContentView(R.layout.connect_activity);
-        getSupportActionBar().setTitle(getText(R.string.connect_activity_title));
+        //getSupportActionBar().setTitle(getText(R.string.connect_activity_title));
         //Definimos animaciones para los botones
         final Animation spin = AnimationUtils.loadAnimation(this, R.anim.spin);
         final Animation appear = AnimationUtils.loadAnimation(this, R.anim.appear);

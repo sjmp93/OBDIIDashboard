@@ -1,110 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    style="@style/StartTheme"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/settingsButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/settings"
-        android:scaleType="centerInside"
-        app:backgroundTint="#00FFFFFF"
-        app:borderWidth="0dp"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.815"
-        app:maxImageSize="56dp"
-        app:rippleColor="#00FFFFFF" />
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.sergiojosemp.obddashboard.vm.MenuViewModel" />
+        <import type="android.view.View"/>
+    </data>
+    <!--style="@style/StartTheme"-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/MaterialComponents"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/diagnosticTroubleCodesButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/dtc_activity"
-        app:backgroundTint="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.806"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53"
-        app:srcCompat="@mipmap/ic_launcher" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <TextView
+                android:id="@+id/ConnectionStatusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="25dp"
+                android:text="@{viewmodel.connectedStatusLed ? @string/status_obd_connected : @string/status_obd_disconnected, default = @string/status_obd_disconnected}"
+                android:textColor="@color/connectionStatusColor"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.050000012" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/chartsButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/charts"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53"
-        app:srcCompat="@mipmap/ic_launcher" />
+            <ImageView
+                android:id="@+id/ConnectionStatusLed"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/circle_shape"
+                android:backgroundTint="@{viewmodel.connectedStatusLed ? @color/connectionLedConnected : @color/connectionLedDisconnected, default = @color/dtcModeButton}"
+                android:layout_marginHorizontal="10dp"
+                android:visibility="@{viewmodel.obdDebugReceivedValue.isEmpty() ? View.VISIBLE : View.INVISIBLE, default = visible}"
+                app:layout_constraintBottom_toBottomOf="@+id/ConnectionStatusText"
+                app:layout_constraintEnd_toStartOf="@+id/ConnectionStatusText"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ConnectionStatusText" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/dashboardButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/dashboard"
-        app:backgroundTint="#00FFFFFF"
-        app:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.806"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.266"
-        app:srcCompat="@mipmap/ic_launcher" />
+            <TextView
+                android:id="@+id/MenuTitle"
+                style="@style/ExpandedActionBar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="bottom|left"
+                android:paddingStart="25dp"
+                android:paddingEnd="0dp"
+                android:paddingBottom="15dp"
+                android:text="Menú"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/verboseButton"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:clickable="true"
-        android:foreground="@drawable/terminal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.266"
-        app:srcCompat="@mipmap/ic_launcher" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/obd_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="OBD Device"
-        android:textColor="#F3B3B3B3"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="94dp" />
 
-    <ImageView
-        android:id="@+id/obdStatusIcon"
-        android:layout_width="115dp"
-        android:layout_height="110dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/obd_connector_icon" />
+        <HorizontalScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="false"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
-</android.support.constraint.ConstraintLayout>
+            <LinearLayout
+                android:id="@+id/ModesHorizontalLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:scrollbarAlwaysDrawHorizontalTrack="true"
+                android:scrollbars="horizontal">
+
+                <Button
+                    android:id="@+id/dashboardButton"
+                    style="@style/StartActivityButtons"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="25dp"
+                    android:autoSizeMaxTextSize="32sp"
+                    android:autoSizeMinTextSize="11sp"
+                    android:autoSizeTextType="uniform"
+                    android:backgroundTint="@color/dashboardModeButton"
+                    android:clickable="true"
+                    android:elevation="5dp"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(1)}"
+                    android:gravity="bottom|start"
+                    android:paddingBottom="25dp"
+                    android:text="Dashboard Mode"
+                    android:textSize="32sp"
+                    app:rippleColor="@color/dashboardModeRipple" />
+
+                <Button
+                    android:id="@+id/verboseButton"
+                    style="@style/StartActivityButtons"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="25dp"
+                    android:backgroundTint="@color/verboseModeButton"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(2)}"
+                    android:gravity="bottom|start"
+                    android:paddingBottom="25dp"
+                    android:text="Verbose Mode"
+                    android:textSize="32sp"
+                    app:rippleColor="@color/verboseModeRipple" />
+
+                <Button
+                    android:id="@+id/chartsButton"
+                    style="@style/StartActivityButtons"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="25dp"
+                    android:backgroundTint="@color/chartModeButton"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(3)}"
+                    android:gravity="bottom|start"
+                    android:paddingBottom="25dp"
+                    android:text="Chart Mode"
+                    android:textSize="32sp"
+                    app:rippleColor="@color/chartModeRipple" />
+
+                <Button
+                    android:id="@+id/diagnosticTroubleCodesButton"
+                    style="@style/StartActivityButtons"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="25dp"
+                    android:backgroundTint="@color/dtcModeButton"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(4)}"
+                    android:gravity="bottom|start"
+                    android:paddingBottom="25dp"
+                    android:text="DTC Mode"
+                    android:textSize="32sp"
+                    app:rippleColor="@color/dtcModeRipple" />
+
+                <Button
+                    android:id="@+id/settingsButton"
+                    style="@style/StartActivityButtons"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="25dp"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewmodel.setSelectedOption(5)}"
+                    android:gravity="bottom|start"
+                    android:paddingBottom="25dp"
+                    android:scaleType="centerInside"
+                    android:text="Settings"
+                    android:textSize="32sp"
+                    app:backgroundTint="@color/settingsButton"
+                    app:maxImageSize="56dp"
+                    app:rippleColor="@color/settingsRipple" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <ImageView
+            android:id="@+id/obdStatusIcon"
+            android:layout_width="115dp"
+            android:layout_height="110dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/obd_connector_icon" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OBDII-Dashboard (beta)</string>
+    <string name="app_name">OBDII Dashboard</string>
     <string name="engine_coolant_temperature" translatable="false">Engine Coolant Temperature</string>
     <string name="engine_oil_temperature" translatable="false">Engine oil temperature</string>
     <string name="engine_load" translatable="false">Engine Load</string>
@@ -100,8 +100,11 @@
     <string name="pref_obd_protocols_title">OBD Protocol</string>
     <string name="pref_obd_protocols_summary">Select OBD Protocol to use</string>
     <string name="pref_imperial_units_title">Imperial Units</string>
+    <string name="simulator_mode_preference">Simlator mode</string>
     <string name="pref_imperial_units_summaryOff">Enable imperial units</string>
     <string name="pref_imperial_units_summaryOn">Go back to metric units</string>
+    <string name="simulator_mode_summaryOff">Enable simulator mode</string>
+    <string name="simulator_mode_summaryOn">Disable simulator mode and start working with an OBD device</string>
     <string name="pref_obd_update_period_title">Update Period in Miliseconds</string>
     <string name="pref_obd_update_period_summary">The length of time between querying vehicle data in miliseconds</string>
     <string name="pref_max_fuel_econ_title">Maximum Fuel Economy Value</string>
@@ -157,12 +160,15 @@
     <string name="trying_reset">Trying reset</string>
     <string name="obd_service_working">OBD Service working</string>
     <string name="connected_to_device">Connected to BT device.</string>
+    <string name="status_obd_connected">Connected</string>
+    <string name="connection_finished">Connection finished.</string>
     <string name="connection_error_is_obd_adapter">Connection error. Is this an OBD adapter?</string>
     <string name="checking_if_obdr">Checking if BT device is an OBD adapter or not...</string>
     <string name="dummy_command">Dummy command to check whether device is an OBD adapter or not.</string>
     <string name="is_obd">BT device is an OBD adapter</string>
     <string name="queueing_for_config">Queueing jobs for connection configuration...</string>
     <string name="initialization_jobs">Initialization jobs queued.</string>
+    <string name="initialization_process">Setting up OBD connection.</string>
     <string name="creating_service">Creating service...</string>
     <string name="service_created">Service created.</string>
     <string name="adding_job">Adding job[</string>
@@ -186,6 +192,12 @@
     <string name="executing_queue_paused">Executing queue will be paused during Diagnostic Trouble Code Activity</string>
     <string name="error_getting_dtc">Error getting Trouble Codes from OBD. Is device connected an OBD device?</string>
     <string name="BT_STATUS_TEXT">BT Status</string>
+    <string name="connect_title">Connect</string>
+    <string name="exit_title">Exit</string>
+    <string name="ok_option">Ok</string>
+    <string name="cancel_option">Cancel</string>
+    <string name="go_back_advice">Going back will result in bluetooth device being disconnected, are you sure?</string>
+    <string name="notification_error_connecting_device">We are having some troubles when connecting to your device</string>
 
     "Error getting Trouble Codes from OBD. Is OBD device connected?"
     Executing queue will be paused during Diagnostic Trouble Code Activity

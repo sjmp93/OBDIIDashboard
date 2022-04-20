@@ -7,9 +7,6 @@ import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -18,6 +15,10 @@ import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GestureDetectorCompat;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sergiojosemp.obddashboard.R;
 import com.github.pires.obd.commands.ObdCommand;
 import com.github.pires.obd.reader.ObdConfig;
@@ -493,6 +494,7 @@ public class ChartActivity extends AppCompatActivity implements GestureDetector.
 
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     public void startFullScreen() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_IMMERSIVE

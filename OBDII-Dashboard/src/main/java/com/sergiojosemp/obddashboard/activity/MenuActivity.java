@@ -11,18 +11,27 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sergiojosemp.obddashboard.R;
 import com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser.FileBrowserActivity;
+import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting;
 import com.sergiojosemp.obddashboard.service.ObdService;
+import com.sergiojosemp.obddashboard.vm.DiscoverViewModel;
 
 import java.io.File;
 import java.io.IOException;
+
+import kotlin.UByteArray;
+import kotlinx.coroutines.GlobalScope;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -52,7 +61,7 @@ public class MenuActivity extends AppCompatActivity {
                         Log.d(TAG, getText(R.string.status_bluetooth_connected).toString());
                         obdService.isObdDevice();
                         obdService.emptyQueue(); // Las actividades que se abran desde el menú empezarán con la cola de jobs vacía
-                    }else{
+                    }else{/*
                         try{
                             obdService.connectToDevice();
                             for(int i = 0; i < 2; i++){ // 1 segundo de espera máximo para la reconexión
@@ -67,7 +76,7 @@ public class MenuActivity extends AppCompatActivity {
                             }
                         }catch(InterruptedException ie){
 
-                        }
+                        }*/
                     }
                 } catch (IOException e) {
                     Log.e(TAG,e.getMessage().toString());
@@ -97,8 +106,8 @@ public class MenuActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        Intent serviceIntent = new Intent(MenuActivity.this, ObdService.class);
-        bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
+        //Intent serviceIntent = new Intent(MenuActivity.this, ObdService.class);
+        //bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
     }
 
     protected void onPause() {
@@ -161,7 +170,9 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.menu_activity);
         preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS);
 
+        //OBDKotlinCoroutinesTesting test = new OBDKotlinCoroutinesTesting();
 
+    /*
         dashboardButton = findViewById(R.id.dashboardButton);
         settingsButton = findViewById(R.id.settingsButton);
         diagnosticTroubleCodesButton = findViewById(R.id.diagnosticTroubleCodesButton);
@@ -225,6 +236,8 @@ public class MenuActivity extends AppCompatActivity {
         if(getIntent().getExtras() != null && getIntent().getExtras().getString(EXTRA).equals(EXTRA_CONTENT)){
             setObdIndicatorNotAvailable();
         }
+
+     */
     }
 
     @Override

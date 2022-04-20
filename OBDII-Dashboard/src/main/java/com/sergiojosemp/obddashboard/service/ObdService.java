@@ -9,9 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.sergiojosemp.obddashboard.R;
 import com.sergiojosemp.obddashboard.activity.DashboardActivity;
@@ -71,7 +72,7 @@ public class ObdService extends IntentService {
     private Thread obdAdaptedCheckerThread = new Thread(new Runnable() {
         @Override
         public void run() {
-            try {
+            /*try {
                 while (!obdAdaptedCheckerThread.isInterrupted()) {
                     if (obdDeviceQueue.take()) {//Blocks until someone puts a boolean value in the queue
                         ((MenuActivity) ctx).runOnUiThread(new Runnable() {
@@ -96,7 +97,7 @@ public class ObdService extends IntentService {
             }
             catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     });
 
@@ -270,7 +271,7 @@ public class ObdService extends IntentService {
                         if (job != null) {
                             Log.d(TAG, getText(R.string.updating_dash).toString() + job.getCommand().getName() + getText(R.string.updating_dash).toString() + job.getCommand().getFormattedResult() + "...");
                             final ObdCommandJob job2 = job;
-                            if(ctx != this) {
+                            if(ctx != this) {/*
                                 if (verboseMode) {
                                     ((VerboseActivity) ctx).runOnUiThread(new Runnable() {
                                         @Override
@@ -285,7 +286,7 @@ public class ObdService extends IntentService {
                                             ((DashboardActivity) ctx).stateUpdate(job2);
                                         }
                                     });
-                                }
+                                }*/
                             }
                         }
                     } else {
