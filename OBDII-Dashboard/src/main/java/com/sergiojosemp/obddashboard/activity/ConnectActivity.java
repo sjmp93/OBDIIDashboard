@@ -1,5 +1,6 @@
 package com.sergiojosemp.obddashboard.activity;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -17,6 +19,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.sergiojosemp.obddashboard.R;
@@ -28,6 +32,7 @@ public class ConnectActivity extends AppCompatActivity {
     private final static String PREFERENCES = "preferences";
     private final static String EXTRANAME = "name";
     private final static String EXTRAMAC = "mac";
+    private final static int REQUEST_BT_CONNECT = 10;
 
     private FloatingActionButton bluetoothConnectButton; //Botón para establecer la conexión bluetooth
     private String TAG = ""; // Para el log
@@ -121,6 +126,15 @@ public class ConnectActivity extends AppCompatActivity {
         macText.setText(mac);
 
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.BLUETOOTH_CONNECT},
+                        REQUEST_BT_CONNECT);
+            }
+        }
 
     }
 

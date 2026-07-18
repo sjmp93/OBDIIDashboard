@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.bluetooth.BluetoothAdapter
 import android.content.*
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -65,9 +66,16 @@ class StartMenuActivity: AppCompatActivity() {
         requestPermissions()
 
         //Request corresponging permissions for BT functionality
-        ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.BLUETOOTH, Manifest.permission.BLUETOOTH_ADMIN),
-                MY_PERMISSIONS_REQUEST);
+        val btPermissions = mutableListOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            btPermissions.add(Manifest.permission.BLUETOOTH_SCAN)
+            btPermissions.add(Manifest.permission.BLUETOOTH_CONNECT)
+        }
+        ActivityCompat.requestPermissions(this, btPermissions.toTypedArray(), MY_PERMISSIONS_REQUEST);
 
         /*val newIntent = Intent("test")
         val pendingIntent =
@@ -140,6 +148,22 @@ class StartMenuActivity: AppCompatActivity() {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             permissionsToRequest.add(Manifest.permission.BLUETOOTH_ADMIN)
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_SCAN
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_SCAN)
+            }
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.BLUETOOTH_CONNECT
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                permissionsToRequest.add(Manifest.permission.BLUETOOTH_CONNECT)
+            }
         }
         if (ContextCompat.checkSelfPermission(
                 this,

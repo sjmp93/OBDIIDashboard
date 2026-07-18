@@ -1,6 +1,8 @@
 package com.sergiojosemp.obddashboard.service;
 
 import android.app.IntentService;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 import com.sergiojosemp.obddashboard.R;
 import com.sergiojosemp.obddashboard.activity.DashboardActivity;
@@ -44,6 +47,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ObdService extends IntentService {
 
     private final String PREFERENCES = "preferences";
+    private static final int NOTIFICATION_ID = 1;
+    private static final String CHANNEL_ID = "obd_service_channel";
     private final IBinder binder = new ObdServiceBinder();
     // Vamos a definir una cola de trabajos como se hace en la aplicación sample de la API obd-java
     protected BlockingQueue<ObdCommandJob> jobsQueue = new LinkedBlockingQueue<>();
@@ -232,10 +237,30 @@ public class ObdService extends IntentService {
         final BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         Log.d(TAG, getText(R.string.creating_service).toString());
+        createNotificationChannel();
+        startForeground(NOTIFICATION_ID, buildForegroundNotification());
         t.start();
         Log.d(TAG, getText(R.string.service_created).toString());
         preferences = getSharedPreferences(PREFERENCES,
                 Context.MODE_MULTI_PROCESS);
+    }
+
+    private void createNotificationChannel() {
+        NotificationChannel channel = new NotificationChannel(
+                CHANNEL_ID,
+                "OBD Service",
+                NotificationManager.IMPORTANCE_LOW);
+        channel.setDescription("Foreground notification for OBD connection");
+        NotificationManager manager = getSystemService(NotificationManager.class);
+        manager.createNotificationChannel(channel);
+    }
+
+    private android.app.Notification buildForegroundNotification() {
+        return new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("OBD Dashboard")
+                .setContentText("Connected to OBD adapter")
+                .setSmallIcon(R.drawable.ic_obd8)
+                .build();
     }
 
     public void queueJob(ObdCommandJob job) {
