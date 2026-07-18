@@ -14,17 +14,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.adapter.BluetoothDevicesRecyclerViewAdapter
 import com.sergiojosemp.obddashboard.databinding.DiscoverActivityBinding
 import com.sergiojosemp.obddashboard.model.BluetoothDeviceModel
-import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
+import com.sergiojosemp.obddashboard.service.ObdService
 import com.sergiojosemp.obddashboard.vm.DiscoverViewModel
-import kotlinx.android.synthetic.main.discover_activity.*
-import kotlinx.coroutines.GlobalScope
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -38,18 +37,17 @@ class DiscoverActivity: AppCompatActivity() {
 
 
 
-    private lateinit var obd : OBDKotlinCoroutinesTesting
+    private var obd: ObdService? = null
 
     inner class OBDServiceConnection : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
+            obd = null
+            Log.w(TAG, "ObdService disconnected unexpectedly")
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
-            obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch { Log.d(TAG,"From Discover Activity : Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
-            })
+            obd = (service as ObdService.ObdServiceBinder).getService()
+            // LiveData observation from old service removed - migrate in later phase
         }
     }
 
@@ -65,17 +63,16 @@ class DiscoverActivity: AppCompatActivity() {
         binding = DataBindingUtil.setContentView(
             this, R.layout.discover_activity)
 
-        val discoverViewModel: DiscoverViewModel = ViewModelProviders.of(this).get(DiscoverViewModel::class.java)
+        val discoverViewModel: DiscoverViewModel = ViewModelProvider(this).get(DiscoverViewModel::class.java)
         // Observe changes on viewModel.device. When triggered, it tries to start a bluetooth socket in order to establish a bluetooth connection with the observed device
 
 
         discoverViewModel.valueReceived.observe(this, androidx.lifecycle.Observer {
-            GlobalScope.launch { Log.d(TAG,"Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
+            Log.d(TAG,"Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}")
         })
 
         discoverViewModel.device.observe(this, androidx.lifecycle.Observer {
-            obd.num = 2 //TODO remove this - for debugging purpose
-            if(it != null) GlobalScope.launch{ obd.connectToDevice(bluetoothAdapter!!,it.mac!!,discoverViewModel.connecting, discoverViewModel.device) } // Separated thread to not to block UI
+            // obd.connectToDevice() removed - migrate in later phase
         })
 
         discoverViewModel.connecting.observe(this, androidx.lifecycle.Observer {
@@ -91,13 +88,14 @@ class DiscoverActivity: AppCompatActivity() {
         binding.viewmodel = discoverViewModel
         binding.lifecycleOwner = this
         // Connects to the RecyclerView
-        obd_data_list.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = BluetoothDevicesRecyclerViewAdapter(context, mutableListOf<BluetoothDeviceModel>())
+        binding.obdDataList.apply {
+            layoutManager = LinearLayoutManager(this@DiscoverActivity)
+            adapter = BluetoothDevicesRecyclerViewAdapter(this@DiscoverActivity, mutableListOf<BluetoothDeviceModel>())
         }
         //Needed to set bold text style to CollapsingToolbarLayout title
-        binding.collapsingToolbar.setExpandedTitleTypeface(Typeface.create(binding.collapsingToolbar.getExpandedTitleTypeface(), Typeface.BOLD));
-        binding.collapsingToolbar.setCollapsedTitleTypeface(Typeface.create(binding.collapsingToolbar.getExpandedTitleTypeface(), Typeface.BOLD));
+        val toolbarTypeface = Typeface.DEFAULT_BOLD
+        binding.collapsingToolbar.setExpandedTitleTypeface(toolbarTypeface)
+        binding.collapsingToolbar.setCollapsedTitleTypeface(toolbarTypeface)
 
         // Take a list of near bluetooth devices
         bluetoothReceiver = object : BroadcastReceiver() {
@@ -107,7 +105,7 @@ class DiscoverActivity: AppCompatActivity() {
                     //We take Bluetooth device from intent extra, contains name and MAC address
                     val device = intent.getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                     //We save discovered device on viewmodel list if it doesn't already contains it
-                    val btDiscoveredDevice = BluetoothDeviceModel(name= if (device.name != null) device.name else "Unknown device" ,mac=device.address)
+                    val btDiscoveredDevice = BluetoothDeviceModel(name= if (device?.name != null) device!!.name else "Unknown device" ,mac=device!!.address)
                     if(!binding.viewmodel!!.containsDevice(btDiscoveredDevice)){
                         val array :ArrayList<BluetoothDeviceModel> = binding.viewmodel!!.devices.value!!
                         array.add(btDiscoveredDevice)
@@ -118,21 +116,20 @@ class DiscoverActivity: AppCompatActivity() {
             }
         }
 
-        binding.swipeRefreshLayout.setOnRefreshListener(OnRefreshListener {
+        binding.swipeRefreshLayout.setOnRefreshListener {
             bluetoothAdapter?.cancelDiscovery()
             Log.d(TAG,"Trying to discover more devices...")
             bluetoothAdapter?.startDiscovery()
-            GlobalScope.launch {
+            lifecycleScope.launch {
                 delay(1000L) //some delay to let bluetoothAdapter to start discovering devices
                 while (bluetoothAdapter?.isDiscovering ?: false){
                     delay(1000L)
                 }
-                //When bluetoothAdapter stops to be discovering devices, then, set Refreshing progress to false
-                binding.swipeRefreshLayout.setRefreshing(false);
+                binding.swipeRefreshLayout.isRefreshing = false
             }
-        })
+        }
 
-        val intent = Intent(this,OBDKotlinCoroutinesTesting::class.java)
+        val intent = Intent(this,ObdService::class.java)
         startService(intent)
     }
 
@@ -143,7 +140,7 @@ class DiscoverActivity: AppCompatActivity() {
         registerReceiver(bluetoothReceiver, filter)
         checkLocationPermission() // We need to ckeck permissions after Android 6 in order to search bluetooth devices
 
-        val intent = Intent(this,OBDKotlinCoroutinesTesting::class.java)
+        val intent = Intent(this,ObdService::class.java)
         bindService(intent, serviceConn, Context.BIND_AUTO_CREATE);
 
         bluetoothAdapter?.startDiscovery()
@@ -159,7 +156,7 @@ class DiscoverActivity: AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val intent = Intent(this,OBDKotlinCoroutinesTesting::class.java)
+        val intent = Intent(this,ObdService::class.java)
         stopService(intent)
         super.onBackPressed()
     }
