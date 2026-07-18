@@ -41,7 +41,6 @@ class DiscoverActivity: AppCompatActivity() {
 
     inner class OBDServiceConnection : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
-            obd = null
             Log.w(TAG, "ObdService disconnected unexpectedly")
         }
 
