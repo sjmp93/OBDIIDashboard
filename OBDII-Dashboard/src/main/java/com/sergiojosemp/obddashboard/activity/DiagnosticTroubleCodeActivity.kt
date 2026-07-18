@@ -29,6 +29,7 @@ class DiagnosticTroubleCodeActivity : AppCompatActivity() {
     private val TAG = DiagnosticTroubleCodeActivity::class.java.name
 
     private lateinit var viewModel: DtcViewModel
+    private var isBound = false
     private var obdService: ObdService? = null
 
     private var optionsBinding: DtcOptionsMenuBinding? = null
@@ -65,7 +66,10 @@ class DiagnosticTroubleCodeActivity : AppCompatActivity() {
     }
 
     private fun fillView(res: String) {
-        setContentView(R.layout.diagnostic_trouble_code_activity)
+        val container = findViewById<android.widget.FrameLayout>(R.id.content_container)
+        container.removeAllViews()
+        layoutInflater.inflate(R.layout.diagnostic_trouble_code_activity, container, true)
+
         val listView = findViewById<android.widget.ListView>(R.id.listView)
         val dtcVals = getDict(R.array.dtc_keys, R.array.dtc_values)
 
@@ -85,7 +89,6 @@ class DiagnosticTroubleCodeActivity : AppCompatActivity() {
             dtcCodes
         )
         listView.adapter = adapter
-        //listView.textFilterEnabled = true // Deprecated in API 26+
     }
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -175,7 +178,9 @@ class DiagnosticTroubleCodeActivity : AppCompatActivity() {
 
         startFullScreen()
 
-        bindService(Intent(this, ObdService::class.java), serviceConn, Context.BIND_AUTO_CREATE)
+        if (bindService(Intent(this, ObdService::class.java), serviceConn, Context.BIND_AUTO_CREATE)) {
+            isBound = true
+        }
     }
 
     override fun onBackPressed() {
