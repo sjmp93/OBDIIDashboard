@@ -1,11 +1,14 @@
 package com.sergiojosemp.obddashboard.service
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.os.Binder
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import com.github.pires.obd.commands.protocol.EchoOffCommand
 import com.github.pires.obd.commands.protocol.LineFeedOffCommand
@@ -34,6 +37,8 @@ import java.io.IOException
 class ObdService : LifecycleService() {
 
     private val TAG = ObdService::class.java.name
+    private val NOTIFICATION_ID = 1
+    private val CHANNEL_ID = "obd_service_channel"
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     private val binder = ObdServiceBinder()
@@ -60,10 +65,32 @@ class ObdService : LifecycleService() {
     override fun onCreate() {
         super.onCreate()
         Log.d(TAG, getText(R.string.creating_service).toString())
+        createNotificationChannel()
+        startForeground(NOTIFICATION_ID, buildForegroundNotification())
         serviceScope.launch {
             executeQueue()
         }
         Log.d(TAG, getText(R.string.service_created).toString())
+    }
+
+    private fun createNotificationChannel() {
+        val channel = NotificationChannel(
+            CHANNEL_ID,
+            "OBD Service",
+            NotificationManager.IMPORTANCE_LOW
+        ).apply {
+            description = "Foreground notification for OBD connection"
+        }
+        val manager = getSystemService(NotificationManager::class.java)
+        manager.createNotificationChannel(channel)
+    }
+
+    private fun buildForegroundNotification(): android.app.Notification {
+        return NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("OBD Dashboard")
+            .setContentText("Connected to OBD adapter")
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .build()
     }
 
     override fun onDestroy() {

@@ -8,13 +8,13 @@ import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.databinding.MenuActivityBinding
 import com.sergiojosemp.obddashboard.github.vassiliev.androidfilebrowser.FileBrowserActivity
-import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
+import com.sergiojosemp.obddashboard.model.PreferencesHelper
 import com.sergiojosemp.obddashboard.service.ObdService
 import com.sergiojosemp.obddashboard.vm.MenuViewModel
 import kotlinx.coroutines.GlobalScope
@@ -23,9 +23,7 @@ import kotlinx.coroutines.launch
 
 class MenuActivityKT : AppCompatActivity(){
 
-    private val PREFERENCES = "preferences"
     private val ONLINE_EXTRA = "ONLINE_EXTRA"
-
 
     private var obdService: ObdService? = null
     private val dashboardButton: FloatingActionButton? = null
@@ -34,12 +32,9 @@ class MenuActivityKT : AppCompatActivity(){
     private val diagnosticTroubleCodesButton: FloatingActionButton? = null
     private val verboseButton: FloatingActionButton? = null
 
-
     private val TAG = "OBD-Log"
 
-    @Inject
-    private lateinit var preferences: SharedPreferences
-    private lateinit var obd : OBDKotlinCoroutinesTesting
+    private var obd: ObdService? = null
     private val serviceConn : OBDServiceConnectionOnMenu = OBDServiceConnectionOnMenu()
     private lateinit var binding: MenuActivityBinding
     private lateinit var viewModel: MenuViewModel
@@ -52,12 +47,11 @@ class MenuActivityKT : AppCompatActivity(){
         onlineModeFlag = intent.extras!!.getBoolean(ONLINE_EXTRA) ?: false
         //setContentView(R.layout.menu_activity)
         //getExtraData(ONLINE_EXTRA)
-        preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS)
         binding = DataBindingUtil.setContentView(
             this, R.layout.menu_activity
         )
 
-        viewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
 
         viewModel!!.selectedOption!!.observe(this, androidx.lifecycle.Observer {
 
@@ -76,8 +70,8 @@ class MenuActivityKT : AppCompatActivity(){
                     FileBrowserActivity::class.java
                 )
                 val sdcard = Environment.getExternalStorageDirectory()
-                var path = sdcard.getPath() + "/" + preferences.getString(
-                    SettingsActivity.DIRECTORY_FULL_LOGGING_KEY,
+                var path = sdcard.getPath() + "/" + PreferencesHelper.getStringSync(
+                    this, PreferencesHelper.DIRECTORY_FULL_LOGGING_KEY.toString(),
                     getString(R.string.default_dirname_full_logging)
                 ) + "/"
                 fileExploreIntent.putExtra(FileBrowserActivity.startDirectoryParameter, path)
@@ -97,7 +91,7 @@ class MenuActivityKT : AppCompatActivity(){
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
         binding.verboseButton.setOnClickListener(){
-            obd.printThing()
+            // obd.printThing() removed - migrate in later phase
         }
 
 
@@ -111,7 +105,7 @@ class MenuActivityKT : AppCompatActivity(){
 
     override fun onResume() {
         super.onResume()
-        val serviceIntent = Intent(this, OBDKotlinCoroutinesTesting::class.java);
+        val serviceIntent = Intent(this, ObdService::class.java);
         bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
     }
 
@@ -121,7 +115,7 @@ class MenuActivityKT : AppCompatActivity(){
                 .setTitle(getString(R.string.exit_title))
                 .setMessage(getString(R.string.go_back_advice))
                 .setPositiveButton(getString(R.string.ok_option), DialogInterface.OnClickListener { dialog, which ->
-                    obd.disconnectFromDevice()
+                    // obd.disconnectFromDevice() removed - migrate in later phase
                     Log.d(TAG, "Going back to discover activity")
                     // clear activities stack and go back to start menu activity
                     val intent = Intent(this, StartMenuActivity::class.java)
@@ -152,45 +146,13 @@ class MenuActivityKT : AppCompatActivity(){
 
     inner class OBDServiceConnectionOnMenu : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
+            obd = null
+            Log.w(TAG, "ObdService disconnected unexpectedly")
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) { //TODO here we have to fill a textView that shows OBD connection status
-            obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
-            obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch { Log.d(com.sergiojosemp.obddashboard.vm.TAG, "From Menu Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}") }
-            })
-
-            obd.commandResult.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                //This routine emulates led blinking when data is received
-                /*GlobalScope.launch {
-                    viewModel.setValue("Invisible")
-                    delay(100L)
-                    viewModel.setValue("")
-                    delay(200L)
-                    viewModel.setValue("Invisible")
-                    delay(200L)
-                    viewModel.setValue("")
-                    delay(200L)
-                    viewModel.setValue("Invisible")
-                    delay(100L)
-                    viewModel.setValue("")
-                }*/
-            })
-
-            obd.btConnectionStatus.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch {
-                    if (it) {
-                        //viewModel.setValue(getString(R.string.status_obd_connected))
-                        viewModel.setConnectedStatusLed(true)
-                    } else {
-                        //viewModel.setValue(getString(R.string.status_obd_disconnected))
-                        viewModel.setConnectedStatusLed(false)
-                    }
-                }
-            })
-
-
+            obd = (service as ObdService.ObdServiceBinder).getService()
+            // LiveData observation from old service removed - migrate in later phase
         }
 
     }

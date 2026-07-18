@@ -28,6 +28,7 @@ class ConnectActivity : AppCompatActivity() {
     private lateinit var binding: ConnectActivityBinding
     private lateinit var viewModel: ConnectViewModel
     private var bluetoothAdapter: BluetoothAdapter? = null
+    private var isBound = false
     private var obdService: ObdService? = null
     private var deviceMac: String = ""
 
@@ -63,7 +64,9 @@ class ConnectActivity : AppCompatActivity() {
         binding.bluetoothConnectButton.alpha = 1.0f
         binding.bluetoothConnectButton.startAnimation(appear)
 
-        bindService(Intent(this, ObdService::class.java), serviceConn, Context.BIND_AUTO_CREATE)
+        if (bindService(Intent(this, ObdService::class.java), serviceConn, Context.BIND_AUTO_CREATE)) {
+            isBound = true
+        }
 
         binding.bluetoothConnectButton.setOnClickListener {
             viewModel.startConnecting()
@@ -104,7 +107,9 @@ class ConnectActivity : AppCompatActivity() {
         super.onResume()
         val serviceIntent = Intent(this, ObdService::class.java)
         startService(serviceIntent)
-        bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE)
+        if (bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE)) {
+            isBound = true
+        }
     }
 
     override fun onPause() {

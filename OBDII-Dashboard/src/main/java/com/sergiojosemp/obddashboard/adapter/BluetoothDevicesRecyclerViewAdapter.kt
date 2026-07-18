@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.activity.DiscoverActivity
@@ -39,7 +39,7 @@ class BluetoothDevicesRecyclerViewAdapter(private val context : Context, private
 
     inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(bluetoothDevice: BluetoothDeviceModel) {
-            val discoverViewModel: DiscoverViewModel = ViewModelProviders.of(context as DiscoverActivity).get(DiscoverViewModel::class.java)
+            val discoverViewModel: DiscoverViewModel = ViewModelProvider(context as DiscoverActivity).get(DiscoverViewModel::class.java)
 
             itemView.findViewById<TextView>(R.id.bluetoothDeviceName).text = bluetoothDevice.name
             itemView.findViewById<TextView>(R.id.bluetoothDeviceMac).text = bluetoothDevice.mac

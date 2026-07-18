@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable name="viewmodel"
+            type="com.sergiojosemp.obddashboard.vm.ConnectViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -56,7 +57,7 @@
             android:id="@+id/deviceNameText"
             android:layout_width="305dp"
             android:layout_height="74dp"
-            android:text="@string/unknown_device_text"
+            android:text="@{viewmodel.deviceName}"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.379"
@@ -84,7 +85,7 @@
             android:id="@+id/deviceMacText"
             android:layout_width="305dp"
             android:layout_height="74dp"
-            android:text="@string/unknown_mac_address_text"
+            android:text="@{viewmodel.deviceMac}"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.379"

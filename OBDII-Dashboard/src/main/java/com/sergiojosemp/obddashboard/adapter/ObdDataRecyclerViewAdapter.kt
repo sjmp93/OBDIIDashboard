@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.*
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.activity.DiscoverActivity
@@ -41,7 +41,7 @@ class ObdDataRecyclerViewAdapter(private val context : Context?, private val obd
 
     inner class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(obdData: ObdDataModel) {
-            val verboseViewModel: VerboseViewModel = ViewModelProviders.of(context as VerboseActivityKT).get(VerboseViewModel::class.java)
+            val verboseViewModel: VerboseViewModel = ViewModelProvider(context as VerboseActivityKT).get(VerboseViewModel::class.java)
 
             itemView.findViewById<TextView>(R.id.obdCommandName).text = obdData.commandName
             itemView.findViewById<TextView>(R.id.obdCommandValue).text = obdData.commandData
