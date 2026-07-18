@@ -152,7 +152,8 @@ class MenuActivityKT : AppCompatActivity(){
 
     inner class OBDServiceConnectionOnMenu : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
+            obd = null
+            Log.w(TAG, "ObdService disconnected unexpectedly")
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) { //TODO here we have to fill a textView that shows OBD connection status

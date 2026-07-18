@@ -42,7 +42,7 @@ class DiscoverActivity: AppCompatActivity() {
 
     inner class OBDServiceConnection : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
+            Log.w(TAG, "ObdService disconnected unexpectedly")
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
