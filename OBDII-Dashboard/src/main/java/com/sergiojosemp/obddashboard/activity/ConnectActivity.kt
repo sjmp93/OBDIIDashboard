@@ -118,5 +118,9 @@ class ConnectActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        if (isBound) {
+            try { unbindService(serviceConn) } catch (e: Exception) {}
+            isBound = false
+        }
     }
 }
