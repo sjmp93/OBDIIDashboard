@@ -13,11 +13,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.databinding.MainActivityBinding
 import com.sergiojosemp.obddashboard.model.BluetoothModel
-import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
 import com.sergiojosemp.obddashboard.vm.StartViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -33,15 +32,24 @@ class StartMenuActivity: AppCompatActivity() {
     private val btEventReceiver: BroadcastReceiver = object : BroadcastReceiver(){
         override fun onReceive(contxt: Context?, intent: Intent?){
             System.out.println("Switching BT state from ${btDevice.isEnabled} to ${!btDevice.isEnabled}")
+            if (isUpdatingBtState) {
+                isUpdatingBtState = false
+                return
+            }
             //To avoid triggering switch method twice (during intermediate state and final state) we check State inside intent extra
             if ((intent!!.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON ||
                             intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) &&
                     viewModel.data.value!!.state != btDevice.isEnabled) {
+                isUpdatingBtState = true
                 viewModel.switchBT()
+            } else if (intent!!.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_ON ||
+                       intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
+                isUpdatingBtState = false
             }
         }
     }
 
+    private var isUpdatingBtState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +57,7 @@ class StartMenuActivity: AppCompatActivity() {
         binding = DataBindingUtil.setContentView<MainActivityBinding>(this,
                 R.layout.main_activity)
 
-        viewModel = ViewModelProviders.of(this).get(StartViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(StartViewModel::class.java)
 
         //Bind boolean value with BT device state (if BT adapter is enabled, then, the app starts with that state for TextData...)
         viewModel.data.value =
@@ -58,6 +66,8 @@ class StartMenuActivity: AppCompatActivity() {
         //Observe changes at data to switch btDevice state when data is changed
         viewModel.data.observe(this, Observer<BluetoothModel>(){
             System.out.println("Observer triggered, switching BT state from ${btDevice.isEnabled} to ${!btDevice.isEnabled}")
+            if (isUpdatingBtState) return@Observer
+            isUpdatingBtState = true
             if(viewModel.data.value!!.state!!) btDevice.enable() else btDevice.disable()
         })
 
@@ -107,6 +117,15 @@ class StartMenuActivity: AppCompatActivity() {
         val bluetoothStatusIntent = Intent(BluetoothAdapter.ACTION_STATE_CHANGED)
         val intentFilter = IntentFilter(bluetoothStatusIntent.action)
         registerReceiver(btEventReceiver, intentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        try {
+            unregisterReceiver(btEventReceiver)
+        } catch (e: IllegalArgumentException) {
+            // Receiver was not registered
+        }
     }
 
     fun requestPermissions() {
