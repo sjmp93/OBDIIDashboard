@@ -190,11 +190,24 @@ class DiagnosticTroubleCodeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val serviceIntent = Intent(this, ObdService::class.java)
-        bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE)
+        if (bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE)) {
+            isBound = true
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        unbindService(serviceConn)
+        if (isBound) {
+            try { unbindService(serviceConn) } catch (e: Exception) {}
+            isBound = false
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isBound) {
+            try { unbindService(serviceConn) } catch (e: Exception) {}
+            isBound = false
+        }
     }
 }
