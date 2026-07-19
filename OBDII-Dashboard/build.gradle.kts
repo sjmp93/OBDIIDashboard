@@ -20,6 +20,17 @@ android {
     buildFeatures {
         dataBinding = true
         viewBinding = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.8"
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 
     buildTypes {
@@ -77,6 +88,10 @@ dependencies {
 
     // Kotlin stdlib
     implementation(libs.kotlin.stdlib.jdk8)
+
+    // Compose
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose.ui)
 
     // Test dependencies
     testImplementation(libs.junit)

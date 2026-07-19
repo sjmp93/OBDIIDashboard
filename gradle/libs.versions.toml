@@ -27,6 +27,9 @@ roundCornerProgressBar = "2.0.3"
 plainPie = "v0.2.9"
 obdJavaApi = "1.0-RC16"
 
+composeBom = "2024.05.00"
+activityCompose = "1.8.2"
+
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -63,10 +66,18 @@ kotlin-stdlib-jdk8 = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
+# Compose
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+
 [bundles]
 lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-runtime-ktx", "lifecycle-livedata-ktx", "lifecycle-service"]
 coroutines = ["coroutines-core", "coroutines-android"]
 work = ["work-runtime", "work-runtime-ktx", "work-rxjava2"]
+compose-ui = ["compose-ui", "compose-ui-tooling-preview", "compose-material3", "compose-activity"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
