@@ -19,7 +19,7 @@
 | 27 | [EPIC] Migrate XML layouts to Jetpack Compose | https://gitlab.erpango.link/mobile/obdii-dashboard/-/work_items/27 | - | pendiente |
 | 28 | SettingsActivity (preference screens) | https://gitlab.erpango.link/mobile/obdii-dashboard/-/work_items/28 | baja | pendiente |
 | 29 | DiscoverActivity (BT device list) | https://gitlab.erpango.link/mobile/obdii-dashboard/-/work_items/29 | media | pendiente |
-| 30 | ConnectActivity (connection UI) | https://gitlab.erpango.link/mobile/obdii-dashboard/-/work_items/30 | baja | pendiente |
+| 30 | ConnectActivity (connection UI) | https://gitlab.erpango.link/mobile/obdii-dashboard/-/work_items/30 | baja | MR !11 |
 | 31 | MenuActivityKT + StartMenuActivity (navigation) | https://gitlab.erpango.link/mobile/obdii-dashboard/-/work_items/31 | media | pendiente |
 | 32 | DiagnosticTroubleCodeActivity (DTC codes) | https://gitlab.erpango.link/mobile/obdii-dashboard/-/work_items/32 | media | pendiente |
 | 33 | ChartActivity (CSV charts) + chart library replacement | https://gitlab.erpango.link/mobile/obdii-dashboard/-/work_items/33 | alta | pendiente |
