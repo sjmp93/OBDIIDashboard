@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008cff</color>
+    <color name="primaryButton">#008cff</color>
+    <color name="primaryActionBar">#FFFFFF</color>
+    <color name="secondaryActionBar">#FFFFFF</color>
     <color name="colorPrimaryDark">#0077ff</color>
     <color name="colorSecundary">#FFB13B</color>
     <color name="colorSecundaryDark">#FF8F07</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#FFFFFF</color>
+    <color name="connectionStatusColor">#4E4E4E</color>
+    <color name="deviceNameListTextColor">#FF8F07</color>
+    <color name="activityBackground">#FFFFFF</color>
+    <color name="activityTitle">#000000</color>
+    <color name="actionBarTitle">#000000</color>
+    <color name="discoverDevices">#4FAFFC</color>
+    <color name="offlineButton">#F14B4B</color>
+    <color name="buttonText">#FFFFFF</color>
+    <color name="dashboardModeButton">#4FAFFC</color>
+    <color name="verboseModeButton">#323232</color>
+    <color name="chartModeButton">#FDCA77</color>
+    <color name="dtcModeButton">#F14B4B</color>
+    <color name="settingsButton">#B2AFAF</color>
+    <color name="dashboardModeRipple">#0077FF</color>
+    <color name="verboseModeRipple">#000000</color>
+    <color name="chartModeRipple">#FFF700</color>
+    <color name="dtcModeRipple">#FF0000</color>
+    <color name="settingsRipple">#515151</color>
+    <color name="bluetoothStatusText">#4FAFFC</color>
+    <color name="connectionLedConnected">#87DC59</color>
+    <color name="connectionLedDisconnected">#F14B4B</color>
 
 
-        <!-- http://www.google.com/design/spec/style/color.html#color-color-palette -->
+    <!-- http://www.google.com/design/spec/style/color.html#color-color-palette -->
         <color name="primary">#607d8b</color>
         <!-- Blue Grey 500 -->
         <color name="primary_dark">#455a64</color>
@@ -45,6 +69,8 @@
         <color name="obd_connector_icon">#46ABFF</color>
         <color name="obd_disabled">#949493</color>
         <color name="device_list_item_text">#0090ff</color>
+        <color name="simulator_button_on">#EA1818</color>
+        <color name="simulator_button_off">#A0DF56</color>
 
 
 

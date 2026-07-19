@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.sergiojosemp.obddashboard.vm.VerboseViewModel" />
+        <import type="android.view.View"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+    android:layout_height="match_parent"
+        android:background="#000000">
+
+        <TableRow
+            android:id="@+id/row1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/row2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <TextView
+                android:id="@+id/vehicleSpeedText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:tag="SPEED"
+                android:text="@{viewmodel.speedIndicator, default = 120}"
+                android:textColor="#FFFFFF"
+                android:textSize="50sp" />
+            <TextView
+                android:id="@+id/vehicleSpeedUnitText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:tag="UNIT"
+                android:text="Km/h"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp" />
+            <TextView
+                android:id="@+id/voltage_text"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="@{viewmodel.accelerationIndicator, default = G_force______}"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/compass_text"
+                android:layout_width="50dp"
+                android:layout_height="75dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="@{viewmodel.compassIndicator, default = SW}"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/abc_text_size_display_3_material" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row2"
+
+            app:layout_constraintBottom_toTopOf="@id/NestedScrollView"
+            app:layout_constraintTop_toBottomOf="@+id/row1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/fuelConsumptionText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:tag="FUEL_CONSUMPTION"
+                android:text="@{viewmodel.consumptionRateIndicator, default = @string/text_consumption_default}"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/engineRuntimeText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:tag="ENGINE_RUNTIME"
+                android:text="@string/text_runtime_default"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/engineRPMText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:tag="ENGINE_RPM"
+                android:text="@{viewmodel.rpmIndicator, default = 0}"
+                android:textColor="#FFFFFF" />
+        </TableRow>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/NestedScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toTopOf="@id/row3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/row2"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/obd_data_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:overScrollMode="never"
+                app:data="@{viewmodel.obdResultsList}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent"
+                tools:listitem="@layout/obd_results_verbose_row" />
+        </androidx.core.widget.NestedScrollView>
+
+        <TableRow
+            android:id="@+id/row3"
+            android:gravity="bottom"
+            app:layout_constraintBottom_toTopOf="@id/row4"
+            app:layout_constraintTop_toBottomOf="@+id/NestedScrollView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/gpsSatusTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_gps"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/abc_text_size_medium_material" />
+
+            <TextView
+                android:id="@+id/bluetoothSatusTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_bluetooth"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/abc_text_size_medium_material" />
+
+            <TextView
+                android:id="@+id/obdSatusTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_obd"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/abc_text_size_medium_material" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/row3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/gpsPositionValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=""
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/btStatusValue"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:gravity="top|center"
+                android:lines="2"
+                android:text="@{viewmodel.bluetoothIndicator, default = Connected}"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/obdValue"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lines="2"
+                android:ellipsize="middle"
+                android:gravity="center"
+                android:text="@{viewmodel.obdIndicator, default = No_command}"
+                android:textColor="#FFFFFF" />
+        </TableRow>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</layout>

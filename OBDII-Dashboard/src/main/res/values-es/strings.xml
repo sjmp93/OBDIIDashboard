@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OBDII-Dashboard (beta)</string>
+    <string name="app_name">OBDII Dashboard</string>
     <string name="BT_STATUS_TEXT">Estado del Bluetooth</string>
     <string name="OBD_STATUS_TEXT">Estado del OBD</string>
     <string name="action_clear_codes">Limpiar códigos</string>
@@ -18,6 +18,7 @@
     <string name="connect_activity">ConnectActivity</string>
     <string name="connect_activity_title">Conectar a</string>
     <string name="connected_to_device">Conectado al dispositivo Bluetooth.</string>
+    <string name="connection_finished">Conexión finalizada.</string>
     <string name="connecting_text">Conectando</string>
     <string name="connection_error_is_obd_adapter">Error de conexión. ¿Se trata de un adaptador OBD?</string>
     <string name="creating_service">Creando servicio...</string>
@@ -42,6 +43,7 @@
     <string name="getting_trouble_codes_text">Obteniendo códigos de error</string>
     <string name="grant_permissions_from_settings">Conceder permisos desde los ajustes de aplicaciones del sistema Android</string>
     <string name="initialization_jobs">Encolados los jobs de inicialización.</string>
+    <string name="initialization_process">Configurando la conexión con el dispositivo.</string>
     <string name="io_error">Error E/S.</string>
     <string name="is_obd">El dispositivo Bluetoot es un adaptador OBD</string>
     <string name="job">"Job "</string>
@@ -82,7 +84,10 @@
     <string name="pref_gps_update_period_title">Período de actualización (en segundos)</string>
     <string name="pref_imperial_units_summaryOff">Activar sistema imperial de unidades</string>
     <string name="pref_imperial_units_summaryOn">Volver al sistema métrico de unidades</string>
+    <string name="simulator_mode_summaryOff">Activar el modo simulador</string>
+    <string name="simulator_mode_summaryOn">Desctivar el modo simulador y empezar a trabajar con un adaptador OBD</string>
     <string name="pref_imperial_units_title">Sistema imperial de unidades</string>
+    <string name="simulator_mode_preference">Modo simulador</string>
     <string name="pref_max_fuel_econ_summary">Cualquier valor de consumo mayor que este será ignorado</string>
     <string name="pref_max_fuel_econ_title">Valor máximo de consumo de combustible</string>
     <string name="pref_max_rpm">Valor de RPM máximo</string>
@@ -171,4 +176,13 @@
     <string name="null_object_stack_trace_fragment_text">\'int java.util.List.size()\' on a null object reference</string>
     <string name="default_dirname_full_logging">OBDDashboardLogs</string>
     <string name="pref_gps_category">Preferencias de GPS</string>
+    <string name="connect_title">Conectar</string>
+    <string name="exit_title">Salir</string>
+    <string name="ok_option">Continuar</string>
+    <string name="cancel_option">Cancelar</string>
+    <string name="go_back_advice">Si vuelve hacia atras el dispositivo bluetooth será desconectado. ¿Quiere continuar?</string>
+    <string name="status_obd_connected">Conectado</string>
+    <string name="notification_error_connecting_device">Estamos teniendo problemas para conectarnos a tu dispositivo</string>
+
+
 </resources>

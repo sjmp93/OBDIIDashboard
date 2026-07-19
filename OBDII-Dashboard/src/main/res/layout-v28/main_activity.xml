@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="viewmodel"
+            type="com.sergiojosemp.obddashboard.vm.StartViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.StartActivity">
+
+        <TextView
+            android:id="@+id/bluetoothStatusText"
+            android:layout_width="138dp"
+            android:layout_height="68dp"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:text="@{viewmodel.data.state  ? @string/bluetooth_enabled : @string/bluetooth_disabled}"
+            android:activated="@{!viewmodel.data.state}"
+            android:clickable="@{!viewmodel.data.state}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/enableBluetoothButton"
+            android:layout_width="67dp"
+            android:layout_height="102dp"
+            android:clickable="true"
+            android:onClick="@{() -> viewmodel.switchBT()}"
+            android:scaleType="centerInside"
+            android:visibility="@{viewmodel.data.state  ? View.GONE : View.VISIBLE}"
+            android:animation="@{!viewmodel.data.state ? @anim/appear : @anim/disappear}"
+            app:backgroundTint="#0090ff"
+            app:fabCustomSize="66dp"
+            app:fabSize="auto"
+            app:tint="@color/activityBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.89"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.94"
+            app:maxImageSize="32dp"
+            app:srcCompat="@drawable/bluetooth"
+            app:useCompatPadding="true" />
+
+        <Button
+            android:id="@+id/offlineModeButton"
+            style="@style/StartActivityButtons"
+            android:layout_height="120dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="5dp"
+            android:backgroundTint="@color/offlineButton"
+            android:text="@string/offline_mode_button"
+
+            app:layout_constraintBottom_toTopOf="@id/discoverButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView"
+            app:layout_constraintVertical_bias="0.45" />
+
+        <Button
+            android:id="@+id/discoverButton"
+            style="@style/StartActivityButtons"
+            android:layout_height="120dp"
+            android:layout_marginBottom="20dp"
+            android:animation="@{viewmodel.data.state ? @anim/appear : @anim/disappear}"
+            android:backgroundTint="#4FAFFC"
+            android:text="@string/discover_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/offlineModeButton"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="25dp"
+            android:paddingStart="30dp"
+            android:paddingTop="30dp"
+            android:paddingEnd="30dp"
+            android:paddingBottom="30dp"
+            app:layout_constraintBottom_toTopOf="@+id/offlineModeButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/levantar" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

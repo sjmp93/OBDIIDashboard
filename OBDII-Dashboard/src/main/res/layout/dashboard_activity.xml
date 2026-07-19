@@ -1,328 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/vehicle_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/activity_horizontal_margin"
-    android:longClickable="true">
+    xmlns:plainpie="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/bt_status_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="39dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/BT_STATUS_TEXT"
-        android:textColor="#a8a8a8"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/progress_1"
-        app:layout_constraintEnd_toStartOf="@+id/obd_status_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.sergiojosemp.obddashboard.vm.DashboardViewModel" />
+    </data>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/vehicle_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-    <TextView
-        android:id="@+id/obd_status_text"
-        android:layout_width="0dp"
-        android:layout_height="16dp"
-        android:text="@string/OBD_STATUS_TEXT"
-        android:textColor="#A8A8A8"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/bt_status_text"
-        app:layout_constraintEnd_toStartOf="@+id/compass_text"
-        app:layout_constraintStart_toEndOf="@+id/bt_status_text" />
+        <!-- Top status row -->
+        <TextView
+            android:id="@+id/bt_status_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/BT_STATUS_TEXT"
+            android:textColor="#a8a8a8"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/obd_status_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/compass_text"
-        android:layout_width="127dp"
-        android:layout_height="62dp"
-        android:paddingStart="60dp"
-        android:paddingLeft="60dp"
-        android:paddingEnd="10dp"
-        android:paddingRight="10dp"
-        android:text="N"
-        android:textAllCaps="false"
-        android:textColor="#BDBDBD"
-        android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@+id/progress_1"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintStart_toEndOf="@+id/obd_status_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        <TextView
+            android:id="@+id/obd_status_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/OBD_STATUS_TEXT"
+            android:textColor="#A8A8A8"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBaseline_toBaselineOf="@+id/bt_status_text"
+            app:layout_constraintEnd_toStartOf="@+id/compass_text"
+            app:layout_constraintStart_toEndOf="@+id/bt_status_text" />
 
-    <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
-        android:id="@+id/progress_1"
-        android:layout_width="370dp"
-        android:layout_height="61dp"
-        android:layout_marginBottom="245dp"
-        android:paddingTop="5dp"
-        app:rcIconPadding="10dp"
-        app:rcBackgroundColor="@color/progress_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bt_status_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:rcIconSize="56dp"
-        app:rcRadius="10dp"
-        android:layout_marginLeft="5dp" />
+        <TextView
+            android:id="@+id/compass_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="60dp"
+            android:paddingLeft="60dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:text="N"
+            android:textAllCaps="false"
+            android:textColor="#BDBDBD"
+            android:textSize="48sp"
+            app:layout_constraintBottom_toTopOf="@+id/progress_1"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintStart_toEndOf="@+id/obd_status_text"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Progress bars (left column) - 0dp width to fill chain -->
+        <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+            android:id="@+id/progress_1"
+            android:layout_width="0dp"
+            android:layout_height="61dp"
+            android:layout_marginTop="8dp"
+            android:paddingTop="5dp"
+            app:rcIconPadding="10dp"
+            app:rcBackgroundColor="@color/progress_background"
+            app:layout_constraintBottom_toTopOf="@+id/progress_2"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_status_text"
+            app:rcIconSize="56dp"
+            app:rcRadius="10dp" />
 
-    <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
-        android:id="@+id/progress_2"
-        android:layout_width="370dp"
-        android:layout_height="61dp"
-        android:paddingTop="5dp"
-        app:rcIconPadding="10dp"
-        app:rcBackgroundColor="@color/progress_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_1"
-        app:layout_constraintVertical_bias="0.0"
-        app:rcIconSize="56dp"
-        app:rcRadius="10dp"
-        android:layout_marginLeft="5dp" />
+        <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+            android:id="@+id/progress_2"
+            android:layout_width="0dp"
+            android:layout_height="61dp"
+            android:paddingTop="5dp"
+            app:rcIconPadding="10dp"
+            app:rcBackgroundColor="@color/progress_background"
+            app:layout_constraintBottom_toTopOf="@+id/progress_3"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rcIconSize="56dp"
+            app:rcRadius="10dp" />
 
-    <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
-        android:id="@+id/progress_3"
-        android:layout_width="370dp"
-        android:layout_height="61dp"
-        android:paddingTop="5dp"
-        app:rcIconPadding="10dp"
-        app:rcBackgroundColor="@color/progress_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_2"
-        app:layout_constraintVertical_bias="0.0"
-        app:rcIconSize="56dp"
-        app:rcRadius="10dp"
-        android:layout_marginLeft="5dp" />
+        <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+            android:id="@+id/progress_3"
+            android:layout_width="0dp"
+            android:layout_height="61dp"
+            android:paddingTop="5dp"
+            app:rcIconPadding="10dp"
+            app:rcBackgroundColor="@color/progress_background"
+            app:layout_constraintBottom_toTopOf="@+id/progress_4"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rcIconSize="56dp"
+            app:rcRadius="10dp" />
 
-    <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
-        android:id="@+id/progress_4"
-        android:layout_width="370dp"
-        android:layout_height="61dp"
-        android:paddingTop="5dp"
-        app:rcIconPadding="10dp"
-        app:rcBackgroundColor="@color/progress_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_3"
-        app:layout_constraintVertical_bias="0.0"
-        app:rcIconSize="56dp"
-        app:rcRadius="10dp"
-        android:layout_marginLeft="5dp" />
+        <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+            android:id="@+id/progress_4"
+            android:layout_width="0dp"
+            android:layout_height="61dp"
+            android:paddingTop="5dp"
+            app:rcIconPadding="10dp"
+            app:rcBackgroundColor="@color/progress_background"
+            app:layout_constraintBottom_toTopOf="@+id/progress_5"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rcIconSize="56dp"
+            app:rcRadius="10dp" />
 
-    <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
-        android:id="@+id/progress_5"
-        android:layout_width="370dp"
-        android:layout_height="61dp"
-        android:layout_marginLeft="5dp"
-        android:paddingTop="5dp"
-        app:rcIconPadding="10dp"
-        app:rcBackgroundColor="@color/progress_background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_4"
-        app:layout_constraintVertical_bias="0.0"
-        app:rcIconSize="56dp"
-        app:rcRadius="10dp" />
+        <com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar
+            android:id="@+id/progress_5"
+            android:layout_width="0dp"
+            android:layout_height="61dp"
+            android:paddingTop="5dp"
+            app:rcIconPadding="10dp"
+            app:rcBackgroundColor="@color/progress_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rcIconSize="56dp"
+            app:rcRadius="10dp" />
 
-    <az.plainpie.PieView
-        android:id="@+id/pieView"
-        android:layout_width="307dp"
-        android:layout_height="332dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.996"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.384"
-        plainpie:inner_pie_padding="125"
-        plainpie:inner_text="_ _    KM/H"
-        plainpie:inner_text_visibility="true"
-        plainpie:layout_anchorGravity="end|bottom"
-        plainpie:layout_constraintEnd_toEndOf="parent"
-        plainpie:layout_constraintStart_toEndOf="@+id/progress_5"
-        plainpie:layout_constraintTop_toTopOf="parent"
-        plainpie:percentage="65"
-        plainpie:percentage_size="35" />
+        <!-- Speedometer (right side) - scaled to fit -->
+        <az.plainpie.PieView
+            android:id="@+id/pieView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/mil"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/progress_5"
+            app:layout_constraintTop_toTopOf="parent"
+            plainpie:inner_pie_padding="125"
+            plainpie:inner_text="_ _    KM/H"
+            plainpie:inner_text_visibility="true"
+            plainpie:percentage="65"
+            plainpie:percentage_size="35" />
 
-    <az.plainpie.PieView
-        android:id="@+id/rpm"
-        android:layout_width="149dp"
-        android:layout_height="155dp"
-        android:layout_marginTop="212dp"
-        app:layout_anchorGravity="end|bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        <!-- RPM gauge (top-right corner) -->
+        <az.plainpie.PieView
+            android:id="@+id/rpm"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintStart_toEndOf="@+id/progress_1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.2"
+            plainpie:inner_pie_padding="50"
+            plainpie:inner_text="_ _ _ _   RPM"
+            plainpie:inner_text_visibility="true"
+            plainpie:percentage="100"
+            plainpie:percentage_size="12" />
 
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/progress_5"
-        app:layout_constraintStart_toStartOf="@+id/pieView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13999999"
-        plainpie:inner_pie_padding="50"
-        plainpie:inner_text="_ _ _ _   RPM"
-        plainpie:inner_text_visibility="true"
-        plainpie:percentage="100"
-        plainpie:percentage_size="12" />
+        <!-- Progress text labels (between bars) -->
+        <TextView
+            android:id="@+id/progress_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="-90"
+            android:text="90C"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/progress_2"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/progress_1"
+            app:layout_constraintTop_toTopOf="@+id/progress_1" />
 
-    <TextView
-        android:id="@+id/progress_text_1"
-        android:layout_width="61dp"
-        android:layout_height="58dp"
-        android:rotation="-90"
-        android:text="90C"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/progress_2"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/progress_1"
-        app:layout_constraintTop_toTopOf="@+id/progress_1"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/progress_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="-90"
+            android:text="87C"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/progress_3"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/progress_2"
+            app:layout_constraintTop_toTopOf="@+id/progress_2" />
 
-    <TextView
-        android:id="@+id/progress_text_2"
-        android:layout_width="58dp"
-        android:layout_height="61dp"
-        android:rotation="-90"
-        android:text="87C"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/progress_3"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/progress_2"
-        app:layout_constraintTop_toTopOf="@+id/progress_2"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/progress_text_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="-90"
+            android:text="57%"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/progress_4"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/progress_3"
+            app:layout_constraintTop_toTopOf="@+id/progress_3" />
 
-    <TextView
-        android:id="@+id/progress_text_3"
-        android:layout_width="58dp"
-        android:layout_height="61dp"
-        android:rotation="-90"
-        android:text="57%"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/progress_4"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/progress_3"
-        app:layout_constraintTop_toTopOf="@+id/progress_3"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/progress_text_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="-90"
+            android:text="37%"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/progress_5"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/progress_4"
+            app:layout_constraintTop_toTopOf="@+id/progress_4" />
 
-    <TextView
-        android:id="@+id/progress_text_4"
-        android:layout_width="58dp"
-        android:layout_height="61dp"
-        android:rotation="-90"
-        android:text="37%"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/progress_5"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/progress_4"
-        app:layout_constraintTop_toTopOf="@+id/progress_4"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/progress_text_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rotation="-90"
+            android:text="43C"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/progress_5"
+            app:layout_constraintEnd_toStartOf="@+id/pieView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/progress_5"
+            app:layout_constraintTop_toTopOf="@+id/progress_5" />
 
-    <TextView
-        android:id="@+id/progress_text_5"
-        android:layout_width="58dp"
-        android:layout_height="61dp"
-        android:rotation="-90"
-        android:text="43C"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/progress_5"
-        app:layout_constraintEnd_toStartOf="@+id/pieView"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/progress_5"
-        app:layout_constraintTop_toTopOf="@+id/progress_5"
-        app:layout_constraintVertical_bias="0.0" />
+        <!-- Voltage + battery icon (top-left) -->
+        <TextView
+            android:id="@+id/voltage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0V"
+            android:textColor="#A8A8A8"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/bt_status_text"
+            app:layout_constraintStart_toEndOf="@+id/battery"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/voltage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0.0V"
-        android:textColor="#A8A8A8"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.038" />
+        <ImageView
+            android:id="@+id/battery"
+            android:layout_width="14dp"
+            android:layout_height="19dp"
+            android:src="@drawable/batt_512"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/bt_status_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
-    <ImageView
-        android:id="@+id/battery"
-        android:layout_width="14dp"
-        android:layout_height="19dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.007"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.038"
-        android:src="@drawable/batt_512"
-        tools:visibility="visible" />
+        <!-- MIL check engine icon (bottom-right) -->
+        <ImageView
+            android:id="@+id/mil"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/dtc_512"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/mil"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        android:src="@drawable/dtc_512" />
+        <!-- G-Force display (top area) -->
+        <TextView
+            android:id="@+id/g_force"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0"
+            android:textColor="#AFAFAF"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/bt_status_text"
+            app:layout_constraintEnd_toStartOf="@+id/compass_text"
+            app:layout_constraintStart_toEndOf="@+id/voltage"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/g_force"
-        android:layout_width="100dp"
-        android:layout_height="19dp"
-        android:text="0.0"
-        android:textColor="#AFAFAF"
-        android:textStyle="bold"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/compass_text"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/obd_status_text"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.038" />
+        <TextView
+            android:id="@+id/g_force2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="G - Force"
+            android:textColor="#B3E6FF"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/bt_status_text"
+            app:layout_constraintEnd_toStartOf="@+id/compass_text"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/g_force2"
-        android:layout_width="66dp"
-        android:layout_height="19dp"
-        android:text="G - Force"
-        android:textColor="#B3E6FF"
-        android:textStyle="bold"
-        android:visibility="visible"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="parent"
-        plainpie:layout_constraintBottom_toBottomOf="parent"
-        plainpie:layout_constraintEnd_toStartOf="@+id/compass_text"
-        plainpie:layout_constraintTop_toTopOf="parent"
-        plainpie:layout_constraintVertical_bias="0.038" />
-
-
-</android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
