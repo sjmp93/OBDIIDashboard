@@ -72,12 +72,13 @@ compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 
 [bundles]
 lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-runtime-ktx", "lifecycle-livedata-ktx", "lifecycle-service"]
 coroutines = ["coroutines-core", "coroutines-android"]
 work = ["work-runtime", "work-runtime-ktx", "work-rxjava2"]
-compose-ui = ["compose-ui", "compose-ui-tooling-preview", "compose-material3", "compose-activity"]
+compose-ui = ["compose-ui", "compose-ui-tooling-preview", "compose-material3", "compose-activity", "compose-material-icons-extended"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
