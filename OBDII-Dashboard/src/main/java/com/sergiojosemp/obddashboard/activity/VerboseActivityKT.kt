@@ -11,29 +11,22 @@ import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sergiojosemp.obddashboard.R
 import com.sergiojosemp.obddashboard.adapter.ObdDataRecyclerViewAdapter
 import com.sergiojosemp.obddashboard.databinding.NewVerboseActivityBinding
 import com.sergiojosemp.obddashboard.model.ObdDataModel
-import com.sergiojosemp.obddashboard.service.OBDKotlinCoroutinesTesting
+import com.sergiojosemp.obddashboard.service.ObdService
 import com.sergiojosemp.obddashboard.vm.VerboseViewModel
-import kotlinx.android.synthetic.main.discover_activity.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+
 
 class VerboseActivityKT : AppCompatActivity(){
-    private val PREFERENCES = "preferences"
 
-    @Inject
-    private lateinit var preferences: SharedPreferences
+    private var sensorManager: SensorManager? = null
     private lateinit var binding: NewVerboseActivityBinding
     private lateinit var viewModel: VerboseViewModel
-    public lateinit var obd : OBDKotlinCoroutinesTesting //TODO private
-
-    @Inject
-    private var sensorManager: SensorManager? = null
+    public var obd: ObdService? = null //TODO private - migrated from OBDKotlinCoroutinesTesting
     private val orientListener: SensorEventListener?
     private val accelerometerListener: SensorEventListener?
     private var orientSensor: Sensor? = null // Se usa para recibir la orientación a través del sensor de orientación del dispositivo
@@ -86,20 +79,19 @@ class VerboseActivityKT : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferences = getSharedPreferences(PREFERENCES, Context.MODE_MULTI_PROCESS)
         binding = DataBindingUtil.setContentView(
             this, R.layout.new_verbose_activity)
 
-        viewModel = ViewModelProviders.of(this).get(VerboseViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(VerboseViewModel::class.java)
 
 
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
         // Connects to the RecyclerView
-        obd_data_list.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = ObdDataRecyclerViewAdapter(context, mutableListOf<ObdDataModel>())
+        binding.obdDataList.apply {
+            layoutManager = LinearLayoutManager(this@VerboseActivityKT)
+            adapter = ObdDataRecyclerViewAdapter(this@VerboseActivityKT, mutableListOf<ObdDataModel>())
         }
     }
 
@@ -125,12 +117,18 @@ class VerboseActivityKT : AppCompatActivity(){
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
         }
-        val serviceIntent = Intent(this, OBDKotlinCoroutinesTesting::class.java);
+        val serviceIntent = Intent(this, ObdService::class.java);
         bindService(serviceIntent, serviceConn, Context.BIND_AUTO_CREATE);
     }
 
     override fun onPause(){
         super.onPause()
+        try {
+            sensorManager?.unregisterListener(orientListener, orientSensor)
+            sensorManager?.unregisterListener(accelerometerListener, accelerometerSensor)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
         if(serviceConn!=null)
             unbindService(serviceConn);
     }
@@ -140,33 +138,11 @@ class VerboseActivityKT : AppCompatActivity(){
 
     inner class OBDServiceConnectionOnVerboseMode : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
-            obd.inputStream.reset()
-            obd.outputStream.flush();
-            TODO("Not yet implemented")
+            // obd.inputStream/outputStream removed - migrate in later phase
         }
-        override fun onServiceConnected(name: ComponentName?, service: IBinder?) { //TODO here we have to fill a textView that shows OBD connection status
-            obd = (service as OBDKotlinCoroutinesTesting.ObdServiceBinder).service
-            //FIXME Here we are receiving data from OBDService, so, from here, we have to update the UI
-            obd.liveOutput.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch { Log.d(com.sergiojosemp.obddashboard.vm.TAG,"From Verbose Activity: Byte received ${it[0].toByte().toString(16)} ${it[1].toByte().toString(16)} ${it[2].toByte().toString(16)} ${it[3].toByte().toString(16)}" ) }
-            })
-
-            obd.obdCommandReceived.observe(binding.lifecycleOwner!!,  androidx.lifecycle.Observer{
-                GlobalScope.launch {
-                    viewModel.setObdResult(it)
-                }
-            })
-
-            obd.btConnectionStatus.observe(binding.lifecycleOwner!!, androidx.lifecycle.Observer {
-                GlobalScope.launch {
-                    if(it)
-                        viewModel.bluetoothIndicator.postValue(getString(R.string.status_obd_connected))
-                    else
-                        viewModel.bluetoothIndicator.postValue(getString(R.string.status_obd_disconnected))
-                }
-            })
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            obd = (service as ObdService.ObdServiceBinder).getService()
+            // LiveData observation from old service removed - migrate in later phase
         }
-
-
     }
 }

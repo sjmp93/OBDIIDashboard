@@ -55,27 +55,30 @@ class AlarmReceiver : BroadcastReceiver() {
     fun SetContext(context: Context) {
         am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
-        pi =
-            PendingIntent.getBroadcast(context, ALARM_ID, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        pi = PendingIntent.getBroadcast(
+            context, ALARM_ID, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
     }
 
     // Setting the alarm to call onRecieve every _REFRESH_INTERVAL seconds
     fun SetAlarm() {
-        // am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * _REFRESH_INTERVAL , pi);
         try {
-            am!!.cancel(pi)
+            pi?.let { am?.cancel(it) }
         } catch (ignored: Exception) {
         }
-        am!!.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP ,
-            System.currentTimeMillis() + 1000 * _REFRESH_INTERVAL.toLong(),
-            pi
-        )
+        pi?.let { p ->
+            am?.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP ,
+                System.currentTimeMillis() + 1000 * _REFRESH_INTERVAL.toLong(),
+                p
+            )
+        }
     }
 
     // Cancel the alarm.
     fun CancelAlarm() {
-        am!!.cancel(pi)
+        pi?.let { am?.cancel(it) }
     }
 
 }
